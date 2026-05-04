@@ -3,545 +3,412 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Suivi Live Trail</title>
+<title>[NOM] — Suivi Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --blue:#034065;--green:#50af31;
-  --blue-light:#e8f0f6;--green-light:#eaf7e4;
-  --bg:#ffffff;--bg2:#f5f5f5;--bg3:#eeeeee;
-  --text:#111111;--text2:#666666;--text3:#999999;
-  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
-  --r:8px;--rl:12px;--rxl:16px;
+  --blue-dark:#022d47;--green-dark:#3d8a25;
+  --text:#ffffff;--text2:rgba(255,255,255,0.7);--text3:rgba(255,255,255,0.45);
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#1a1a1a;--bg2:#242424;--bg3:#2e2e2e;
-    --text:#f0f0f0;--text2:#aaaaaa;--text3:#777777;
-    --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
-    --blue-light:#0d2235;--green-light:#0f2a09;
-  }
+body.light{
+  --blue-dark:#f0f4f7;
+  --text:#034065;--text2:rgba(3,64,101,0.7);--text3:rgba(3,64,101,0.45);
 }
-body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;justify-content:center;}
-.screen{display:none;width:100%;max-width:430px;min-height:100vh;background:var(--bg);flex-direction:column;}
-.screen.active{display:flex;flex-direction:column;}
+body.light .bg-terrain svg{opacity:0.06;}
+body.light .bg-glow{background:radial-gradient(ellipse,rgba(80,175,49,0.08) 0%,transparent 70%);}
+body.light .brand{color:var(--blue);}
+body.light .brand span{color:var(--green);}
+body.light .hero-title{color:var(--blue);}
+body.light .hero-title .outline{-webkit-text-stroke:1.5px rgba(3,64,101,0.3);}
+body.light .cd-val{color:var(--blue);}
+body.light .countdown-card,body.light .course-card,body.light .parcours-card,body.light .stat-card{background:#fff;border-color:rgba(3,64,101,0.12);}
+body.light .course-header{background:rgba(80,175,49,0.08);border-color:rgba(3,64,101,0.08);}
+body.light .race-row{border-color:rgba(3,64,101,0.06);}
+body.light .race-row:active{background:rgba(3,64,101,0.04);}
+body.light .race-name-t{color:var(--blue);}
+body.light .race-dist{color:var(--text3);}
+body.light .stat-num{color:var(--blue);}
+body.light .stat-num.green{color:var(--green);}
+body.light .cp-name-s{color:var(--text3);}
+body.light .ambiance-bg{background:linear-gradient(135deg,#c8dce8 0%,#b8d4c0 50%,#c8dce8 100%);}
+body.light .ambiance-quote{color:var(--blue);}
+body.light .page-footer .footer-brand{color:var(--text3);}
+body.light .bg-terrain{background:#f0f4f7;}
 
-.header{background:var(--blue);padding:16px 16px 14px;flex-shrink:0;}
-.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
-.org-name{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:3px;}
-.race-name{font-size:17px;font-weight:600;color:#fff;line-height:1.2;}
-.live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(80,175,49,0.2);border:0.5px solid rgba(80,175,49,0.4);border-radius:20px;padding:4px 10px;font-size:11px;color:#7fce5e;white-space:nowrap;margin-top:2px;}
+.theme-toggle{background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);font-family:inherit;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+body.light .theme-toggle{background:rgba(3,64,101,0.08);border-color:rgba(3,64,101,0.15);color:var(--blue);}
+body{
+  background:var(--blue-dark);
+  font-family:'Barlow',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:var(--text);
+}
+
+/* BG terrain SVG */
+.bg-terrain{
+  position:fixed;inset:0;z-index:0;
+  background:var(--blue-dark);
+  overflow:hidden;
+}
+.bg-terrain svg{width:100%;height:100%;opacity:0.18;}
+.bg-grain{
+  position:fixed;inset:0;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.04;pointer-events:none;
+}
+.bg-glow{
+  position:fixed;top:-20%;left:-10%;width:70%;height:70%;
+  background:radial-gradient(ellipse,rgba(80,175,49,0.12) 0%,transparent 70%);
+  z-index:1;pointer-events:none;
+}
+
+.page{position:relative;z-index:2;max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+
+/* HEADER */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0;}
+.brand{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:0.05em;color:#fff;}
+.brand span{color:var(--green);}
+.live-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(80,175,49,0.15);border:0.5px solid rgba(80,175,49,0.4);border-radius:20px;padding:5px 11px;font-size:11px;color:#7fce5e;font-weight:600;letter-spacing:0.04em;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#50af31;animation:pulse 1.4s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.65);}}
 
-.races-scroll{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;-webkit-overflow-scrolling:touch;}
-.races-scroll::-webkit-scrollbar{display:none;}
-.race-chip{flex-shrink:0;padding:6px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);cursor:pointer;}
-.race-chip.active{background:var(--green);border-color:var(--green);}
-.chip-name{font-size:12px;font-weight:600;color:#fff;}
-.chip-status{font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px;}
-.race-chip.active .chip-status{color:rgba(255,255,255,0.85);}
+/* HERO */
+.hero{padding:28px 20px 0;animation:fadeUp 0.6s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:800;line-height:0.95;letter-spacing:-0.01em;color:#fff;margin-bottom:6px;}
+.hero-title .outline{-webkit-text-stroke:1.5px rgba(255,255,255,0.4);color:transparent;}
+.hero-sub{font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5;}
 
-.stats-row-h{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
-.stat-box-h{background:rgba(255,255,255,0.08);border-radius:var(--r);padding:8px 10px;text-align:center;}
-.stat-val-h{font-size:17px;font-weight:600;color:#fff;display:block;}
-.stat-val-h.green{color:#50af31;}
-.stat-lbl-h{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;display:block;}
+/* COUNTDOWN */
+.countdown-card{margin:24px 20px 0;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:18px 20px;animation:fadeUp 0.6s 0.1s ease both;}
+.countdown-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;}
+.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.cd-block{text-align:center;}
+.cd-val{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;color:#fff;line-height:1;display:block;}
+.cd-unit{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;display:block;}
+.cd-sep{display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;color:var(--green);padding-top:2px;}
 
-.search-bar{display:flex;gap:7px;}
-.search-wrap{flex:1;position:relative;}
-.s-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none;}
-.search-input{width:100%;height:36px;padding:0 10px 0 32px;background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--r);color:#fff;font-size:13px;font-family:inherit;outline:none;-webkit-appearance:none;}
-.search-input::placeholder{color:rgba(255,255,255,0.4);}
-.dossard-input{width:76px;height:36px;padding:0 8px;background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--r);color:#fff;font-size:13px;font-family:inherit;outline:none;text-align:center;-webkit-appearance:none;}
-.dossard-input::placeholder{color:rgba(255,255,255,0.4);}
+/* COURSE INFO */
+.course-card{margin:12px 20px 0;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;animation:fadeUp 0.6s 0.2s ease both;}
+.course-header{background:rgba(80,175,49,0.12);border-bottom:0.5px solid rgba(255,255,255,0.08);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.course-org{font-size:11px;color:var(--text3);margin-bottom:2px;}
+.course-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.1;}
+.org-logo{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;}
 
-.filters{display:flex;gap:6px;padding:10px 14px;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
-.filters::-webkit-scrollbar{display:none;}
-.seg{display:flex;border:0.5px solid var(--border2);border-radius:20px;overflow:hidden;flex-shrink:0;}
-.seg-btn{padding:5px 13px;font-size:12px;color:var(--text2);background:var(--bg);border:none;cursor:pointer;font-family:inherit;white-space:nowrap;}
-.seg-btn.active{background:var(--blue);color:#fff;}
-.cat-wrap{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;}
-.cat-wrap::-webkit-scrollbar{display:none;}
-.filter-btn{height:28px;padding:0 11px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;}
-.filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
-.tab-bar{display:flex;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
-.tab-btn{flex:1;padding:11px 0;font-size:13px;font-weight:600;color:var(--text3);background:var(--bg);border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;}
-.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
-.fav-count-badge{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:#e24b4a;color:#fff;font-size:10px;margin-left:5px;vertical-align:middle;}
-.cat-select{height:28px;padding:0 24px 0 10px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:11px;cursor:pointer;font-family:inherit;flex-shrink:0;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
-.empty-favs{padding:40px 20px;text-align:center;color:var(--text3);font-size:13px;line-height:1.6;}
-.flag{font-size:14px;margin-right:4px;}
+.races-list{padding:8px 0;}
+.race-row{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:0.5px solid rgba(255,255,255,0.06);cursor:pointer;transition:background 0.15s;-webkit-tap-highlight-color:transparent;}
+.race-row:last-child{border-bottom:none;}
+.race-row:active{background:rgba(255,255,255,0.05);}
+.race-left{display:flex;align-items:center;gap:10px;}
+.race-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.race-dot.live{background:var(--green);animation:pulse 1.4s ease-in-out infinite;}
+.race-dot.finished{background:rgba(255,255,255,0.3);}
+.race-dot.soon{background:rgba(255,200,0,0.7);}
+.race-name-t{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1;}
+.race-dist{font-size:11px;color:var(--text3);margin-top:1px;}
+.race-right{display:flex;align-items:center;gap:8px;}
+.race-status{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.race-status.live{background:rgba(80,175,49,0.2);color:#7fce5e;}
+.race-status.finished{background:rgba(255,255,255,0.08);color:var(--text3);}
+.race-status.soon{background:rgba(255,200,0,0.1);color:rgba(255,200,0,0.9);}
+.race-arrow{color:var(--text3);}
 
-.list-header{display:grid;grid-template-columns:34px 1fr 90px 58px;gap:4px;padding:7px 14px;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
-.list-header span{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;}
-.list-header span:nth-child(3){text-align:center;}
-.list-header span:last-child{text-align:right;}
+/* STATS */
+.stats-section{margin:12px 20px 0;animation:fadeUp 0.6s 0.3s ease both;}
+.stats-title{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stat-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 10px;text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:#fff;display:block;line-height:1;}
+.stat-num.green{color:var(--green);}
+.stat-unit{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;display:block;}
 
-.runner-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.runner-row{display:grid;grid-template-columns:34px 1fr 90px 58px;gap:4px;padding:10px 14px;align-items:center;border-bottom:0.5px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.runner-row:active{background:var(--bg2);}
-.runner-row.dnf-row{opacity:0.5;}
-.pos{font-size:14px;font-weight:600;color:var(--text);text-align:center;}
-.pos.gold{color:var(--blue);}
-.runner-info{min-width:0;}
-.rname{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px;}
-.rdossard{font-size:10px;color:var(--text3);margin-top:1px;}
-.sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.sdot.running{background:var(--green);}
-.sdot.dnf{background:#e24b4a;}
-.sdot.finished{background:var(--blue);}
-.dnf-badge{font-size:10px;background:#fcebeb;color:#a32d2d;padding:1px 5px;border-radius:4px;}
-.fin-badge{font-size:10px;background:var(--blue-light);color:var(--blue);padding:1px 5px;border-radius:4px;}
-.cp-cell{text-align:center;}
-.cp-name-t{font-size:11px;color:var(--text);font-weight:600;line-height:1.2;}
-.cp-km{font-size:10px;color:var(--text3);margin-top:1px;}
-.time-cell{text-align:right;}
-.time-val{font-size:12px;font-weight:600;color:var(--text);}
-.footer-bar{padding:9px 14px;display:flex;justify-content:space-between;border-top:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
-.footer-txt{font-size:11px;color:var(--text3);}
-.no-result{padding:40px 14px;text-align:center;color:var(--text3);font-size:13px;}
+/* PARCOURS SVG */
+.parcours-section{margin:12px 20px 0;animation:fadeUp 0.6s 0.35s ease both;}
+.parcours-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px 18px;}
+.parcours-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;}
+.profile-svg{width:100%;height:80px;}
 
-/* ATHLETE */
-.ath-header{background:var(--blue);padding:16px 16px 28px;position:relative;flex-shrink:0;overflow:hidden;}
-.ath-header::after{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(80,175,49,0.1);}
-.back-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative;z-index:1;}
-.back-btn{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,0.65);font-size:13px;cursor:pointer;background:none;border:none;font-family:inherit;padding:0;-webkit-tap-highlight-color:transparent;}
-.header-actions{display:flex;align-items:center;gap:8px;}
-.fav-btn{background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;}
-.runner-top{display:flex;align-items:center;gap:11px;position:relative;z-index:1;}
-.avatar{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
-.ath-name{font-size:20px;font-weight:700;color:#fff;line-height:1.2;}
-.ath-meta{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px;}
-.leader-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,215,0,0.15);border:0.5px solid rgba(255,215,0,0.35);border-radius:20px;padding:2px 8px;font-size:10px;color:#ffd700;margin-top:5px;}
+/* CHECKPOINTS */
+.cp-strip{display:flex;gap:0;margin-top:10px;overflow-x:auto;scrollbar-width:none;}
+.cp-strip::-webkit-scrollbar{display:none;}
+.cp-item{flex-shrink:0;text-align:center;padding:0 10px;}
+.cp-item:first-child{padding-left:0;}
+.cp-dot-s{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);margin:0 auto 4px;}
+.cp-dot-s.passed{background:var(--green);}
+.cp-dot-s.current{background:#fff;animation:pulse 1.4s ease-in-out infinite;}
+.cp-name-s{font-size:9px;color:var(--text3);white-space:nowrap;}
+.cp-km-s{font-size:9px;color:var(--text3);opacity:0.6;}
 
-.ath-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px;}
-.runner-card{margin:-16px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:14px;position:relative;z-index:2;}
-.classements{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
-.cls-box{background:var(--bg2);border-radius:var(--r);padding:8px 6px;text-align:center;}
-.cls-val{font-size:19px;font-weight:700;color:var(--text);display:block;}
-.cls-val.first{color:var(--blue);}
-.cls-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;display:block;}
-.prog-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;}
-.prog-val{font-weight:600;color:var(--blue);}
-.prog-bg{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;}
-.prog-fill{height:100%;background:var(--green);border-radius:3px;transition:width 0.5s;}
+/* CTA */
+.cta-section{margin:20px 20px 0;animation:fadeUp 0.6s 0.4s ease both;}
+.cta-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:var(--green);border:none;border-radius:14px;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:0.04em;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.15s;}
+.cta-btn:active{background:var(--green-dark);}
+.cta-btn svg{flex-shrink:0;}
+.cta-sub{text-align:center;font-size:12px;color:var(--text3);margin-top:10px;}
 
-.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:12px 14px 0;}
-.stat-box{background:var(--bg2);border-radius:var(--r);padding:9px 10px;text-align:center;}
-.stat-val{font-size:15px;font-weight:600;color:var(--text);}
-.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
+/* FOOTER */
+.page-footer{padding:24px 20px;text-align:center;margin-top:auto;}
+.footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;color:var(--text3);}
+.footer-brand span{color:var(--green);}
 
-.favs-bar{margin:12px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;}
-.favs-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.favs-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text);}
-.favs-count{background:var(--blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;}
-.favs-chevron{transition:transform 0.2s;color:var(--text3);}
-.favs-chevron.open{transform:rotate(180deg);}
-.favs-list{border-top:0.5px solid var(--border);display:none;}
-.favs-list.open{display:block;}
-.fav-row{display:flex;align-items:center;gap:10px;padding:10px 13px;cursor:pointer;border-bottom:0.5px solid var(--border);-webkit-tap-highlight-color:transparent;}
-.fav-row:last-child{border-bottom:none;}
-.fav-row:active{background:var(--bg2);}
-.fav-row.active-r{background:var(--blue-light);}
-.fav-avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--blue);flex-shrink:0;}
-.fav-info{flex:1;min-width:0;}
-.fav-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.fav-meta{font-size:10px;color:var(--text3);margin-top:1px;}
-.fav-right{text-align:right;flex-shrink:0;}
-.fav-pos{font-size:12px;font-weight:600;color:var(--blue);}
-.fav-cp{font-size:10px;color:var(--text3);margin-top:1px;}
-.active-pill{font-size:10px;background:var(--blue);color:#fff;padding:1px 6px;border-radius:10px;margin-left:4px;vertical-align:middle;}
-
-.section-title{font-size:11px;font-weight:600;color:var(--text3);padding:14px 14px 6px;text-transform:uppercase;letter-spacing:0.06em;}
-.checkpoints{padding:0 14px;}
-.checkpoint{display:flex;align-items:flex-start;gap:10px;padding-bottom:14px;position:relative;}
-.checkpoint:not(:last-child)::before{content:'';position:absolute;left:8px;top:18px;width:1px;height:calc(100% - 2px);background:var(--border);}
-.cp-dot{width:17px;height:17px;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
-.cp-dot.done{background:var(--green);}
-.cp-dot.current{background:var(--blue);animation:pulse 1.4s ease-in-out infinite;}
-.cp-dot.upcoming{background:var(--bg2);border:1px solid var(--border2);}
-.cp-main{flex:1;min-width:0;}
-.cp-name{font-size:13px;font-weight:600;color:var(--text);}
-.cp-name.muted{color:var(--text3);font-weight:400;}
-.cp-detail{font-size:11px;color:var(--text3);margin-top:1px;}
-.cp-times{text-align:right;flex-shrink:0;}
-.cp-cumul{font-size:13px;font-weight:600;color:var(--text);}
-.cp-cumul.muted{color:var(--text3);font-weight:400;}
-.cp-split{font-size:11px;color:var(--text3);margin-top:2px;}
-.cp-split.est{color:var(--blue);font-weight:600;}
-
-.eta-banner{margin:12px 14px 0;background:var(--blue-light);border-radius:var(--rl);padding:12px 14px;display:flex;align-items:center;gap:10px;}
-.eta-icon{width:34px;height:34px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.eta-label{font-size:11px;color:var(--blue);margin-bottom:2px;}
-.eta-time{font-size:19px;font-weight:700;color:var(--blue);line-height:1;}
-.eta-sub{font-size:10px;color:#5a88a8;margin-top:2px;}
-
-.notif-section{margin:12px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;}
-.notif-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;}
-.notif-row+.notif-row{border-top:0.5px solid var(--border);}
-.notif-label{font-size:13px;font-weight:500;color:var(--text);}
-.notif-sub{font-size:11px;color:var(--text3);margin-top:1px;}
-.toggle{position:relative;width:40px;height:24px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;position:absolute;}
-.toggle-slider{position:absolute;inset:0;border-radius:12px;background:var(--bg3);border:0.5px solid var(--border2);cursor:pointer;transition:background 0.2s;}
-.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;border-radius:50%;background:#fff;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
-.toggle input:checked+.toggle-slider{background:var(--green);border-color:var(--green);}
-.toggle input:checked+.toggle-slider::before{transform:translateX(16px);}
+/* AMBIANCE STRIP */
+.ambiance{margin:12px 20px 0;border-radius:14px;overflow:hidden;height:110px;position:relative;animation:fadeUp 0.6s 0.25s ease both;}
+.ambiance-bg{width:100%;height:100%;background:linear-gradient(135deg,#034065 0%,#0a5c3a 50%,#034065 100%);display:flex;align-items:center;justify-content:center;position:relative;}
+.ambiance-mountains{position:absolute;bottom:0;left:0;right:0;}
+.ambiance-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(2,45,71,0.8) 100%);}
+.ambiance-text{position:relative;z-index:1;text-align:center;}
+.ambiance-quote{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;letter-spacing:0.04em;line-height:1.2;}
+.ambiance-quote-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px;}
 </style>
 </head>
 <body>
 
-<!-- SCREEN 1 : CLASSEMENT -->
-<div class="screen active" id="screen-classement">
-  <div class="header">
-    <div class="header-top">
-      <div>
-        <div class="org-name">Mont Blanc Events</div>
-        <div class="race-name" id="activeRaceName">Ultra Trail du Mont Blanc</div>
-      </div>
-      <div class="live-badge"><div class="live-dot"></div>En direct</div>
-    </div>
-    <div class="races-scroll" id="racesScroll"></div>
-    <div class="stats-row-h" id="statsRow"></div>
-    <div class="search-bar">
-      <div class="search-wrap">
-        <svg class="s-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-        <input class="search-input" id="searchName" type="text" placeholder="Rechercher un coureur...">
-      </div>
-      <input class="dossard-input" id="searchDossard" type="text" placeholder="# Doss.">
-    </div>
-  </div>
-  <div class="tab-bar">
-    <button class="tab-btn active" id="tabClassement" onclick="switchTab('classement')">Classement</button>
-    <button class="tab-btn" id="tabFavoris" onclick="switchTab('favoris')">Favoris <span class="fav-count-badge" id="tabFavCount" style="display:none">0</span></button>
-  </div>
-  <div class="filters">
-    <div class="seg" id="sexSeg">
-      <button class="seg-btn active" data-sex="all">Tous</button>
-      <button class="seg-btn" data-sex="h">Hommes</button>
-      <button class="seg-btn" data-sex="f">Femmes</button>
-    </div>
-    <select class="cat-select" id="catSelect" onchange="activeCat=this.value;renderList()"></select>
-  </div>
-  <div class="list-header">
-    <span>Pos.</span><span>Coureur</span>
-    <span style="text-align:center;">Checkpoint</span>
-    <span style="text-align:right;">Temps</span>
-  </div>
-  <div class="runner-list" id="runnerList"></div>
-  <div class="footer-bar">
-    <span class="footer-txt" id="footerCount"></span>
-    <span class="footer-txt">Mis à jour il y a 18s</span>
-  </div>
+<div class="bg-terrain">
+  <svg viewBox="0 0 430 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 600 L60 480 L120 520 L180 400 L240 440 L300 320 L360 380 L430 280 L430 800 L0 800Z" fill="#50af31" opacity="0.3"/>
+    <path d="M0 650 L80 550 L160 590 L220 470 L280 510 L340 420 L400 460 L430 380 L430 800 L0 800Z" fill="#034065" opacity="0.5"/>
+    <path d="M0 700 L100 620 L180 660 L260 560 L330 600 L390 520 L430 550 L430 800 L0 800Z" fill="#022d47" opacity="0.8"/>
+    <circle cx="340" cy="120" r="60" fill="#50af31" opacity="0.06"/>
+    <circle cx="80" cy="200" r="40" fill="#50af31" opacity="0.04"/>
+  </svg>
 </div>
+<div class="bg-grain"></div>
+<div class="bg-glow"></div>
 
-<!-- SCREEN 2 : ATHLETE -->
-<div class="screen" id="screen-athlete">
-  <div class="ath-header">
-    <div class="back-row">
-      <button class="back-btn" onclick="goBack()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-        Classement
+<div class="page">
+
+  <div class="top-bar">
+    <div class="brand">[<span>NOM</span>]</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+        <svg id="themeIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <span id="themeLabel">Clair</span>
       </button>
-      <div class="header-actions">
-        <button class="fav-btn" onclick="toggleFav()">
-          <svg id="heartIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </button>
-        <div class="live-badge"><div class="live-dot"></div>En direct</div>
+      <div class="live-pill"><div class="live-dot"></div>En direct</div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Mont Blanc Events · 2024</div>
+    <div class="hero-title">
+      ULTRA<br>
+      TRAIL<br>
+      <span class="outline">DU MONT</span><br>
+      BLANC
+    </div>
+    <div class="hero-sub">Suivez vos coureurs en temps réel, checkpoint par checkpoint.</div>
+  </div>
+
+  <!-- COMPTE À REBOURS -->
+  <div class="countdown-card">
+    <div class="countdown-label">Départ dans</div>
+    <div class="countdown-grid">
+      <div class="cd-block"><span class="cd-val" id="cdJ">02</span><span class="cd-unit">Jours</span></div>
+      <div class="cd-block"><span class="cd-val" id="cdH">14</span><span class="cd-unit">Heures</span></div>
+      <div class="cd-block"><span class="cd-val" id="cdM">32</span><span class="cd-unit">Min</span></div>
+      <div class="cd-block"><span class="cd-val" id="cdS">08</span><span class="cd-unit">Sec</span></div>
+    </div>
+  </div>
+
+  <!-- PHOTO AMBIANCE -->
+  <div class="ambiance">
+    <div class="ambiance-bg">
+      <svg class="ambiance-mountains" viewBox="0 0 430 110" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 110 L40 60 L80 80 L130 30 L175 55 L215 10 L255 45 L300 20 L345 50 L390 35 L430 55 L430 110Z" fill="#0a5c3a" opacity="0.6"/>
+        <path d="M0 110 L50 75 L100 90 L150 55 L200 70 L250 40 L295 65 L340 45 L385 70 L430 60 L430 110Z" fill="#034065" opacity="0.7"/>
+        <path d="M0 110 L60 88 L120 95 L180 75 L230 85 L280 68 L330 80 L380 72 L430 82 L430 110Z" fill="#022d47" opacity="0.9"/>
+        <circle cx="215" cy="12" r="3" fill="#fff" opacity="0.8"/>
+        <path d="M200 55 L215 10 L230 55" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+      </svg>
+      <div class="ambiance-overlay"></div>
+      <div class="ambiance-text">
+        <div class="ambiance-quote">171 km · D+ 10 000 m</div>
+        <div class="ambiance-quote-sub">Chamonix · Mont Blanc · Vallée d'Aoste</div>
       </div>
     </div>
-    <div class="runner-top">
-      <div class="avatar" id="athAvatar">?</div>
+  </div>
+
+  <!-- COURSES -->
+  <div class="course-card">
+    <div class="course-header">
       <div>
-        <div class="ath-name" id="athName">-</div>
-        <div class="ath-meta" id="athMeta">-</div>
-        <div class="leader-badge" id="leaderBadge" style="display:none;">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="#ffd700"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Leader de la course
+        <div class="course-org">Mont Blanc Events</div>
+        <div class="course-name">Toutes les courses</div>
+      </div>
+      <div class="org-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"><path d="M3 17l4-8 4 4 4-6 4 10"/></svg>
+      </div>
+    </div>
+    <div class="races-list">
+      <div class="race-row" onclick="goToClassement()">
+        <div class="race-left">
+          <div class="race-dot live"></div>
+          <div>
+            <div class="race-name-t">UTMB · 171 km</div>
+            <div class="race-dist">D+ 10 000 m · 2 300 coureurs</div>
+          </div>
+        </div>
+        <div class="race-right">
+          <span class="race-status live">En cours</span>
+          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div class="race-row" onclick="goToClassement()">
+        <div class="race-left">
+          <div class="race-dot live"></div>
+          <div>
+            <div class="race-name-t">CCC · 101 km</div>
+            <div class="race-dist">D+ 6 100 m · 1 850 coureurs</div>
+          </div>
+        </div>
+        <div class="race-right">
+          <span class="race-status live">En cours</span>
+          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div class="race-row" onclick="goToClassement()">
+        <div class="race-left">
+          <div class="race-dot finished"></div>
+          <div>
+            <div class="race-name-t">OCC · 55 km</div>
+            <div class="race-dist">D+ 3 500 m · 2 100 coureurs</div>
+          </div>
+        </div>
+        <div class="race-right">
+          <span class="race-status finished">Terminée</span>
+          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div class="race-row">
+        <div class="race-left">
+          <div class="race-dot soon"></div>
+          <div>
+            <div class="race-name-t">TDS · 145 km</div>
+            <div class="race-dist">D+ 9 100 m · 1 600 coureurs</div>
+          </div>
+        </div>
+        <div class="race-right">
+          <span class="race-status soon">Demain</span>
+          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
       </div>
     </div>
   </div>
-  <div class="ath-scroll">
-    <div class="runner-card">
-      <div class="classements" id="athClassements"></div>
-      <div class="prog-labels">
-        <span>Distance parcourue</span>
-        <span><span class="prog-val" id="athProgress">-</span></span>
+
+  <!-- STATS GLOBALES -->
+  <div class="stats-section">
+    <div class="stats-title">En ce moment</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-num green">2 355</span>
+        <span class="stat-unit">En course</span>
       </div>
-      <div class="prog-bg"><div class="prog-fill" id="athBar" style="width:0%"></div></div>
-    </div>
-    <div class="stats-row">
-      <div class="stat-box"><div class="stat-val" id="athTime">-</div><div class="stat-lbl">Temps en course</div></div>
-      <div class="stat-box"><div class="stat-val" id="athPace">-</div><div class="stat-lbl">Allure moyenne</div></div>
-    </div>
-    <div class="favs-bar" id="favsBar" style="display:none;">
-      <div class="favs-hdr" onclick="toggleFavsList()">
-        <div class="favs-title">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="#e24b4a" stroke="#e24b4a" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Mes favoris <span class="favs-count" id="favsCount">0</span>
-        </div>
-        <svg class="favs-chevron" id="favsChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="stat-card">
+        <span class="stat-num">499</span>
+        <span class="stat-unit">Arrivés</span>
       </div>
-      <div class="favs-list" id="favsList"></div>
-    </div>
-    <div class="section-title">Parcours</div>
-    <div class="checkpoints" id="athCheckpoints"></div>
-    <div class="eta-banner">
-      <div class="eta-icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 15.5"/></svg>
-      </div>
-      <div>
-        <div class="eta-label">Arrivée estimée</div>
-        <div class="eta-time" id="athEta">-</div>
-        <div class="eta-sub" id="athEtaSub">-</div>
+      <div class="stat-card">
+        <span class="stat-num">127</span>
+        <span class="stat-unit">Abandons</span>
       </div>
     </div>
-    <div class="section-title">Notifications</div>
-    <div class="notif-section">
-      <div class="notif-row">
-        <div><div class="notif-label">Me prévenir à l'arrivée</div><div class="notif-sub" id="notifSub1">Alerte dès que le coureur franchit la ligne</div></div>
-        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-      </div>
-      <div class="notif-row">
-        <div><div class="notif-label">À chaque checkpoint</div><div class="notif-sub">Passage, temps et classement mis à jour</div></div>
-        <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
-      </div>
-      <div class="notif-row">
-        <div><div class="notif-label">Alertes importantes</div><div class="notif-sub">Abandon, retard significatif, urgence</div></div>
-        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-      </div>
-    </div>
-    <div style="height:20px;"></div>
   </div>
+
+  <!-- PROFIL PARCOURS -->
+  <div class="parcours-section">
+    <div class="parcours-card">
+      <div class="parcours-label">Profil UTMB · 171 km</div>
+      <svg class="profile-svg" viewBox="0 0 360 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="profileGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#50af31" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#50af31" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 75 L15 70 L30 65 L50 45 L65 50 L80 30 L95 35 L110 20 L125 28 L140 60 L155 55 L170 35 L185 40 L200 15 L215 22 L230 50 L245 45 L260 25 L275 30 L290 55 L305 50 L320 40 L340 45 L360 75" fill="none" stroke="#50af31" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M0 75 L15 70 L30 65 L50 45 L65 50 L80 30 L95 35 L110 20 L125 28 L140 60 L155 55 L170 35 L185 40 L200 15 L215 22 L230 50 L245 45 L260 25 L275 30 L290 55 L305 50 L320 40 L340 45 L360 75 L360 80 L0 80Z" fill="url(#profileGrad)"/>
+        <circle cx="110" cy="20" r="3" fill="#fff" opacity="0.8"/>
+        <circle cx="200" cy="15" r="3" fill="#fff" opacity="0.8"/>
+        <line x1="170" y1="0" x2="170" y2="80" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+      </svg>
+      <div class="cp-strip">
+        <div class="cp-item"><div class="cp-dot-s passed"></div><div class="cp-name-s">Chamonix</div><div class="cp-km-s">km 0</div></div>
+        <div class="cp-item"><div class="cp-dot-s passed"></div><div class="cp-name-s">Contamines</div><div class="cp-km-s">km 31</div></div>
+        <div class="cp-item"><div class="cp-dot-s passed"></div><div class="cp-name-s">Courmayeur</div><div class="cp-km-s">km 74</div></div>
+        <div class="cp-item"><div class="cp-dot-s current"></div><div class="cp-name-s">Champex</div><div class="cp-km-s">km 125</div></div>
+        <div class="cp-item"><div class="cp-dot-s"></div><div class="cp-name-s">Vallorcine</div><div class="cp-km-s">km 149</div></div>
+        <div class="cp-item"><div class="cp-dot-s"></div><div class="cp-name-s">Chamonix</div><div class="cp-km-s">km 171</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <button class="cta-btn" onclick="goToClassement()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+      Suivre les coureurs en live
+    </button>
+    <div class="cta-sub">Classement en temps réel · Notifications · Favoris</div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">[<span>NOM</span>] · Suivi live de course</div>
+  </div>
+
 </div>
 
 <script>
-var races=[
-  {id:"utmb",name:"UTMB",label:"Ultra Trail du Mont Blanc",dist:"171 km",status:"live",total:1248,running:934,finished:187},
-  {id:"ccc",name:"CCC",label:"Courmayeur Champex Chamonix",dist:"101 km",status:"live",total:1850,running:1421,finished:312},
-  {id:"occ",name:"OCC",label:"Orsi\u00e8res Champex Chamonix",dist:"55 km",status:"finished",total:2100,running:0,finished:1876},
-  {id:"tds",name:"TDS",label:"Sur les Traces des Ducs de Savoie",dist:"145 km",status:"tomorrow",total:1600,running:0,finished:0}
-];
+var target = new Date();
+target.setDate(target.getDate() + 2);
+target.setHours(target.getHours() + 14);
+target.setMinutes(target.getMinutes() + 32);
+target.setSeconds(target.getSeconds() + 8);
 
-var allRunners={
-  utmb:[
-    {id:"fd",pos:1,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Fran\u00e7ois Dupont",dossard:"012",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h44",pace:"6,8 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:73,eta:"Demain \u00b7 14h30",etaSub:"\u00b1 45 min selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31 \u00b7 D+ 1 850 m",c:"3h58",sp:"+3h58"},{s:"done",n:"Courmayeur",d:"km 74 \u00b7 Ravitaillement",c:"10h21",sp:"+6h23"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 23 min",c:"13h44",sp:"+3h23"},{s:"upcoming",n:"Vallorcine",d:"km 149 \u00b7 ~3h15 estim\u00e9",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h30",sp:"estim\u00e9",fin:true}]},
-    {id:"kb",pos:2,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Karim Benlahsen",dossard:"008",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h51",pace:"6,6 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"2e",clsCat:"2e",progress:73,eta:"Demain \u00b7 14h50",etaSub:"\u00b1 45 min selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h05",sp:"+4h05"},{s:"done",n:"Courmayeur",d:"km 74",c:"10h29",sp:"+6h24"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 18 min",c:"13h51",sp:"+3h22"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h15",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h50",sp:"estim\u00e9",fin:true}]},
-    {id:"je",pos:3,flag:"\uD83C\uDDF8\uD83C\uDDEA",name:"Jonas Eriksson",dossard:"003",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h02",pace:"6,4 km/h",cat:"veteran",sex:"h",status:"running",clsScratch:"3e",clsSex:"3e",clsCat:"1er",progress:73,eta:"Demain \u00b7 15h10",etaSub:"\u00b1 1h selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h12",sp:"+4h12"},{s:"done",n:"Courmayeur",d:"km 74",c:"10h44",sp:"+6h32"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 9 min",c:"14h02",sp:"+3h18"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h30",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h10",sp:"estim\u00e9",fin:true}]},
-    {id:"ml",pos:4,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Marc Lefebvre",dossard:"347",cp:"Courmayeur",km:74,kmTotal:171,time:"14h22",pace:"6,2 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"4e",clsSex:"4e",clsCat:"3e",progress:43,eta:"Demain \u00b7 16h45",etaSub:"\u00b1 1h selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h14",sp:"+4h14"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 45 min",c:"11h37",sp:"+7h23"},{s:"upcoming",n:"Champex-Lac",d:"km 125 \u00b7 ~2h estim\u00e9",c:"~13h37",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h45",sp:"estim\u00e9",fin:true}]},
-    {id:"lm",pos:5,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"L\u00e9a Martineau",dossard:"021",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h28",pace:"6,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"5e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:73,eta:"Demain \u00b7 15h30",etaSub:"\u00b1 1h selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h22",sp:"+4h22"},{s:"done",n:"Courmayeur",d:"km 74",c:"11h05",sp:"+6h43"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 5 min",c:"14h28",sp:"+3h23"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h45",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h30",sp:"estim\u00e9",fin:true}]},
-    {id:"sa",pos:7,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Sophie Aubert",dossard:"034",cp:"Courmayeur",km:74,kmTotal:171,time:"14h41",pace:"5,9 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"7e",clsSex:"2e",clsCat:"2e",progress:43,eta:"Demain \u00b7 17h30",etaSub:"\u00b1 1h selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h35",sp:"+4h35"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 10 min",c:"11h55",sp:"+7h20"},{s:"upcoming",n:"Champex-Lac",d:"km 125",c:"~14h45",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~18h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h30",sp:"estim\u00e9",fin:true}]},
-    {id:"hb",pos:null,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Hugo Bernard",dossard:"089",cp:"Courmayeur",km:74,kmTotal:171,time:"09h22",pace:"\u2014",cat:"senior",sex:"h",status:"dnf",clsScratch:"\u2014",clsSex:"\u2014",clsCat:"\u2014",progress:43,eta:"\u2014",etaSub:"Coureur retir\u00e9 de la course",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"3h50",sp:"+3h50"},{s:"done",n:"Courmayeur",d:"km 74 \u00b7 Abandon",c:"09h22",sp:"+5h32"}]}
-  ],
-  ccc:[
-    {id:"il",pos:1,flag:"\uD83C\uDDEE\uD83C\uDDF9",name:"Ines Lacombe",dossard:"C001",cp:"Champex-Lac",km:68,kmTotal:101,time:"08h12",pace:"7,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"1\u00e8re",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:67,eta:"Aujourd'hui \u00b7 20h30",etaSub:"\u00b1 30 min",
-     cps:[{s:"done",n:"Courmayeur \u2014 D\u00e9part",d:"km 0",c:"12h00",sp:"\u2014"},{s:"current",n:"Champex-Lac",d:"km 68 \u00b7 Passage il y a 12 min",c:"08h12",sp:"+8h12"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 101",c:"~12h20",sp:"estim\u00e9",fin:true}]},
-    {id:"df",pos:2,flag:"\uD83C\uDDE8\uD83C\uDDED",name:"David Favre",dossard:"C002",cp:"Champex-Lac",km:68,kmTotal:101,time:"08h19",pace:"6,9 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"1er",clsCat:"1er",progress:67,eta:"Aujourd'hui \u00b7 20h45",etaSub:"\u00b1 30 min",
-     cps:[{s:"done",n:"Courmayeur \u2014 D\u00e9part",d:"km 0",c:"12h00",sp:"\u2014"},{s:"current",n:"Champex-Lac",d:"km 68 \u00b7 Passage il y a 5 min",c:"08h19",sp:"+8h19"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 101",c:"~12h30",sp:"estim\u00e9",fin:true}]}
-  ],
-  occ:[
-    {id:"jf",pos:1,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Julien Fabre",dossard:"O001",cp:"Arriv\u00e9e",km:55,kmTotal:55,time:"04h51",pace:"8,2 km/h",cat:"senior",sex:"h",status:"finished",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:100,eta:"Termin\u00e9",etaSub:"Temps final : 4h51",
-     cps:[{s:"done",n:"Orsi\u00e8res \u2014 D\u00e9part",d:"km 0",c:"08h00",sp:"\u2014"},{s:"done",n:"Champex-Lac",d:"km 28",c:"2h15",sp:"+2h15"},{s:"done",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 55",c:"4h51",sp:"+2h36"}]},
-    {id:"cn",pos:2,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Clara Noel",dossard:"O002",cp:"Arriv\u00e9e",km:55,kmTotal:55,time:"05h03",pace:"7,8 km/h",cat:"senior",sex:"f",status:"finished",clsScratch:"2e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:100,eta:"Termin\u00e9",etaSub:"Temps final : 5h03",
-     cps:[{s:"done",n:"Orsi\u00e8res \u2014 D\u00e9part",d:"km 0",c:"08h00",sp:"\u2014"},{s:"done",n:"Champex-Lac",d:"km 28",c:"2h22",sp:"+2h22"},{s:"done",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 55",c:"5h03",sp:"+2h41"}]}
-  ],
-  tds:[]
-};
+function pad(n){return n<10?"0"+n:String(n);}
 
-var activeRace="utmb",activeSex="all",activeCat="all";
-var currentAthlete=null,favs=[],favsOpen=false;
-var cats={utmb:["Senior","V\u00e9t\u00e9ran"],ccc:["Senior"],occ:["Senior"],tds:[]};
-
-function initials(name){return name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();}
-function catLabel(c){return c==="senior"?"Senior":c==="veteran"?"V\u00e9t\u00e9ran":"Espoir";}
-
-function renderRaces(){
-  document.getElementById("racesScroll").innerHTML=races.map(function(r){
-    var lbl=r.status==="live"?"En cours":r.status==="finished"?"Termin\u00e9e":"Demain";
-    return '<div class="race-chip'+(r.id===activeRace?" active":"")+(r.status==="finished"?" finished":"")+'" onclick="selectRace(\''+r.id+'\')"><div class="chip-name">'+r.name+' \u00b7 '+r.dist+'</div><div class="chip-status">'+lbl+'</div></div>';
-  }).join("");
+function updateCountdown(){
+  var now = new Date();
+  var diff = Math.max(0, target - now);
+  var days = Math.floor(diff/86400000);
+  var hours = Math.floor((diff%86400000)/3600000);
+  var mins = Math.floor((diff%3600000)/60000);
+  var secs = Math.floor((diff%60000)/1000);
+  document.getElementById("cdJ").textContent=pad(days);
+  document.getElementById("cdH").textContent=pad(hours);
+  document.getElementById("cdM").textContent=pad(mins);
+  document.getElementById("cdS").textContent=pad(secs);
 }
 
-function renderStats(){
-  var r=races.filter(function(x){return x.id===activeRace;})[0];
-  var ab=r.total-r.running-r.finished;
-  document.getElementById("statsRow").innerHTML='<div class="stat-box-h"><span class="stat-val-h green">'+r.running+'</span><span class="stat-lbl-h">En course</span></div><div class="stat-box-h"><span class="stat-val-h">'+r.finished+'</span><span class="stat-lbl-h">Arriv\u00e9s</span></div><div class="stat-box-h"><span class="stat-val-h">'+ab+'</span><span class="stat-lbl-h">Abandons</span></div>';
-  document.getElementById("activeRaceName").textContent=races.filter(function(x){return x.id===activeRace;})[0].label;
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+function goToClassement(){
+  window.location.href="classement.html";
 }
 
-function renderCats(){
-  var list=cats[activeRace]||[];
-  var el=document.getElementById("catSelect");
-  if(!list.length){el.style.display="none";return;}
-  el.style.display="block";
-  var items=[{id:"all",label:"Toutes cat."}].concat(list.map(function(c){return{id:c.toLowerCase(),label:c};}));
-  el.innerHTML=items.map(function(c){return'<option value="'+c.id+'"'+(activeCat===c.id?" selected":"")+'>'+c.label+'</option>';}).join("");
-}
-
-var activeTab="classement";
-function switchTab(tab){
-  activeTab=tab;
-  document.getElementById("tabClassement").classList.toggle("active",tab==="classement");
-  document.getElementById("tabFavoris").classList.toggle("active",tab==="favoris");
-  var filters=document.querySelector(".filters");
-  filters.style.display=tab==="classement"?"flex":"none";
-  renderList();
-}
-function updateFavTab(){
-  var badge=document.getElementById("tabFavCount");
-  if(favs.length>0){badge.style.display="inline-flex";badge.textContent=favs.length;}
-  else{badge.style.display="none";}
-}
-
-function renderList(){
-  var el=document.getElementById("runnerList");
-  if(activeTab==="favoris"){
-    if(!favs.length){el.innerHTML='<div class="empty-favs">Aucun favori pour l\u2019instant.<br>Appuyez sur le coeur d\u2019un coureur pour le suivre ici.</div>';document.getElementById("footerCount").textContent="0 favori";return;}
-    var allR=[];var keys=Object.keys(allRunners);
-    for(var k=0;k<keys.length;k++){for(var i=0;i<allRunners[keys[k]].length;i++){if(favs.indexOf(allRunners[keys[k]][i].id)!==-1)allR.push(allRunners[keys[k]][i]);}}
-    document.getElementById("footerCount").textContent=allR.length+" favori"+(allR.length>1?"s":"");
-    el.innerHTML=allR.map(function(r){
-      var isDnf=r.status==="dnf",isFin=r.status==="finished";
-      var fl=r.flag?'<span style="font-size:14px;margin-right:3px;">'+r.flag+'</span>':''
-      return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+ r.id+'\')">'+'<div class="pos'+(r.pos===1?" gold":"")+'">' +(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
-    }).join("");
-    return;
+var isLight = localStorage.getItem("theme")==="light";
+function applyTheme(){
+  if(isLight){
+    document.body.classList.add("light");
+    document.getElementById("themeLabel").textContent="Sombre";
+    document.getElementById("themeIcon").innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  } else {
+    document.body.classList.remove("light");
+    document.getElementById("themeLabel").textContent="Clair";
+    document.getElementById("themeIcon").innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
   }
-  var name=document.getElementById("searchName").value.toLowerCase().trim();
-  var doss=document.getElementById("searchDossard").value.toLowerCase().trim();
-  var list=(allRunners[activeRace]||[]).filter(function(r){
-    if(activeSex!=="all"&&r.sex!==activeSex)return false;
-    if(activeCat!=="all"&&r.cat!==activeCat)return false;
-    if(name&&r.name.toLowerCase().indexOf(name)===-1)return false;
-    if(doss&&r.dossard.toLowerCase().indexOf(doss)===-1)return false;
-    return true;
-  });
-  if(!list.length){el.innerHTML='<div class="no-result">Aucun coureur trouv\u00e9</div>';document.getElementById("footerCount").textContent="0 coureur";return;}
-  document.getElementById("footerCount").textContent=list.length+" coureur"+(list.length>1?"s":"")+" \u00b7 "+races.filter(function(x){return x.id===activeRace;})[0].total+" inscrits";
-  el.innerHTML=list.map(function(r){
-    var isDnf=r.status==="dnf",isFin=r.status==="finished";
-    var fl=r.flag?'<span style="font-size:14px;margin-right:3px;">'+r.flag+'</span>':''
-    return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+ r.id+'\')">'+'<div class="pos'+(r.pos===1?" gold":"")+'">' +(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
-  }).join("");
 }
-
-function selectRace(id){
-  activeRace=id;activeCat="all";activeSex="all";
-  var segs=document.querySelectorAll(".seg-btn");
-  for(var i=0;i<segs.length;i++) segs[i].classList.toggle("active",segs[i].dataset.sex==="all");
-  document.getElementById("catSelect").value="all";
-  renderRaces();renderStats();renderCats();renderList();
+function toggleTheme(){
+  isLight=!isLight;
+  localStorage.setItem("theme",isLight?"light":"dark");
+  applyTheme();
 }
-
-function openAthlete(id){
-  var r=null;
-  var keys=Object.keys(allRunners);
-  for(var k=0;k<keys.length;k++){
-    var found=allRunners[keys[k]].filter(function(x){return x.id===id;});
-    if(found.length){r=found[0];break;}
-  }
-  if(!r)return;
-  currentAthlete=r;
-  document.getElementById("athAvatar").textContent=initials(r.name);
-  document.getElementById("athName").textContent=r.name;
-  document.getElementById("athMeta").textContent="Dossard #"+r.dossard+" \u00b7 "+catLabel(r.cat)+" \u00b7 "+races.filter(function(x){return x.id===activeRace;})[0].label;
-  document.getElementById("leaderBadge").style.display=r.pos===1?"inline-flex":"none";
-  document.getElementById("athClassements").innerHTML='<div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+(r.clsScratch||"\u2014")+'</span><span class="cls-label">Scratch</span></div><div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+(r.clsSex||"\u2014")+'</span><span class="cls-label">'+(r.sex==="h"?"Hommes":"Femmes")+'</span></div><div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+(r.clsCat||"\u2014")+'</span><span class="cls-label">'+catLabel(r.cat)+'</span></div>';
-  document.getElementById("athProgress").textContent=r.km+" km \u00b7 "+r.progress+" %";
-  document.getElementById("athBar").style.width=r.progress+"%";
-  document.getElementById("athTime").textContent=r.time;
-  document.getElementById("athPace").textContent=r.pace;
-  document.getElementById("athEta").textContent=r.eta;
-  document.getElementById("athEtaSub").textContent=r.etaSub;
-  document.getElementById("notifSub1").textContent="Alerte d\u00e8s que "+r.name.split(" ")[0]+" franchit la ligne";
-  document.getElementById("athCheckpoints").innerHTML=r.cps.map(function(cp,i){
-    var isLast=i===r.cps.length-1;
-    var dot="";
-    if(cp.s==="done") dot='<svg width="8" height="8" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    else if(cp.s==="current") dot='<svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5" fill="#fff"/></svg>';
-    else if(cp.fin) dot='<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5h7M5.5 2 8 4.5 5.5 7" stroke="var(--text3)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    var muted=cp.s==="upcoming";
-    var est=cp.sp==="estim\u00e9";
-    return '<div class="checkpoint" style="'+(isLast?"padding-bottom:0":"")+'"><div class="cp-dot '+cp.s+'">'+dot+'</div><div class="cp-main"><div class="cp-name'+(muted?" muted":"")+'">'+cp.n+'</div><div class="cp-detail">'+cp.d+'</div></div><div class="cp-times"><div class="cp-cumul'+(muted?" muted":"")+'">'+cp.c+'</div><div class="cp-split'+(est?" est":"")+'">'+cp.sp+'</div></div></div>';
-  }).join("");
-  updateHeart();renderFavsBar();
-  showScreen("screen-athlete");
-}
-
-function goBack(){showScreen("screen-classement");}
-
-function showScreen(id){
-  var screens=document.querySelectorAll(".screen");
-  for(var i=0;i<screens.length;i++) screens[i].classList.remove("active");
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
-}
-
-function updateHeart(){
-  var isFav=currentAthlete&&favs.indexOf(currentAthlete.id)!==-1;
-  var icon=document.getElementById("heartIcon");
-  icon.setAttribute("fill",isFav?"#e24b4a":"none");
-  icon.setAttribute("stroke",isFav?"#e24b4a":"#fff");
-}
-
-function toggleFav(){
-  if(!currentAthlete)return;
-  var id=currentAthlete.id;
-  var idx=favs.indexOf(id);
-  if(idx===-1) favs.push(id);
-  else favs.splice(idx,1);
-  updateHeart();renderFavsBar();updateFavTab();
-}
-
-function toggleFavsList(){
-  favsOpen=!favsOpen;
-  document.getElementById("favsList").classList.toggle("open",favsOpen);
-  document.getElementById("favsChevron").classList.toggle("open",favsOpen);
-}
-
-function renderFavsBar(){
-  var bar=document.getElementById("favsBar");
-  var myFavs=[];
-  var keys=Object.keys(allRunners);
-  for(var k=0;k<keys.length;k++){
-    var runners=allRunners[keys[k]];
-    for(var i=0;i<runners.length;i++){
-      if(favs.indexOf(runners[i].id)!==-1) myFavs.push(runners[i]);
-    }
-  }
-  if(!myFavs.length){bar.style.display="none";return;}
-  bar.style.display="block";
-  document.getElementById("favsCount").textContent=myFavs.length;
-  document.getElementById("favsList").innerHTML=myFavs.map(function(f){
-    var isActive=currentAthlete&&f.id===currentAthlete.id;
-    return '<div class="fav-row'+(isActive?" active-r":"")+'" onclick="'+(isActive?"":"openAthlete('"+f.id+"')")+'"><div class="fav-avatar">'+initials(f.name)+'</div><div class="fav-info"><div class="fav-name">'+f.name+(isActive?'<span class="active-pill">Actuel</span>':"")+'</div><div class="fav-meta">#'+f.dossard+' \u00b7 '+f.cp+'</div></div><div class="fav-right"><div class="fav-pos">'+f.clsScratch+'</div><div class="fav-cp">scratch</div></div></div>';
-  }).join("");
-  if(favsOpen){document.getElementById("favsList").classList.add("open");document.getElementById("favsChevron").classList.add("open");}
-}
-
-var sexBtns=document.getElementById("sexSeg").querySelectorAll(".seg-btn");
-for(var i=0;i<sexBtns.length;i++){
-  sexBtns[i].addEventListener("click",function(){
-    activeSex=this.dataset.sex;
-    var all=document.querySelectorAll(".seg-btn");
-    for(var j=0;j<all.length;j++) all[j].classList.remove("active");
-    this.classList.add("active");
-    renderList();
-  });
-}
-document.getElementById("searchName").addEventListener("input",renderList);
-document.getElementById("searchDossard").addEventListener("input",renderList);
-
-renderRaces();renderStats();renderCats();renderList();
+applyTheme();
 </script>
 </body>
 </html>
