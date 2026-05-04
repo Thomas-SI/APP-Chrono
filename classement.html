@@ -22,13 +22,51 @@
     --blue-light:#0d2235;--green-light:#0f2a09;
   }
 }
+body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;justify-content:center;}
 body.light{
   --bg:#ffffff;--bg2:#f0f4f7;--bg3:#e4eaef;
   --text:#034065;--text2:#4a7a9b;--text3:#8aabbc;
   --border:rgba(3,64,101,0.1);--border2:rgba(3,64,101,0.18);
   --blue-light:#e8f0f6;--green-light:#eaf7e4;
 }
-body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;justify-content:center;}
+body.light .search-input,body.light .dossard-input{color:var(--blue);}
+body.light .search-input::placeholder,body.light .dossard-input::placeholder{color:var(--text3);}
+body.light .seg-btn{color:var(--text2);background:var(--bg);}
+body.light .seg-btn.active{background:var(--blue);color:#fff;}
+body.light .filter-btn{color:var(--text2);background:var(--bg);}
+body.light .filter-btn.active{background:var(--blue);color:#fff;}
+body.light .cat-select{color:var(--text2);background:var(--bg);}
+body.light .rname{color:var(--text);}
+body.light .rdossard{color:var(--text3);}
+body.light .pos{color:var(--text);}
+body.light .cp-name-t{color:var(--text);}
+body.light .time-val{color:var(--text);}
+body.light .cp-weather-txt{color:var(--text3);}
+body.light .back-btn{color:rgba(255,255,255,0.65);}
+body.light .cls-val{color:var(--text);}
+body.light .cls-label{color:var(--text3);}
+body.light .stat-val{color:var(--text);}
+body.light .stat-lbl{color:var(--text3);}
+body.light .cp-name{color:var(--text);}
+body.light .cp-detail{color:var(--text3);}
+body.light .cp-split{color:var(--text3);}
+body.light .cp-cumul{color:var(--text);}
+body.light .notif-label{color:var(--text);}
+body.light .notif-sub{color:var(--text3);}
+body.light .toggle-slider{background:var(--bg3);}
+body.light .msg-input{color:var(--text);}
+body.light .msg-name-input{color:var(--text);}
+body.light .msg-text{color:var(--text);}
+body.light .msg-author{color:var(--blue);}
+body.light .battle-rname{color:var(--text);}
+body.light .battle-gap-val{color:var(--blue);}
+body.light .battle-stat-cell{color:var(--text);}
+body.light .fav-name{color:var(--text);}
+body.light .fav-pos{color:var(--blue);}
+body.light .section-title{color:var(--text3);}
+body.light .footer-txt{color:var(--text3);}
+body.light .tab-btn{color:var(--text3);background:var(--bg);}
+body.light .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
 .screen{display:none;width:100%;max-width:430px;min-height:100vh;background:var(--bg);flex-direction:column;}
 .screen.active{display:flex;flex-direction:column;}
 
@@ -195,6 +233,81 @@ body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe U
 .toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;border-radius:50%;background:#fff;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
 .toggle input:checked+.toggle-slider{background:var(--green);border-color:var(--green);}
 .toggle input:checked+.toggle-slider::before{transform:translateX(16px);}
+
+/* ── MÉTÉO ── */
+.cp-weather{display:flex;align-items:center;gap:3px;margin-top:3px;}
+.cp-weather-icon{font-size:12px;}
+.cp-weather-txt{font-size:10px;color:var(--text3);}
+
+/* ── MESSAGES ── */
+.msg-section{margin:12px 14px 0;}
+.msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.msg-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
+.msg-count-badge{background:#e24b4a;color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:600;}
+.msg-compose{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:10px;}
+.msg-input{width:100%;padding:11px 13px;font-size:13px;font-family:inherit;color:var(--text);background:transparent;border:none;outline:none;resize:none;display:block;}
+.msg-input::placeholder{color:var(--text3);}
+.msg-footer-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-top:0.5px solid var(--border);}
+.msg-name-input{font-size:12px;font-family:inherit;color:var(--text);background:transparent;border:none;outline:none;width:120px;}
+.msg-name-input::placeholder{color:var(--text3);}
+.msg-char{font-size:11px;color:var(--text3);}
+.msg-send-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.msg-send-btn:active{background:#3d8a25;}
+.msg-list{display:flex;flex-direction:column;gap:8px;}
+.msg-bubble{background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:11px 13px;}
+.msg-bubble-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.msg-author{font-size:12px;font-weight:600;color:var(--blue);}
+.msg-time{font-size:10px;color:var(--text3);}
+.msg-text{font-size:13px;color:var(--text);line-height:1.4;}
+.msg-empty{text-align:center;padding:20px;font-size:12px;color:var(--text3);}
+.msg-encouragement-banner{background:linear-gradient(135deg,rgba(80,175,49,0.1),rgba(3,64,101,0.1));border:0.5px solid rgba(80,175,49,0.2);border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.msg-banner-icon{font-size:20px;}
+.msg-banner-txt{font-size:12px;color:var(--text2);line-height:1.4;}
+.msg-banner-count{font-size:13px;font-weight:600;color:var(--green);}
+
+/* ── BATTLE ── */
+.battle-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 28px);margin:12px 14px 0;padding:12px;background:transparent;border:0.5px solid var(--border2);border-radius:12px;font-size:13px;font-weight:600;color:var(--text2);font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.battle-btn:active{background:var(--bg2);}
+.battle-section{margin:12px 14px 0;}
+.battle-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;}
+.battle-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 12px;gap:8px;border-bottom:0.5px solid var(--border);}
+.battle-runner{text-align:center;}
+.battle-runner.right{text-align:center;}
+.battle-avatar-w{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;margin:0 auto 5px;}
+.battle-avatar-w.blue{background:var(--blue);}
+.battle-avatar-w.green{background:var(--green);}
+.battle-rname{font-size:11px;font-weight:600;color:var(--text);line-height:1.2;}
+.battle-rdoss{font-size:10px;color:var(--text3);margin-top:1px;}
+.battle-vs{text-align:center;}
+.battle-vs-txt{font-size:18px;font-weight:800;color:var(--text3);font-family:-apple-system,sans-serif;}
+.battle-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
+.battle-stat-row{display:contents;}
+.battle-stat-cell{padding:10px 8px;text-align:center;border-bottom:0.5px solid var(--border);border-right:0.5px solid var(--border);}
+.battle-stat-cell:nth-child(3n){border-right:none;}
+.battle-stat-cell.label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;font-weight:600;}
+.battle-stat-cell.val{font-size:13px;font-weight:600;color:var(--text);}
+.battle-stat-cell.val.winning{color:var(--green);}
+.battle-stat-cell.val.losing{color:var(--text3);}
+.battle-gap{padding:12px;text-align:center;border-bottom:0.5px solid var(--border);}
+.battle-gap-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
+.battle-gap-val{font-size:22px;font-weight:700;color:var(--blue);}
+.battle-gap-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+.battle-progress{padding:12px;}
+.battle-prog-label{font-size:10px;color:var(--text3);margin-bottom:6px;}
+.battle-prog-track{position:relative;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;}
+.battle-prog-a{position:absolute;left:0;top:0;height:100%;background:var(--blue);border-radius:3px;transition:width 0.5s;}
+.battle-prog-b{position:absolute;right:0;top:0;height:100%;background:var(--green);border-radius:3px;transition:width 0.5s;}
+.battle-search{margin:12px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:12px 13px;}
+.battle-search-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.battle-search-input{width:100%;height:34px;padding:0 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;-webkit-appearance:none;}
+.battle-search-input::placeholder{color:var(--text3);}
+.battle-results{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
+.battle-result-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg2);border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.battle-result-row:active{background:var(--bg3);}
+.battle-result-name{font-size:12px;font-weight:600;color:var(--text);}
+.battle-result-meta{font-size:10px;color:var(--text3);margin-top:1px;}
+.battle-result-pos{font-size:12px;font-weight:600;color:var(--blue);}
+.battle-close-btn{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;margin-top:8px;padding:8px;background:transparent;border:none;font-size:12px;color:var(--text3);font-family:inherit;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -204,7 +317,10 @@ body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe U
   <div class="header">
     <div class="header-top">
       <div>
-        <div class="org-name">Mont Blanc Events</div>
+        <button onclick="window.location.href='index.html'" style="display:flex;align-items:center;gap:4px;background:none;border:none;padding:0;cursor:pointer;color:rgba(255,255,255,0.55);font-size:11px;font-family:inherit;margin-bottom:4px;-webkit-tap-highlight-color:transparent;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Accueil
+        </button>
         <div class="race-name" id="activeRaceName">Ultra Trail du Mont Blanc</div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
@@ -326,7 +442,91 @@ body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe U
         <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
       </div>
     </div>
-    <div style="height:20px;"></div>
+    <!-- MESSAGES D'ENCOURAGEMENT -->
+    <div class="msg-section" id="msgSection">
+      <div class="msg-header">
+        <div class="msg-title">Messages d'encouragement</div>
+        <span class="msg-count-badge" id="msgCountBadge" style="display:none">0</span>
+      </div>
+      <div class="msg-encouragement-banner">
+        <div class="msg-banner-icon">&#128140;</div>
+        <div>
+          <div class="msg-banner-count" id="msgBannerCount">Sois le premier !</div>
+          <div class="msg-banner-txt">Les messages seront lus au prochain checkpoint</div>
+        </div>
+      </div>
+      <div class="msg-compose">
+        <textarea class="msg-input" id="msgInput" rows="2" placeholder="Ecris un message d'encouragement..." maxlength="140" oninput="updateMsgChar()"></textarea>
+        <div class="msg-footer-bar">
+          <input class="msg-name-input" id="msgName" type="text" placeholder="Ton prenom..." maxlength="20">
+          <span class="msg-char" id="msgChar">140</span>
+          <button class="msg-send-btn" onclick="sendMsg()">Envoyer</button>
+        </div>
+      </div>
+      <div class="msg-list" id="msgList">
+        <div class="msg-empty">Aucun message pour l'instant</div>
+      </div>
+    </div>
+
+    <!-- BATTLE LIVE -->
+    <button class="battle-btn" id="battleToggleBtn" onclick="toggleBattleSearch()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 9H17v1.5c0 .83-.67 1.5-1.5 1.5S14 11.33 14 10.5 14.67 9 15.5 9z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 15H7v-1.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      Lancer un Battle live
+    </button>
+
+    <div class="battle-search" id="battleSearch" style="display:none">
+      <div class="battle-search-title">Chercher un adversaire</div>
+      <input class="battle-search-input" id="battleSearchInput" type="text" placeholder="Nom ou numero de dossard..." oninput="searchBattle()">
+      <div class="battle-results" id="battleResults"></div>
+      <button class="battle-close-btn" onclick="closeBattleSearch()">Annuler</button>
+    </div>
+
+    <div class="battle-section" id="battleSection" style="display:none">
+      <div class="battle-card">
+        <div class="battle-top">
+          <div class="battle-runner">
+            <div class="battle-avatar-w blue" id="battleAvA">?</div>
+            <div class="battle-rname" id="battleNameA">-</div>
+            <div class="battle-rdoss" id="battleDossA">-</div>
+          </div>
+          <div class="battle-vs"><div class="battle-vs-txt">VS</div></div>
+          <div class="battle-runner right">
+            <div class="battle-avatar-w green" id="battleAvB">?</div>
+            <div class="battle-rname" id="battleNameB">-</div>
+            <div class="battle-rdoss" id="battleDossB">-</div>
+          </div>
+        </div>
+        <div class="battle-gap">
+          <div class="battle-gap-label">Ecart actuel</div>
+          <div class="battle-gap-val" id="battleGapVal">-</div>
+          <div class="battle-gap-sub" id="battleGapSub">-</div>
+        </div>
+        <div class="battle-stats">
+          <div class="battle-stat-cell label" id="battleStatA1">-</div>
+          <div class="battle-stat-cell label">Position</div>
+          <div class="battle-stat-cell label" id="battleStatB1">-</div>
+          <div class="battle-stat-cell val" id="battleStatA2">-</div>
+          <div class="battle-stat-cell label">Checkpoint</div>
+          <div class="battle-stat-cell val" id="battleStatB2">-</div>
+          <div class="battle-stat-cell val" id="battleStatA3">-</div>
+          <div class="battle-stat-cell label">Temps</div>
+          <div class="battle-stat-cell val" id="battleStatB3">-</div>
+          <div class="battle-stat-cell val" id="battleStatA4">-</div>
+          <div class="battle-stat-cell label">Allure</div>
+          <div class="battle-stat-cell val" id="battleStatB4">-</div>
+        </div>
+        <div class="battle-progress">
+          <div class="battle-prog-label" id="battleProgLabel">Progression sur le parcours</div>
+          <div class="battle-prog-track">
+            <div class="battle-prog-a" id="battleProgA" style="width:50%"></div>
+            <div class="battle-prog-b" id="battleProgB" style="width:50%"></div>
+          </div>
+        </div>
+      </div>
+      <button class="battle-close-btn" onclick="closeBattle()">Fermer le battle</button>
+    </div>
+
+    <div style="height:24px;"></div>
   </div>
 </div>
 
@@ -487,6 +687,7 @@ function openAthlete(id){
     return '<div class="checkpoint" style="'+(isLast?"padding-bottom:0":"")+'"><div class="cp-dot '+cp.s+'">'+dot+'</div><div class="cp-main"><div class="cp-name'+(muted?" muted":"")+'">'+cp.n+'</div><div class="cp-detail">'+cp.d+'</div></div><div class="cp-times"><div class="cp-cumul'+(muted?" muted":"")+'">'+cp.c+'</div><div class="cp-split'+(est?" est":"")+'">'+cp.sp+'</div></div></div>';
   }).join("");
   updateHeart();renderFavsBar();
+  resetMessages();resetBattle();
   showScreen("screen-athlete");
 }
 
@@ -539,6 +740,143 @@ function renderFavsBar(){
     return '<div class="fav-row'+(isActive?" active-r":"")+'" onclick="'+(isActive?"":"openAthlete('"+f.id+"')")+'"><div class="fav-avatar">'+initials(f.name)+'</div><div class="fav-info"><div class="fav-name">'+f.name+(isActive?'<span class="active-pill">Actuel</span>':"")+'</div><div class="fav-meta">#'+f.dossard+' \u00b7 '+f.cp+'</div></div><div class="fav-right"><div class="fav-pos">'+f.clsScratch+'</div><div class="fav-cp">scratch</div></div></div>';
   }).join("");
   if(favsOpen){document.getElementById("favsList").classList.add("open");document.getElementById("favsChevron").classList.add("open");}
+}
+
+
+// -- MESSAGES --
+var athleteMessages={};
+function getAthMsgs(){return currentAthlete&&athleteMessages[currentAthlete.id]?athleteMessages[currentAthlete.id]:[]}
+function resetMessages(){
+  renderMessages();
+  document.getElementById("msgInput").value="";
+  updateMsgChar();
+}
+function updateMsgChar(){
+  var len=document.getElementById("msgInput").value.length;
+  document.getElementById("msgChar").textContent=140-len;
+}
+function sendMsg(){
+  var txt=document.getElementById("msgInput").value.trim();
+  var name=document.getElementById("msgName").value.trim()||"Anonyme";
+  if(!txt||!currentAthlete)return;
+  if(!athleteMessages[currentAthlete.id]) athleteMessages[currentAthlete.id]=[];
+  athleteMessages[currentAthlete.id].unshift({name:name,txt:txt,time:new Date()});
+  document.getElementById("msgInput").value="";
+  updateMsgChar();
+  renderMessages();
+}
+function timeAgo(d){
+  var diff=Math.floor((new Date()-d)/1000);
+  if(diff<60)return "A l'instant";
+  if(diff<3600)return Math.floor(diff/60)+"min";
+  return Math.floor(diff/3600)+"h";
+}
+function renderMessages(){
+  var msgs=getAthMsgs();
+  var badge=document.getElementById("msgCountBadge");
+  var banner=document.getElementById("msgBannerCount");
+  if(msgs.length>0){
+    badge.style.display="inline";badge.textContent=msgs.length;
+    banner.textContent=msgs.length+" message"+(msgs.length>1?"s":"")+" en attente";
+  } else {
+    badge.style.display="none";
+    banner.textContent="Sois le premier !";
+  }
+  var list=document.getElementById("msgList");
+  if(!msgs.length){list.innerHTML='<div class="msg-empty">Aucun message pour l\u2019instant</div>';return;}
+  list.innerHTML=msgs.map(function(m){
+    return '<div class="msg-bubble"><div class="msg-bubble-header"><span class="msg-author">'+ m.name+'</span><span class="msg-time">'+timeAgo(m.time)+'</span></div><div class="msg-text">'+ m.txt+'</div></div>';
+  }).join("");
+}
+
+// -- BATTLE --
+var battleRunner=null;
+var battleSearchOpen=false;
+function resetBattle(){
+  battleRunner=null;
+  document.getElementById("battleSection").style.display="none";
+  document.getElementById("battleSearch").style.display="none";
+  document.getElementById("battleSearchInput").value="";
+  document.getElementById("battleResults").innerHTML="";
+  battleSearchOpen=false;
+}
+function toggleBattleSearch(){
+  battleSearchOpen=!battleSearchOpen;
+  document.getElementById("battleSearch").style.display=battleSearchOpen?"block":"none";
+  if(battleSearchOpen) document.getElementById("battleSearchInput").focus();
+}
+function closeBattleSearch(){
+  battleSearchOpen=false;
+  document.getElementById("battleSearch").style.display="none";
+}
+function closeBattle(){
+  battleRunner=null;
+  document.getElementById("battleSection").style.display="none";
+}
+function initials(name){return name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();}
+function searchBattle(){
+  var q=document.getElementById("battleSearchInput").value.toLowerCase().trim();
+  var el=document.getElementById("battleResults");
+  if(!q){el.innerHTML="";return;}
+  var allR=[];
+  var keys=Object.keys(allRunners);
+  for(var k=0;k<keys.length;k++){
+    for(var i=0;i<allRunners[keys[k]].length;i++){
+      var r=allRunners[keys[k]][i];
+      if(r.id!==currentAthlete.id&&(r.name.toLowerCase().indexOf(q)!==-1||r.dossard.toLowerCase().indexOf(q)!==-1)){
+        allR.push(r);
+      }
+    }
+  }
+  allR=allR.slice(0,5);
+  if(!allR.length){el.innerHTML='<div class="msg-empty">Aucun coureur trouv\u00e9</div>';return;}
+  el.innerHTML=allR.map(function(r){
+    return '<div class="battle-result-row" onclick="launchBattle(\''+ r.id+'\')"><div><div class="battle-result-name">'+ r.flag+' '+r.name+'</div><div class="battle-result-meta">#'+r.dossard+' \u00b7 '+r.cp+'</div></div><div class="battle-result-pos">'+(r.pos||"\u2014")+'e</div></div>';
+  }).join("");
+}
+function launchBattle(id){
+  var allR=[];
+  var keys=Object.keys(allRunners);
+  for(var k=0;k<keys.length;k++){
+    for(var i=0;i<allRunners[keys[k]].length;i++){
+      if(allRunners[keys[k]][i].id===id){allR.push(allRunners[keys[k]][i]);break;}
+    }
+  }
+  if(!allR.length)return;
+  battleRunner=allR[0];
+  closeBattleSearch();
+  renderBattle();
+}
+function renderBattle(){
+  if(!battleRunner||!currentAthlete)return;
+  var a=currentAthlete,b=battleRunner;
+  document.getElementById("battleSection").style.display="block";
+  document.getElementById("battleAvA").textContent=initials(a.name);
+  document.getElementById("battleNameA").textContent=a.name.split(" ")[0];
+  document.getElementById("battleDossA").textContent="#"+a.dossard;
+  document.getElementById("battleAvB").textContent=initials(b.name);
+  document.getElementById("battleNameB").textContent=b.name.split(" ")[0];
+  document.getElementById("battleDossB").textContent="#"+b.dossard;
+  var aHead=a.km>b.km;
+  var diff=Math.abs(a.km-b.km);
+  var leader=aHead?a:b;
+  document.getElementById("battleGapVal").textContent=(aHead?a.name.split(" ")[0]:b.name.split(" ")[0])+" devance de "+diff+" km";
+  document.getElementById("battleGapSub").textContent="Dernier pointage \u00b7 mis \u00e0 jour il y a 3 min";
+  document.getElementById("battleStatA1").textContent=a.clsScratch;
+  document.getElementById("battleStatB1").textContent=b.clsScratch;
+  document.getElementById("battleStatA2").textContent=a.cp;
+  document.getElementById("battleStatB2").textContent=b.cp;
+  document.getElementById("battleStatA3").textContent=a.time;
+  document.getElementById("battleStatB3").textContent=b.time;
+  document.getElementById("battleStatA4").textContent=a.pace;
+  document.getElementById("battleStatB4").textContent=b.pace;
+  var progA=Math.round(a.km/a.kmTotal*100);
+  var progB=Math.round(b.km/b.kmTotal*100);
+  document.getElementById("battleProgA").style.width=Math.round(progA/2)+"%";
+  document.getElementById("battleProgB").style.width=Math.round(progB/2)+"%";
+  document.getElementById("battleProgLabel").textContent=a.name.split(" ")[0]+" "+progA+"% \u00b7 "+ b.name.split(" ")[0]+" "+progB+"%";
+  document.getElementById("battleStatA1").className="battle-stat-cell val"+(aHead?" winning":" losing");
+  document.getElementById("battleStatB1").className="battle-stat-cell val"+(!aHead?" winning":" losing");
 }
 
 var isLight=localStorage.getItem("theme")==="light";
