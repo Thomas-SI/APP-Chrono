@@ -65,6 +65,13 @@ body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe U
 .cat-wrap::-webkit-scrollbar{display:none;}
 .filter-btn{height:28px;padding:0 11px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;}
 .filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.tab-bar{display:flex;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
+.tab-btn{flex:1;padding:11px 0;font-size:13px;font-weight:600;color:var(--text3);background:var(--bg);border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+.fav-count-badge{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:#e24b4a;color:#fff;font-size:10px;margin-left:5px;vertical-align:middle;}
+.cat-select{height:28px;padding:0 24px 0 10px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:11px;cursor:pointer;font-family:inherit;flex-shrink:0;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
+.empty-favs{padding:40px 20px;text-align:center;color:var(--text3);font-size:13px;line-height:1.6;}
+.flag{font-size:14px;margin-right:4px;}
 
 .list-header{display:grid;grid-template-columns:34px 1fr 90px 58px;gap:4px;padding:7px 14px;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
 .list-header span{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;}
@@ -205,13 +212,17 @@ body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe U
       <input class="dossard-input" id="searchDossard" type="text" placeholder="# Doss.">
     </div>
   </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabClassement" onclick="switchTab('classement')">Classement</button>
+    <button class="tab-btn" id="tabFavoris" onclick="switchTab('favoris')">Favoris <span class="fav-count-badge" id="tabFavCount" style="display:none">0</span></button>
+  </div>
   <div class="filters">
     <div class="seg" id="sexSeg">
       <button class="seg-btn active" data-sex="all">Tous</button>
       <button class="seg-btn" data-sex="h">Hommes</button>
       <button class="seg-btn" data-sex="f">Femmes</button>
     </div>
-    <div class="cat-wrap" id="catFilters"></div>
+    <select class="cat-select" id="catSelect" onchange="activeCat=this.value;renderList()"></select>
   </div>
   <div class="list-header">
     <span>Pos.</span><span>Coureur</span>
@@ -316,31 +327,31 @@ var races=[
 
 var allRunners={
   utmb:[
-    {id:"fd",pos:1,name:"Fran\u00e7ois Dupont",dossard:"012",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h44",pace:"6,8 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:73,eta:"Demain \u00b7 14h30",etaSub:"\u00b1 45 min selon le rythme actuel",
+    {id:"fd",pos:1,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Fran\u00e7ois Dupont",dossard:"012",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h44",pace:"6,8 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:73,eta:"Demain \u00b7 14h30",etaSub:"\u00b1 45 min selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31 \u00b7 D+ 1 850 m",c:"3h58",sp:"+3h58"},{s:"done",n:"Courmayeur",d:"km 74 \u00b7 Ravitaillement",c:"10h21",sp:"+6h23"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 23 min",c:"13h44",sp:"+3h23"},{s:"upcoming",n:"Vallorcine",d:"km 149 \u00b7 ~3h15 estim\u00e9",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h30",sp:"estim\u00e9",fin:true}]},
-    {id:"kb",pos:2,name:"Karim Benlahsen",dossard:"008",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h51",pace:"6,6 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"2e",clsCat:"2e",progress:73,eta:"Demain \u00b7 14h50",etaSub:"\u00b1 45 min selon le rythme actuel",
+    {id:"kb",pos:2,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Karim Benlahsen",dossard:"008",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h51",pace:"6,6 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"2e",clsCat:"2e",progress:73,eta:"Demain \u00b7 14h50",etaSub:"\u00b1 45 min selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h05",sp:"+4h05"},{s:"done",n:"Courmayeur",d:"km 74",c:"10h29",sp:"+6h24"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 18 min",c:"13h51",sp:"+3h22"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h15",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h50",sp:"estim\u00e9",fin:true}]},
-    {id:"je",pos:3,name:"Jonas Eriksson",dossard:"003",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h02",pace:"6,4 km/h",cat:"veteran",sex:"h",status:"running",clsScratch:"3e",clsSex:"3e",clsCat:"1er",progress:73,eta:"Demain \u00b7 15h10",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"je",pos:3,flag:"\uD83C\uDDF8\uD83C\uDDEA",name:"Jonas Eriksson",dossard:"003",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h02",pace:"6,4 km/h",cat:"veteran",sex:"h",status:"running",clsScratch:"3e",clsSex:"3e",clsCat:"1er",progress:73,eta:"Demain \u00b7 15h10",etaSub:"\u00b1 1h selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h12",sp:"+4h12"},{s:"done",n:"Courmayeur",d:"km 74",c:"10h44",sp:"+6h32"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 9 min",c:"14h02",sp:"+3h18"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h30",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h10",sp:"estim\u00e9",fin:true}]},
-    {id:"ml",pos:4,name:"Marc Lefebvre",dossard:"347",cp:"Courmayeur",km:74,kmTotal:171,time:"14h22",pace:"6,2 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"4e",clsSex:"4e",clsCat:"3e",progress:43,eta:"Demain \u00b7 16h45",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"ml",pos:4,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Marc Lefebvre",dossard:"347",cp:"Courmayeur",km:74,kmTotal:171,time:"14h22",pace:"6,2 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"4e",clsSex:"4e",clsCat:"3e",progress:43,eta:"Demain \u00b7 16h45",etaSub:"\u00b1 1h selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h14",sp:"+4h14"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 45 min",c:"11h37",sp:"+7h23"},{s:"upcoming",n:"Champex-Lac",d:"km 125 \u00b7 ~2h estim\u00e9",c:"~13h37",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h45",sp:"estim\u00e9",fin:true}]},
-    {id:"lm",pos:5,name:"L\u00e9a Martineau",dossard:"021",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h28",pace:"6,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"5e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:73,eta:"Demain \u00b7 15h30",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"lm",pos:5,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"L\u00e9a Martineau",dossard:"021",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h28",pace:"6,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"5e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:73,eta:"Demain \u00b7 15h30",etaSub:"\u00b1 1h selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h22",sp:"+4h22"},{s:"done",n:"Courmayeur",d:"km 74",c:"11h05",sp:"+6h43"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 5 min",c:"14h28",sp:"+3h23"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h45",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h30",sp:"estim\u00e9",fin:true}]},
-    {id:"sa",pos:7,name:"Sophie Aubert",dossard:"034",cp:"Courmayeur",km:74,kmTotal:171,time:"14h41",pace:"5,9 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"7e",clsSex:"2e",clsCat:"2e",progress:43,eta:"Demain \u00b7 17h30",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"sa",pos:7,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Sophie Aubert",dossard:"034",cp:"Courmayeur",km:74,kmTotal:171,time:"14h41",pace:"5,9 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"7e",clsSex:"2e",clsCat:"2e",progress:43,eta:"Demain \u00b7 17h30",etaSub:"\u00b1 1h selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h35",sp:"+4h35"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 10 min",c:"11h55",sp:"+7h20"},{s:"upcoming",n:"Champex-Lac",d:"km 125",c:"~14h45",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~18h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h30",sp:"estim\u00e9",fin:true}]},
-    {id:"hb",pos:null,name:"Hugo Bernard",dossard:"089",cp:"Courmayeur",km:74,kmTotal:171,time:"09h22",pace:"\u2014",cat:"senior",sex:"h",status:"dnf",clsScratch:"\u2014",clsSex:"\u2014",clsCat:"\u2014",progress:43,eta:"\u2014",etaSub:"Coureur retir\u00e9 de la course",
+    {id:"hb",pos:null,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Hugo Bernard",dossard:"089",cp:"Courmayeur",km:74,kmTotal:171,time:"09h22",pace:"\u2014",cat:"senior",sex:"h",status:"dnf",clsScratch:"\u2014",clsSex:"\u2014",clsCat:"\u2014",progress:43,eta:"\u2014",etaSub:"Coureur retir\u00e9 de la course",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"3h50",sp:"+3h50"},{s:"done",n:"Courmayeur",d:"km 74 \u00b7 Abandon",c:"09h22",sp:"+5h32"}]}
   ],
   ccc:[
-    {id:"il",pos:1,name:"Ines Lacombe",dossard:"C001",cp:"Champex-Lac",km:68,kmTotal:101,time:"08h12",pace:"7,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"1\u00e8re",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:67,eta:"Aujourd'hui \u00b7 20h30",etaSub:"\u00b1 30 min",
+    {id:"il",pos:1,flag:"\uD83C\uDDEE\uD83C\uDDF9",name:"Ines Lacombe",dossard:"C001",cp:"Champex-Lac",km:68,kmTotal:101,time:"08h12",pace:"7,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"1\u00e8re",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:67,eta:"Aujourd'hui \u00b7 20h30",etaSub:"\u00b1 30 min",
      cps:[{s:"done",n:"Courmayeur \u2014 D\u00e9part",d:"km 0",c:"12h00",sp:"\u2014"},{s:"current",n:"Champex-Lac",d:"km 68 \u00b7 Passage il y a 12 min",c:"08h12",sp:"+8h12"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 101",c:"~12h20",sp:"estim\u00e9",fin:true}]},
-    {id:"df",pos:2,name:"David Favre",dossard:"C002",cp:"Champex-Lac",km:68,kmTotal:101,time:"08h19",pace:"6,9 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"1er",clsCat:"1er",progress:67,eta:"Aujourd'hui \u00b7 20h45",etaSub:"\u00b1 30 min",
+    {id:"df",pos:2,flag:"\uD83C\uDDE8\uD83C\uDDED",name:"David Favre",dossard:"C002",cp:"Champex-Lac",km:68,kmTotal:101,time:"08h19",pace:"6,9 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"1er",clsCat:"1er",progress:67,eta:"Aujourd'hui \u00b7 20h45",etaSub:"\u00b1 30 min",
      cps:[{s:"done",n:"Courmayeur \u2014 D\u00e9part",d:"km 0",c:"12h00",sp:"\u2014"},{s:"current",n:"Champex-Lac",d:"km 68 \u00b7 Passage il y a 5 min",c:"08h19",sp:"+8h19"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 101",c:"~12h30",sp:"estim\u00e9",fin:true}]}
   ],
   occ:[
-    {id:"jf",pos:1,name:"Julien Fabre",dossard:"O001",cp:"Arriv\u00e9e",km:55,kmTotal:55,time:"04h51",pace:"8,2 km/h",cat:"senior",sex:"h",status:"finished",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:100,eta:"Termin\u00e9",etaSub:"Temps final : 4h51",
+    {id:"jf",pos:1,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Julien Fabre",dossard:"O001",cp:"Arriv\u00e9e",km:55,kmTotal:55,time:"04h51",pace:"8,2 km/h",cat:"senior",sex:"h",status:"finished",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:100,eta:"Termin\u00e9",etaSub:"Temps final : 4h51",
      cps:[{s:"done",n:"Orsi\u00e8res \u2014 D\u00e9part",d:"km 0",c:"08h00",sp:"\u2014"},{s:"done",n:"Champex-Lac",d:"km 28",c:"2h15",sp:"+2h15"},{s:"done",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 55",c:"4h51",sp:"+2h36"}]},
-    {id:"cn",pos:2,name:"Clara Noel",dossard:"O002",cp:"Arriv\u00e9e",km:55,kmTotal:55,time:"05h03",pace:"7,8 km/h",cat:"senior",sex:"f",status:"finished",clsScratch:"2e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:100,eta:"Termin\u00e9",etaSub:"Temps final : 5h03",
+    {id:"cn",pos:2,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Clara Noel",dossard:"O002",cp:"Arriv\u00e9e",km:55,kmTotal:55,time:"05h03",pace:"7,8 km/h",cat:"senior",sex:"f",status:"finished",clsScratch:"2e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:100,eta:"Termin\u00e9",etaSub:"Temps final : 5h03",
      cps:[{s:"done",n:"Orsi\u00e8res \u2014 D\u00e9part",d:"km 0",c:"08h00",sp:"\u2014"},{s:"done",n:"Champex-Lac",d:"km 28",c:"2h22",sp:"+2h22"},{s:"done",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 55",c:"5h03",sp:"+2h41"}]}
   ],
   tds:[]
@@ -369,17 +380,42 @@ function renderStats(){
 
 function renderCats(){
   var list=cats[activeRace]||[];
-  var el=document.getElementById("catFilters");
-  if(!list.length){el.innerHTML="";return;}
+  var el=document.getElementById("catSelect");
+  if(!list.length){el.style.display="none";return;}
+  el.style.display="block";
   var items=[{id:"all",label:"Toutes cat."}].concat(list.map(function(c){return{id:c.toLowerCase(),label:c};}));
-  el.innerHTML=items.map(function(c){return'<button class="filter-btn'+(activeCat===c.id?" active":"")+'" data-cat="'+c.id+'">'+c.label+'</button>';}).join("");
-  var btns=el.querySelectorAll(".filter-btn");
-  for(var i=0;i<btns.length;i++){
-    btns[i].addEventListener("click",function(){activeCat=this.dataset.cat;renderCats();renderList();});
-  }
+  el.innerHTML=items.map(function(c){return'<option value="'+c.id+'"'+(activeCat===c.id?" selected":"")+'>'+c.label+'</option>';}).join("");
+}
+
+var activeTab="classement";
+function switchTab(tab){
+  activeTab=tab;
+  document.getElementById("tabClassement").classList.toggle("active",tab==="classement");
+  document.getElementById("tabFavoris").classList.toggle("active",tab==="favoris");
+  var filters=document.querySelector(".filters");
+  filters.style.display=tab==="classement"?"flex":"none";
+  renderList();
+}
+function updateFavTab(){
+  var badge=document.getElementById("tabFavCount");
+  if(favs.length>0){badge.style.display="inline-flex";badge.textContent=favs.length;}
+  else{badge.style.display="none";}
 }
 
 function renderList(){
+  var el=document.getElementById("runnerList");
+  if(activeTab==="favoris"){
+    if(!favs.length){el.innerHTML='<div class="empty-favs">Aucun favori pour l\u2019instant.<br>Appuyez sur le coeur d\u2019un coureur pour le suivre ici.</div>';document.getElementById("footerCount").textContent="0 favori";return;}
+    var allR=[];var keys=Object.keys(allRunners);
+    for(var k=0;k<keys.length;k++){for(var i=0;i<allRunners[keys[k]].length;i++){if(favs.indexOf(allRunners[keys[k]][i].id)!==-1)allR.push(allRunners[keys[k]][i]);}}
+    document.getElementById("footerCount").textContent=allR.length+" favori"+(allR.length>1?"s":"");
+    el.innerHTML=allR.map(function(r){
+      var isDnf=r.status==="dnf",isFin=r.status==="finished";
+      var fl=r.flag?'<span style="font-size:14px;margin-right:3px;">'+r.flag+'</span>':''
+      return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+ r.id+'\')">'+'<div class="pos'+(r.pos===1?" gold":"")+'">' +(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
+    }).join("");
+    return;
+  }
   var name=document.getElementById("searchName").value.toLowerCase().trim();
   var doss=document.getElementById("searchDossard").value.toLowerCase().trim();
   var list=(allRunners[activeRace]||[]).filter(function(r){
@@ -389,12 +425,12 @@ function renderList(){
     if(doss&&r.dossard.toLowerCase().indexOf(doss)===-1)return false;
     return true;
   });
-  var el=document.getElementById("runnerList");
   if(!list.length){el.innerHTML='<div class="no-result">Aucun coureur trouv\u00e9</div>';document.getElementById("footerCount").textContent="0 coureur";return;}
   document.getElementById("footerCount").textContent=list.length+" coureur"+(list.length>1?"s":"")+" \u00b7 "+races.filter(function(x){return x.id===activeRace;})[0].total+" inscrits";
   el.innerHTML=list.map(function(r){
     var isDnf=r.status==="dnf",isFin=r.status==="finished";
-    return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+r.id+'\')"><div class="pos'+(r.pos===1?" gold":"")+'">'+(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname"><span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+( isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
+    var fl=r.flag?'<span style="font-size:14px;margin-right:3px;">'+r.flag+'</span>':''
+    return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+ r.id+'\')">'+'<div class="pos'+(r.pos===1?" gold":"")+'">' +(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
   }).join("");
 }
 
@@ -402,6 +438,7 @@ function selectRace(id){
   activeRace=id;activeCat="all";activeSex="all";
   var segs=document.querySelectorAll(".seg-btn");
   for(var i=0;i<segs.length;i++) segs[i].classList.toggle("active",segs[i].dataset.sex==="all");
+  document.getElementById("catSelect").value="all";
   renderRaces();renderStats();renderCats();renderList();
 }
 
@@ -462,7 +499,7 @@ function toggleFav(){
   var idx=favs.indexOf(id);
   if(idx===-1) favs.push(id);
   else favs.splice(idx,1);
-  updateHeart();renderFavsBar();
+  updateHeart();renderFavsBar();updateFavTab();
 }
 
 function toggleFavsList(){
