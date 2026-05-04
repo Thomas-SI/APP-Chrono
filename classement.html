@@ -7,139 +7,120 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --blue:#034065;--green:#50af31;
-  --blue-light:#e8f0f6;--green-light:#eaf7e4;
+  --blue:#034065;--green:#50af31;--blue-light:#e8f0f6;--green-light:#eaf7e4;
   --bg:#ffffff;--bg2:#f5f5f5;--bg3:#eeeeee;
   --text:#111111;--text2:#666666;--text3:#999999;
   --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
-  --r:8px;--rl:12px;--rxl:16px;
-}
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#1a1a1a;--bg2:#242424;--bg3:#2e2e2e;
-    --text:#f0f0f0;--text2:#aaaaaa;--text3:#777777;
-    --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
-    --blue-light:#0d2235;--green-light:#0f2a09;
-  }
+  --r:8px;--rl:12px;
 }
 body{background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;justify-content:center;}
-body.light{
-  --bg:#ffffff;--bg2:#f0f4f7;--bg3:#e2eaf0;
-  --text:#034065;--text2:#4a7a9b;--text3:#8aabbc;
-  --border:rgba(3,64,101,0.12);--border2:rgba(3,64,101,0.22);
-  --blue-light:#e8f0f6;--green-light:#eaf7e4;
+body.dark{
+  --bg:#022d47;--bg2:#034065;--bg3:#0a5278;
+  --text:#ffffff;--text2:rgba(255,255,255,0.7);--text3:rgba(255,255,255,0.45);
+  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
+  --blue-light:rgba(255,255,255,0.08);--green-light:rgba(80,175,49,0.15);
 }
-/* Header reste bleu - seul le contenu change */
-body.light .screen{background:var(--bg);}
-body.light .runner-list{background:var(--bg);}
-body.light .filters{background:var(--bg);}
-body.light .list-header{background:var(--bg);}
-body.light .footer-bar{background:var(--bg);}
-body.light .tab-bar{background:var(--bg);}
-/* Textes classement */
-body.light .pos{color:var(--blue);}
-body.light .pos.gold{color:var(--blue);}
-body.light .rname span{color:var(--text);}
-body.light .rdossard{color:var(--text3);}
-body.light .cp-name-t{color:var(--text);}
-body.light .cp-km{color:var(--text3);}
-body.light .time-val{color:var(--text);}
-body.light .footer-txt{color:var(--text3);}
-/* Filtres */
-body.light .seg-btn{color:var(--text2);background:var(--bg);}
-body.light .seg-btn.active{background:var(--blue);color:#fff;}
-body.light .filter-btn{color:var(--text2);background:var(--bg);}
-body.light .filter-btn.active{background:var(--blue);color:#fff;}
-body.light .cat-select{color:var(--text);background:var(--bg);}
-body.light .tab-btn{color:var(--text3);}
-body.light .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
-/* Fiche athlete */
-body.light .runner-card{background:var(--bg);}
-body.light .cls-box{background:var(--bg2);}
-body.light .cls-val{color:var(--text);}
-body.light .cls-val.first{color:var(--blue);}
-body.light .cls-label{color:var(--text3);}
-body.light .stat-box{background:var(--bg2);}
-body.light .stat-val{color:var(--text);}
-body.light .stat-lbl{color:var(--text3);}
-body.light .prog-val{color:var(--blue);}
-body.light .section-title{color:var(--text3);}
-/* Checkpoints */
-body.light .cp-name{color:var(--text);}
-body.light .cp-name.muted{color:var(--text3);}
-body.light .cp-detail{color:var(--text3);}
-body.light .cp-cumul{color:var(--text);}
-body.light .cp-cumul.muted{color:var(--text3);}
-body.light .cp-split{color:var(--text3);}
-body.light .cp-split.est{color:var(--blue);}
-body.light .cp-weather-txt{color:var(--text3);}
-/* ETA banner */
-body.light .eta-banner{background:var(--blue-light);}
-body.light .eta-label{color:var(--blue);}
-body.light .eta-time{color:var(--blue);}
-/* Notifs */
-body.light .notif-section{background:var(--bg);}
-body.light .notif-label{color:var(--text);}
-body.light .notif-sub{color:var(--text3);}
-body.light .toggle-slider{background:var(--bg3);}
-/* Favoris */
-body.light .favs-bar{background:var(--bg);}
-body.light .favs-title{color:var(--text);}
-body.light .fav-row.active-r{background:var(--blue-light);}
-body.light .fav-name{color:var(--text);}
-body.light .fav-meta{color:var(--text3);}
-body.light .fav-pos{color:var(--blue);}
-body.light .fav-cp{color:var(--text3);}
-/* Messages */
-body.light .msg-title{color:var(--text3);}
-body.light .msg-compose{background:var(--bg);}
-body.light .msg-input{color:var(--text);background:var(--bg);}
-body.light .msg-name-input{color:var(--text);}
-body.light .msg-char{color:var(--text3);}
-body.light .msg-bubble{background:var(--bg);}
-body.light .msg-author{color:var(--blue);}
-body.light .msg-text{color:var(--text);}
-body.light .msg-time{color:var(--text3);}
-body.light .msg-empty{color:var(--text3);}
-/* Battle */
-body.light .battle-btn{color:var(--text2);}
-body.light .battle-card{background:var(--bg);}
-body.light .battle-rname{color:var(--text);}
-body.light .battle-rdoss{color:var(--text3);}
-body.light .battle-vs-txt{color:var(--text3);}
-body.light .battle-gap-label{color:var(--text3);}
-body.light .battle-gap-val{color:var(--blue);}
-body.light .battle-gap-sub{color:var(--text3);}
-body.light .battle-stat-cell.label{color:var(--text3);}
-body.light .battle-stat-cell.val{color:var(--text);}
-body.light .battle-stat-cell.val.winning{color:var(--green);}
-body.light .battle-stat-cell.val.losing{color:var(--text3);}
-body.light .battle-prog-track{background:var(--bg3);}
-body.light .battle-prog-label{color:var(--text3);}
-body.light .battle-search{background:var(--bg);}
-body.light .battle-search-title{color:var(--text);}
-body.light .battle-search-input{background:var(--bg2);color:var(--text);}
-body.light .battle-result-name{color:var(--text);}
-body.light .battle-result-meta{color:var(--text3);}
-body.light .battle-result-pos{color:var(--blue);}
-body.light .battle-close-btn{color:var(--text3);}
-body.light .no-result{color:var(--text3);}
-body.light .dnf-badge{background:#fcebeb;color:#a32d2d;}
-body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
+body.dark .tab-bar{background:#034065;border-color:rgba(255,255,255,0.1);}
+body.dark .tab-btn{background:#034065;color:rgba(255,255,255,0.45);}
+body.dark .tab-btn.active{color:#fff;border-bottom-color:#50af31;}
+body.dark .filters{background:#034065;border-color:rgba(255,255,255,0.1);}
+body.dark .seg{border-color:rgba(255,255,255,0.2);}
+body.dark .seg-btn{background:#034065;color:rgba(255,255,255,0.6);}
+body.dark .seg-btn.active{background:#fff;color:#034065;}
+body.dark .cat-select{background:#034065;color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
+body.dark .list-header{background:#034065;border-color:rgba(255,255,255,0.08);}
+body.dark .list-header span{color:rgba(255,255,255,0.4);}
+body.dark .runner-row{border-color:rgba(255,255,255,0.06);}
+body.dark .runner-row:active{background:rgba(255,255,255,0.05);}
+body.dark .footer-bar{background:#034065;border-color:rgba(255,255,255,0.08);}
+body.dark .runner-card{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .cls-box{background:rgba(255,255,255,0.08);}
+body.dark .stat-box{background:rgba(255,255,255,0.08);}
+body.dark .prog-bg{background:rgba(255,255,255,0.1);}
+body.dark .eta-banner{background:rgba(255,255,255,0.08);}
+body.dark .eta-label{color:rgba(255,255,255,0.6);}
+body.dark .eta-time{color:#fff;}
+body.dark .eta-sub{color:rgba(255,255,255,0.4);}
+body.dark .notif-section{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .notif-row{border-color:rgba(255,255,255,0.08);}
+body.dark .toggle-slider{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);}
+body.dark .favs-bar{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .favs-hdr{border-color:rgba(255,255,255,0.08);}
+body.dark .fav-row{border-color:rgba(255,255,255,0.06);}
+body.dark .fav-row:active{background:rgba(255,255,255,0.05);}
+body.dark .fav-row.active-r{background:rgba(255,255,255,0.1);}
+body.dark .fav-avatar{background:rgba(255,255,255,0.1);color:#fff;}
+body.dark .checkpoint::before{background:rgba(255,255,255,0.1);}
+body.dark .cp-dot.upcoming{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);}
+body.dark .msg-compose{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .msg-footer-bar{border-color:rgba(255,255,255,0.08);}
+body.dark .msg-bubble{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .msg-encouragement-banner{background:rgba(80,175,49,0.12);border-color:rgba(80,175,49,0.2);}
+body.dark .battle-btn{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);}
+body.dark .battle-card{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .battle-top{border-color:rgba(255,255,255,0.08);}
+body.dark .battle-gap{border-color:rgba(255,255,255,0.08);}
+body.dark .battle-stat-cell{border-color:rgba(255,255,255,0.06);}
+body.dark .battle-prog-track{background:rgba(255,255,255,0.1);}
+body.dark .battle-search{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+body.dark .battle-search-input{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:#fff;}
+body.dark .battle-result-row{background:rgba(255,255,255,0.08);}
+body.dark .dnf-badge{background:rgba(226,75,74,0.2);color:#ff8080;}
+body.dark .fin-badge{background:rgba(255,255,255,0.1);color:#fff;}
+.screen{display:none;width:100%;max-width:430px;min-height:100vh;background:var(--bg);flex-direction:column;}
+.screen.active{display:flex;flex-direction:column;}
 
+/* HEADER */
+.header{background:var(--blue);padding:16px 16px 14px;flex-shrink:0;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.org-name{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:3px;}
+.race-name{font-size:17px;font-weight:600;color:#fff;line-height:1.2;}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(80,175,49,0.2);border:0.5px solid rgba(80,175,49,0.4);border-radius:20px;padding:4px 10px;font-size:11px;color:#7fce5e;white-space:nowrap;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#50af31;animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.65);}}
+.theme-btn{background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 10px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);font-family:inherit;-webkit-tap-highlight-color:transparent;}
+.back-home{display:flex;align-items:center;gap:4px;background:none;border:none;padding:0;cursor:pointer;color:rgba(255,255,255,0.55);font-size:11px;font-family:inherit;margin-bottom:4px;-webkit-tap-highlight-color:transparent;}
+
+.races-scroll{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;-webkit-overflow-scrolling:touch;}
+.races-scroll::-webkit-scrollbar{display:none;}
+.race-chip{flex-shrink:0;padding:6px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);cursor:pointer;}
+.race-chip.active{background:var(--green);border-color:var(--green);}
+.chip-name{font-size:12px;font-weight:600;color:#fff;}
+.chip-status{font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px;}
+.race-chip.active .chip-status{color:rgba(255,255,255,0.85);}
+
+.stats-row-h{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
+.stat-box-h{background:rgba(255,255,255,0.08);border-radius:var(--r);padding:8px 10px;text-align:center;}
+.stat-val-h{font-size:17px;font-weight:600;color:#fff;display:block;}
+.stat-val-h.green{color:#50af31;}
+.stat-lbl-h{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;display:block;}
+
+.search-bar{display:flex;gap:7px;}
+.search-wrap{flex:1;position:relative;}
+.s-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none;}
+.search-input{width:100%;height:36px;padding:0 10px 0 32px;background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--r);color:#fff;font-size:13px;font-family:inherit;outline:none;-webkit-appearance:none;}
+.search-input::placeholder{color:rgba(255,255,255,0.4);}
+.dossard-input{width:76px;height:36px;padding:0 8px;background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--r);color:#fff;font-size:13px;font-family:inherit;outline:none;text-align:center;-webkit-appearance:none;}
+.dossard-input::placeholder{color:rgba(255,255,255,0.4);}
+
+/* TABS + FILTERS */
 .tab-bar{display:flex;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
-.tab-btn{flex:1;padding:11px 0;font-size:13px;font-weight:600;color:var(--text3);background:var(--bg);border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;}
+.tab-btn{flex:1;padding:11px 0;font-size:13px;font-weight:600;color:var(--text3);background:var(--bg);border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;-webkit-tap-highlight-color:transparent;}
 .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
 .fav-count-badge{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:#e24b4a;color:#fff;font-size:10px;margin-left:5px;vertical-align:middle;}
+.filters{display:flex;gap:6px;padding:10px 14px;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.filters::-webkit-scrollbar{display:none;}
+.seg{display:flex;border:0.5px solid var(--border2);border-radius:20px;overflow:hidden;flex-shrink:0;}
+.seg-btn{padding:5px 13px;font-size:12px;color:var(--text2);background:var(--bg);border:none;cursor:pointer;font-family:inherit;white-space:nowrap;}
+.seg-btn.active{background:var(--blue);color:#fff;}
 .cat-select{height:28px;padding:0 24px 0 10px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:11px;cursor:pointer;font-family:inherit;flex-shrink:0;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
-.empty-favs{padding:40px 20px;text-align:center;color:var(--text3);font-size:13px;line-height:1.6;}
-.flag{font-size:14px;margin-right:4px;}
 
+/* LIST */
 .list-header{display:grid;grid-template-columns:34px 1fr 90px 58px;gap:4px;padding:7px 14px;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
 .list-header span{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;}
 .list-header span:nth-child(3){text-align:center;}
 .list-header span:last-child{text-align:right;}
-
 .runner-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .runner-row{display:grid;grid-template-columns:34px 1fr 90px 58px;gap:4px;padding:10px 14px;align-items:center;border-bottom:0.5px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .runner-row:active{background:var(--bg2);}
@@ -163,8 +144,9 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .footer-bar{padding:9px 14px;display:flex;justify-content:space-between;border-top:0.5px solid var(--border);background:var(--bg);flex-shrink:0;}
 .footer-txt{font-size:11px;color:var(--text3);}
 .no-result{padding:40px 14px;text-align:center;color:var(--text3);font-size:13px;}
+.empty-favs{padding:40px 20px;text-align:center;color:var(--text3);font-size:13px;line-height:1.6;}
 
-/* ATHLETE */
+/* ATHLETE HEADER */
 .ath-header{background:var(--blue);padding:16px 16px 28px;position:relative;flex-shrink:0;overflow:hidden;}
 .ath-header::after{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(80,175,49,0.1);}
 .back-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative;z-index:1;}
@@ -177,6 +159,7 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .ath-meta{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px;}
 .leader-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,215,0,0.15);border:0.5px solid rgba(255,215,0,0.35);border-radius:20px;padding:2px 8px;font-size:10px;color:#ffd700;margin-top:5px;}
 
+/* ATHLETE BODY */
 .ath-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px;}
 .runner-card{margin:-16px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:14px;position:relative;z-index:2;}
 .classements{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
@@ -187,13 +170,13 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .prog-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;}
 .prog-val{font-weight:600;color:var(--blue);}
 .prog-bg{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;}
-.prog-fill{height:100%;background:var(--green);border-radius:3px;transition:width 0.5s;}
-
+.prog-fill{height:100%;background:var(--green);border-radius:3px;}
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:12px 14px 0;}
 .stat-box{background:var(--bg2);border-radius:var(--r);padding:9px 10px;text-align:center;}
 .stat-val{font-size:15px;font-weight:600;color:var(--text);}
 .stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
 
+/* FAVORIS BAR */
 .favs-bar{margin:12px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;}
 .favs-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .favs-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text);}
@@ -215,6 +198,7 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .fav-cp{font-size:10px;color:var(--text3);margin-top:1px;}
 .active-pill{font-size:10px;background:var(--blue);color:#fff;padding:1px 6px;border-radius:10px;margin-left:4px;vertical-align:middle;}
 
+/* CHECKPOINTS */
 .section-title{font-size:11px;font-weight:600;color:var(--text3);padding:14px 14px 6px;text-transform:uppercase;letter-spacing:0.06em;}
 .checkpoints{padding:0 14px;}
 .checkpoint{display:flex;align-items:flex-start;gap:10px;padding-bottom:14px;position:relative;}
@@ -227,18 +211,23 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .cp-name{font-size:13px;font-weight:600;color:var(--text);}
 .cp-name.muted{color:var(--text3);font-weight:400;}
 .cp-detail{font-size:11px;color:var(--text3);margin-top:1px;}
+.cp-weather{display:flex;align-items:center;gap:4px;margin-top:3px;}
+.cp-weather-icon{font-size:12px;}
+.cp-weather-txt{font-size:10px;color:var(--text3);}
 .cp-times{text-align:right;flex-shrink:0;}
 .cp-cumul{font-size:13px;font-weight:600;color:var(--text);}
 .cp-cumul.muted{color:var(--text3);font-weight:400;}
 .cp-split{font-size:11px;color:var(--text3);margin-top:2px;}
 .cp-split.est{color:var(--blue);font-weight:600;}
 
+/* ETA */
 .eta-banner{margin:12px 14px 0;background:var(--blue-light);border-radius:var(--rl);padding:12px 14px;display:flex;align-items:center;gap:10px;}
 .eta-icon{width:34px;height:34px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .eta-label{font-size:11px;color:var(--blue);margin-bottom:2px;}
 .eta-time{font-size:19px;font-weight:700;color:var(--blue);line-height:1;}
 .eta-sub{font-size:10px;color:#5a88a8;margin-top:2px;}
 
+/* NOTIFS */
 .notif-section{margin:12px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;}
 .notif-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;}
 .notif-row+.notif-row{border-top:0.5px solid var(--border);}
@@ -251,16 +240,15 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .toggle input:checked+.toggle-slider{background:var(--green);border-color:var(--green);}
 .toggle input:checked+.toggle-slider::before{transform:translateX(16px);}
 
-/* ── MÉTÉO ── */
-.cp-weather{display:flex;align-items:center;gap:3px;margin-top:3px;}
-.cp-weather-icon{font-size:12px;}
-.cp-weather-txt{font-size:10px;color:var(--text3);}
-
-/* ── MESSAGES ── */
+/* MESSAGES */
 .msg-section{margin:12px 14px 0;}
 .msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .msg-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
 .msg-count-badge{background:#e24b4a;color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:600;}
+.msg-encouragement-banner{background:var(--green-light);border:0.5px solid rgba(80,175,49,0.2);border-radius:var(--rl);padding:10px 13px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.msg-banner-icon{font-size:20px;}
+.msg-banner-txt{font-size:12px;color:var(--text2);line-height:1.4;}
+.msg-banner-count{font-size:13px;font-weight:600;color:var(--green);}
 .msg-compose{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:10px;}
 .msg-input{width:100%;padding:11px 13px;font-size:13px;font-family:inherit;color:var(--text);background:transparent;border:none;outline:none;resize:none;display:block;}
 .msg-input::placeholder{color:var(--text3);}
@@ -268,8 +256,7 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .msg-name-input{font-size:12px;font-family:inherit;color:var(--text);background:transparent;border:none;outline:none;width:120px;}
 .msg-name-input::placeholder{color:var(--text3);}
 .msg-char{font-size:11px;color:var(--text3);}
-.msg-send-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.msg-send-btn:active{background:#3d8a25;}
+.msg-send-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
 .msg-list{display:flex;flex-direction:column;gap:8px;}
 .msg-bubble{background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:11px 13px;}
 .msg-bubble-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
@@ -277,28 +264,20 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .msg-time{font-size:10px;color:var(--text3);}
 .msg-text{font-size:13px;color:var(--text);line-height:1.4;}
 .msg-empty{text-align:center;padding:20px;font-size:12px;color:var(--text3);}
-.msg-encouragement-banner{background:linear-gradient(135deg,rgba(80,175,49,0.1),rgba(3,64,101,0.1));border:0.5px solid rgba(80,175,49,0.2);border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.msg-banner-icon{font-size:20px;}
-.msg-banner-txt{font-size:12px;color:var(--text2);line-height:1.4;}
-.msg-banner-count{font-size:13px;font-weight:600;color:var(--green);}
 
-/* ── BATTLE ── */
+/* BATTLE */
 .battle-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 28px);margin:12px 14px 0;padding:12px;background:transparent;border:0.5px solid var(--border2);border-radius:12px;font-size:13px;font-weight:600;color:var(--text2);font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.battle-btn:active{background:var(--bg2);}
 .battle-section{margin:12px 14px 0;}
 .battle-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;}
 .battle-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 12px;gap:8px;border-bottom:0.5px solid var(--border);}
 .battle-runner{text-align:center;}
-.battle-runner.right{text-align:center;}
 .battle-avatar-w{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;margin:0 auto 5px;}
 .battle-avatar-w.blue{background:var(--blue);}
 .battle-avatar-w.green{background:var(--green);}
 .battle-rname{font-size:11px;font-weight:600;color:var(--text);line-height:1.2;}
 .battle-rdoss{font-size:10px;color:var(--text3);margin-top:1px;}
-.battle-vs{text-align:center;}
-.battle-vs-txt{font-size:18px;font-weight:800;color:var(--text3);font-family:-apple-system,sans-serif;}
+.battle-vs-txt{text-align:center;font-size:18px;font-weight:800;color:var(--text3);}
 .battle-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
-.battle-stat-row{display:contents;}
 .battle-stat-cell{padding:10px 8px;text-align:center;border-bottom:0.5px solid var(--border);border-right:0.5px solid var(--border);}
 .battle-stat-cell:nth-child(3n){border-right:none;}
 .battle-stat-cell.label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;font-weight:600;}
@@ -307,20 +286,19 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
 .battle-stat-cell.val.losing{color:var(--text3);}
 .battle-gap{padding:12px;text-align:center;border-bottom:0.5px solid var(--border);}
 .battle-gap-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
-.battle-gap-val{font-size:22px;font-weight:700;color:var(--blue);}
+.battle-gap-val{font-size:18px;font-weight:700;color:var(--blue);}
 .battle-gap-sub{font-size:11px;color:var(--text3);margin-top:2px;}
 .battle-progress{padding:12px;}
 .battle-prog-label{font-size:10px;color:var(--text3);margin-bottom:6px;}
 .battle-prog-track{position:relative;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;}
-.battle-prog-a{position:absolute;left:0;top:0;height:100%;background:var(--blue);border-radius:3px;transition:width 0.5s;}
-.battle-prog-b{position:absolute;right:0;top:0;height:100%;background:var(--green);border-radius:3px;transition:width 0.5s;}
+.battle-prog-a{position:absolute;left:0;top:0;height:100%;background:var(--blue);border-radius:3px;}
+.battle-prog-b{position:absolute;right:0;top:0;height:100%;background:var(--green);border-radius:3px;}
 .battle-search{margin:12px 14px 0;background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:12px 13px;}
 .battle-search-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;}
 .battle-search-input{width:100%;height:34px;padding:0 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;-webkit-appearance:none;}
 .battle-search-input::placeholder{color:var(--text3);}
 .battle-results{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
 .battle-result-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg2);border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.battle-result-row:active{background:var(--bg3);}
 .battle-result-name{font-size:12px;font-weight:600;color:var(--text);}
 .battle-result-meta{font-size:10px;color:var(--text3);margin-top:1px;}
 .battle-result-pos{font-size:12px;font-weight:600;color:var(--blue);}
@@ -334,17 +312,17 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
   <div class="header">
     <div class="header-top">
       <div>
-        <button onclick="window.location.href='index.html'" style="display:flex;align-items:center;gap:4px;background:none;border:none;padding:0;cursor:pointer;color:rgba(255,255,255,0.55);font-size:11px;font-family:inherit;margin-bottom:4px;-webkit-tap-highlight-color:transparent;">
+        <button class="back-home" onclick="window.location.href='index.html'">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
           Accueil
         </button>
         <div class="race-name" id="activeRaceName">Ultra Trail du Mont Blanc</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+      <div class="header-right">
         <div class="live-badge"><div class="live-dot"></div>En direct</div>
-        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+        <button class="theme-btn" onclick="toggleTheme()">
           <svg id="themeIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <span id="themeLabel">Clair</span>
+          <span id="themeLabel">Sombre</span>
         </button>
       </div>
     </div>
@@ -435,11 +413,9 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
     <div class="section-title">Parcours</div>
     <div class="checkpoints" id="athCheckpoints"></div>
     <div class="eta-banner">
-      <div class="eta-icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 15.5"/></svg>
-      </div>
+      <div class="eta-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 15.5"/></svg></div>
       <div>
-        <div class="eta-label">Arrivée estimée</div>
+        <div class="eta-label">Arriv\u00e9e estim\u00e9e</div>
         <div class="eta-time" id="athEta">-</div>
         <div class="eta-sub" id="athEtaSub">-</div>
       </div>
@@ -447,11 +423,11 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
     <div class="section-title">Notifications</div>
     <div class="notif-section">
       <div class="notif-row">
-        <div><div class="notif-label">Me prévenir à l'arrivée</div><div class="notif-sub" id="notifSub1">Alerte dès que le coureur franchit la ligne</div></div>
+        <div><div class="notif-label">Me pr\u00e9venir \u00e0 l'arriv\u00e9e</div><div class="notif-sub" id="notifSub1">Alerte d\u00e8s que le coureur franchit la ligne</div></div>
         <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
       </div>
       <div class="notif-row">
-        <div><div class="notif-label">À chaque checkpoint</div><div class="notif-sub">Passage, temps et classement mis à jour</div></div>
+        <div><div class="notif-label">\u00c0 chaque checkpoint</div><div class="notif-sub">Passage, temps et classement mis \u00e0 jour</div></div>
         <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
       </div>
       <div class="notif-row">
@@ -459,7 +435,6 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
         <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
       </div>
     </div>
-    <!-- MESSAGES D'ENCOURAGEMENT -->
     <div class="msg-section" id="msgSection">
       <div class="msg-header">
         <div class="msg-title">Messages d'encouragement</div>
@@ -480,24 +455,18 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
           <button class="msg-send-btn" onclick="sendMsg()">Envoyer</button>
         </div>
       </div>
-      <div class="msg-list" id="msgList">
-        <div class="msg-empty">Aucun message pour l'instant</div>
-      </div>
+      <div class="msg-list" id="msgList"><div class="msg-empty">Aucun message pour l'instant</div></div>
     </div>
-
-    <!-- BATTLE LIVE -->
-    <button class="battle-btn" id="battleToggleBtn" onclick="toggleBattleSearch()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 9H17v1.5c0 .83-.67 1.5-1.5 1.5S14 11.33 14 10.5 14.67 9 15.5 9z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 15H7v-1.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+    <button class="battle-btn" onclick="toggleBattleSearch()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
       Lancer un Battle live
     </button>
-
     <div class="battle-search" id="battleSearch" style="display:none">
       <div class="battle-search-title">Chercher un adversaire</div>
       <input class="battle-search-input" id="battleSearchInput" type="text" placeholder="Nom ou numero de dossard..." oninput="searchBattle()">
       <div class="battle-results" id="battleResults"></div>
       <button class="battle-close-btn" onclick="closeBattleSearch()">Annuler</button>
     </div>
-
     <div class="battle-section" id="battleSection" style="display:none">
       <div class="battle-card">
         <div class="battle-top">
@@ -506,8 +475,8 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
             <div class="battle-rname" id="battleNameA">-</div>
             <div class="battle-rdoss" id="battleDossA">-</div>
           </div>
-          <div class="battle-vs"><div class="battle-vs-txt">VS</div></div>
-          <div class="battle-runner right">
+          <div><div class="battle-vs-txt">VS</div></div>
+          <div class="battle-runner">
             <div class="battle-avatar-w green" id="battleAvB">?</div>
             <div class="battle-rname" id="battleNameB">-</div>
             <div class="battle-rdoss" id="battleDossB">-</div>
@@ -519,9 +488,9 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
           <div class="battle-gap-sub" id="battleGapSub">-</div>
         </div>
         <div class="battle-stats">
-          <div class="battle-stat-cell label" id="battleStatA1">-</div>
+          <div class="battle-stat-cell val" id="battleStatA1">-</div>
           <div class="battle-stat-cell label">Position</div>
-          <div class="battle-stat-cell label" id="battleStatB1">-</div>
+          <div class="battle-stat-cell val" id="battleStatB1">-</div>
           <div class="battle-stat-cell val" id="battleStatA2">-</div>
           <div class="battle-stat-cell label">Checkpoint</div>
           <div class="battle-stat-cell val" id="battleStatB2">-</div>
@@ -533,7 +502,7 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
           <div class="battle-stat-cell val" id="battleStatB4">-</div>
         </div>
         <div class="battle-progress">
-          <div class="battle-prog-label" id="battleProgLabel">Progression sur le parcours</div>
+          <div class="battle-prog-label" id="battleProgLabel">Progression</div>
           <div class="battle-prog-track">
             <div class="battle-prog-a" id="battleProgA" style="width:50%"></div>
             <div class="battle-prog-b" id="battleProgB" style="width:50%"></div>
@@ -542,7 +511,6 @@ body.light .fin-badge{background:var(--blue-light);color:var(--blue);}
       </div>
       <button class="battle-close-btn" onclick="closeBattle()">Fermer le battle</button>
     </div>
-
     <div style="height:24px;"></div>
   </div>
 </div>
@@ -554,20 +522,19 @@ var races=[
   {id:"occ",name:"OCC",label:"Orsi\u00e8res Champex Chamonix",dist:"55 km",status:"finished",total:2100,running:0,finished:1876},
   {id:"tds",name:"TDS",label:"Sur les Traces des Ducs de Savoie",dist:"145 km",status:"tomorrow",total:1600,running:0,finished:0}
 ];
-
 var allRunners={
   utmb:[
     {id:"fd",pos:1,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Fran\u00e7ois Dupont",dossard:"012",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h44",pace:"6,8 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"1er",clsSex:"1er",clsCat:"1er",progress:73,eta:"Demain \u00b7 14h30",etaSub:"\u00b1 45 min selon le rythme actuel",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31 \u00b7 D+ 1 850 m",c:"3h58",sp:"+3h58"},{s:"done",n:"Courmayeur",d:"km 74 \u00b7 Ravitaillement",c:"10h21",sp:"+6h23"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 23 min",c:"13h44",sp:"+3h23"},{s:"upcoming",n:"Vallorcine",d:"km 149 \u00b7 ~3h15 estim\u00e9",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h30",sp:"estim\u00e9",fin:true}]},
-    {id:"kb",pos:2,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Karim Benlahsen",dossard:"008",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h51",pace:"6,6 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"2e",clsCat:"2e",progress:73,eta:"Demain \u00b7 14h50",etaSub:"\u00b1 45 min selon le rythme actuel",
+    {id:"kb",pos:2,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Karim Benlahsen",dossard:"008",cp:"Champex-Lac",km:125,kmTotal:171,time:"13h51",pace:"6,6 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"2e",clsSex:"2e",clsCat:"2e",progress:73,eta:"Demain \u00b7 14h50",etaSub:"\u00b1 45 min",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h05",sp:"+4h05"},{s:"done",n:"Courmayeur",d:"km 74",c:"10h29",sp:"+6h24"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 18 min",c:"13h51",sp:"+3h22"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h15",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h50",sp:"estim\u00e9",fin:true}]},
-    {id:"je",pos:3,flag:"\uD83C\uDDF8\uD83C\uDDEA",name:"Jonas Eriksson",dossard:"003",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h02",pace:"6,4 km/h",cat:"veteran",sex:"h",status:"running",clsScratch:"3e",clsSex:"3e",clsCat:"1er",progress:73,eta:"Demain \u00b7 15h10",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"je",pos:3,flag:"\uD83C\uDDF8\uD83C\uDDEA",name:"Jonas Eriksson",dossard:"003",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h02",pace:"6,4 km/h",cat:"veteran",sex:"h",status:"running",clsScratch:"3e",clsSex:"3e",clsCat:"1er",progress:73,eta:"Demain \u00b7 15h10",etaSub:"\u00b1 1h",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h12",sp:"+4h12"},{s:"done",n:"Courmayeur",d:"km 74",c:"10h44",sp:"+6h32"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 9 min",c:"14h02",sp:"+3h18"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h30",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h10",sp:"estim\u00e9",fin:true}]},
-    {id:"ml",pos:4,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Marc Lefebvre",dossard:"347",cp:"Courmayeur",km:74,kmTotal:171,time:"14h22",pace:"6,2 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"4e",clsSex:"4e",clsCat:"3e",progress:43,eta:"Demain \u00b7 16h45",etaSub:"\u00b1 1h selon le rythme actuel",
-     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h14",sp:"+4h14"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 45 min",c:"11h37",sp:"+7h23"},{s:"upcoming",n:"Champex-Lac",d:"km 125 \u00b7 ~2h estim\u00e9",c:"~13h37",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h45",sp:"estim\u00e9",fin:true}]},
-    {id:"lm",pos:5,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"L\u00e9a Martineau",dossard:"021",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h28",pace:"6,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"5e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:73,eta:"Demain \u00b7 15h30",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"ml",pos:4,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Marc Lefebvre",dossard:"347",cp:"Courmayeur",km:74,kmTotal:171,time:"14h22",pace:"6,2 km/h",cat:"senior",sex:"h",status:"running",clsScratch:"4e",clsSex:"4e",clsCat:"3e",progress:43,eta:"Demain \u00b7 16h45",etaSub:"\u00b1 1h",
+     cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h14",sp:"+4h14"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 45 min",c:"11h37",sp:"+7h23"},{s:"upcoming",n:"Champex-Lac",d:"km 125",c:"~13h37",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~20h45",sp:"estim\u00e9",fin:true}]},
+    {id:"lm",pos:5,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"L\u00e9a Martineau",dossard:"021",cp:"Champex-Lac",km:125,kmTotal:171,time:"14h28",pace:"6,1 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"5e",clsSex:"1\u00e8re",clsCat:"1\u00e8re",progress:73,eta:"Demain \u00b7 15h30",etaSub:"\u00b1 1h",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h22",sp:"+4h22"},{s:"done",n:"Courmayeur",d:"km 74",c:"11h05",sp:"+6h43"},{s:"current",n:"Champex-Lac",d:"km 125 \u00b7 Passage il y a 5 min",c:"14h28",sp:"+3h23"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~17h45",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h30",sp:"estim\u00e9",fin:true}]},
-    {id:"sa",pos:7,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Sophie Aubert",dossard:"034",cp:"Courmayeur",km:74,kmTotal:171,time:"14h41",pace:"5,9 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"7e",clsSex:"2e",clsCat:"2e",progress:43,eta:"Demain \u00b7 17h30",etaSub:"\u00b1 1h selon le rythme actuel",
+    {id:"sa",pos:7,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Sophie Aubert",dossard:"034",cp:"Courmayeur",km:74,kmTotal:171,time:"14h41",pace:"5,9 km/h",cat:"senior",sex:"f",status:"running",clsScratch:"7e",clsSex:"2e",clsCat:"2e",progress:43,eta:"Demain \u00b7 17h30",etaSub:"\u00b1 1h",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"4h35",sp:"+4h35"},{s:"current",n:"Courmayeur",d:"km 74 \u00b7 Passage il y a 10 min",c:"11h55",sp:"+7h20"},{s:"upcoming",n:"Champex-Lac",d:"km 125",c:"~14h45",sp:"estim\u00e9"},{s:"upcoming",n:"Vallorcine",d:"km 149",c:"~18h00",sp:"estim\u00e9"},{s:"upcoming",n:"Chamonix \u2014 Arriv\u00e9e",d:"km 171",c:"~21h30",sp:"estim\u00e9",fin:true}]},
     {id:"hb",pos:null,flag:"\uD83C\uDDEB\uD83C\uDDF7",name:"Hugo Bernard",dossard:"089",cp:"Courmayeur",km:74,kmTotal:171,time:"09h22",pace:"\u2014",cat:"senior",sex:"h",status:"dnf",clsScratch:"\u2014",clsSex:"\u2014",clsCat:"\u2014",progress:43,eta:"\u2014",etaSub:"Coureur retir\u00e9 de la course",
      cps:[{s:"done",n:"Chamonix \u2014 D\u00e9part",d:"km 0",c:"18h00",sp:"\u2014"},{s:"done",n:"Les Contamines",d:"km 31",c:"3h50",sp:"+3h50"},{s:"done",n:"Courmayeur",d:"km 74 \u00b7 Abandon",c:"09h22",sp:"+5h32"}]}
@@ -586,13 +553,12 @@ var allRunners={
   ],
   tds:[]
 };
-
-var activeRace="utmb",activeSex="all",activeCat="all";
-var currentAthlete=null,favs=[],favsOpen=false;
 var cats={utmb:["Senior","V\u00e9t\u00e9ran"],ccc:["Senior"],occ:["Senior"],tds:[]};
+var activeRace="utmb",activeSex="all",activeCat="all",activeTab="classement";
+var currentAthlete=null,favs=[],favsOpen=false;
 
-function initials(name){return name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();}
-function catLabel(c){return c==="senior"?"Senior":c==="veteran"?"V\u00e9t\u00e9ran":"Espoir";}
+function inits(name){return name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();}
+function catLbl(c){return c==="senior"?"Senior":c==="veteran"?"V\u00e9t\u00e9ran":"Espoir";}
 
 function renderRaces(){
   document.getElementById("racesScroll").innerHTML=races.map(function(r){
@@ -600,30 +566,25 @@ function renderRaces(){
     return '<div class="race-chip'+(r.id===activeRace?" active":"")+(r.status==="finished"?" finished":"")+'" onclick="selectRace(\''+r.id+'\')"><div class="chip-name">'+r.name+' \u00b7 '+r.dist+'</div><div class="chip-status">'+lbl+'</div></div>';
   }).join("");
 }
-
 function renderStats(){
   var r=races.filter(function(x){return x.id===activeRace;})[0];
   var ab=r.total-r.running-r.finished;
   document.getElementById("statsRow").innerHTML='<div class="stat-box-h"><span class="stat-val-h green">'+r.running+'</span><span class="stat-lbl-h">En course</span></div><div class="stat-box-h"><span class="stat-val-h">'+r.finished+'</span><span class="stat-lbl-h">Arriv\u00e9s</span></div><div class="stat-box-h"><span class="stat-val-h">'+ab+'</span><span class="stat-lbl-h">Abandons</span></div>';
   document.getElementById("activeRaceName").textContent=races.filter(function(x){return x.id===activeRace;})[0].label;
 }
-
 function renderCats(){
   var list=cats[activeRace]||[];
   var el=document.getElementById("catSelect");
   if(!list.length){el.style.display="none";return;}
   el.style.display="block";
   var items=[{id:"all",label:"Toutes cat."}].concat(list.map(function(c){return{id:c.toLowerCase(),label:c};}));
-  el.innerHTML=items.map(function(c){return'<option value="'+c.id+'"'+(activeCat===c.id?" selected":"")+'>'+c.label+'</option>';}).join("");
+  el.innerHTML=items.map(function(c){return'<option value="'+c.id+'"'+(activeCat===c.id?' selected':'')+'>'+c.label+'</option>';}).join("");
 }
-
-var activeTab="classement";
 function switchTab(tab){
   activeTab=tab;
   document.getElementById("tabClassement").classList.toggle("active",tab==="classement");
   document.getElementById("tabFavoris").classList.toggle("active",tab==="favoris");
-  var filters=document.querySelector(".filters");
-  filters.style.display=tab==="classement"?"flex":"none";
+  document.querySelector(".filters").style.display=tab==="classement"?"flex":"none";
   renderList();
 }
 function updateFavTab(){
@@ -631,18 +592,17 @@ function updateFavTab(){
   if(favs.length>0){badge.style.display="inline-flex";badge.textContent=favs.length;}
   else{badge.style.display="none";}
 }
-
 function renderList(){
   var el=document.getElementById("runnerList");
   if(activeTab==="favoris"){
-    if(!favs.length){el.innerHTML='<div class="empty-favs">Aucun favori pour l\u2019instant.<br>Appuyez sur le coeur d\u2019un coureur pour le suivre ici.</div>';document.getElementById("footerCount").textContent="0 favori";return;}
+    if(!favs.length){el.innerHTML='<div class="empty-favs">Aucun favori pour l\'instant.<br>Appuie sur le coeur d\'un coureur pour le suivre ici.</div>';document.getElementById("footerCount").textContent="0 favori";return;}
     var allR=[];var keys=Object.keys(allRunners);
     for(var k=0;k<keys.length;k++){for(var i=0;i<allRunners[keys[k]].length;i++){if(favs.indexOf(allRunners[keys[k]][i].id)!==-1)allR.push(allRunners[keys[k]][i]);}}
     document.getElementById("footerCount").textContent=allR.length+" favori"+(allR.length>1?"s":"");
     el.innerHTML=allR.map(function(r){
       var isDnf=r.status==="dnf",isFin=r.status==="finished";
-      var fl=r.flag?'<span style="font-size:14px;margin-right:3px;">'+r.flag+'</span>':''
-      return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+ r.id+'\')">'+'<div class="pos'+(r.pos===1?" gold":"")+'">' +(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
+      var fl=r.flag?'<span style="font-size:14px;margin-right:2px;">'+r.flag+'</span>':'';
+      return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+r.id+'\')"><div class="pos'+(r.pos===1?" gold":"")+'">'+(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':'')+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':'')+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLbl(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
     }).join("");
     return;
   }
@@ -659,93 +619,47 @@ function renderList(){
   document.getElementById("footerCount").textContent=list.length+" coureur"+(list.length>1?"s":"")+" \u00b7 "+races.filter(function(x){return x.id===activeRace;})[0].total+" inscrits";
   el.innerHTML=list.map(function(r){
     var isDnf=r.status==="dnf",isFin=r.status==="finished";
-    var fl=r.flag?'<span style="font-size:14px;margin-right:3px;">'+r.flag+'</span>':''
-    return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+ r.id+'\')">'+'<div class="pos'+(r.pos===1?" gold":"")+'">' +(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':"")+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':"")+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLabel(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
+    var fl=r.flag?'<span style="font-size:14px;margin-right:2px;">'+r.flag+'</span>':'';
+    return '<div class="runner-row'+(isDnf||isFin?" dnf-row":"")+'" onclick="openAthlete(\''+r.id+'\')"><div class="pos'+(r.pos===1?" gold":"")+'">'+(r.pos||"\u2014")+'</div><div class="runner-info"><div class="rname">'+fl+'<span class="sdot '+r.status+'"></span><span>'+r.name+'</span>'+(isDnf?'<span class="dnf-badge">Abandon</span>':'')+(isFin?'<span class="fin-badge">Arriv\u00e9</span>':'')+'</div><div class="rdossard">#'+r.dossard+' \u00b7 '+catLbl(r.cat)+'</div></div><div class="cp-cell"><div class="cp-name-t">'+r.cp+'</div><div class="cp-km">km '+r.km+'</div></div><div class="time-cell"><div class="time-val">'+r.time+'</div></div></div>';
   }).join("");
 }
-
-function selectRace(id){
-  activeRace=id;activeCat="all";activeSex="all";
-  var segs=document.querySelectorAll(".seg-btn");
-  for(var i=0;i<segs.length;i++) segs[i].classList.toggle("active",segs[i].dataset.sex==="all");
-  document.getElementById("catSelect").value="all";
-  // -- THEME --
-var isLight = localStorage.getItem("theme")==="light";
-function applyTheme(){
-  var lbl = document.getElementById("themeLabel");
-  var ico = document.getElementById("themeIcon");
-  if(isLight){
-    document.body.classList.add("light");
-    if(lbl) lbl.textContent="Sombre";
-    if(ico) ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  } else {
-    document.body.classList.remove("light");
-    if(lbl) lbl.textContent="Clair";
-    if(ico) ico.innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-  }
-}
-function toggleTheme(){
-  isLight=!isLight;
-  localStorage.setItem("theme",isLight?"light":"dark");
-  applyTheme();
-}
-renderRaces();renderStats();renderCats();renderList();
-applyTheme();
-}
+function selectRace(id){activeRace=id;activeCat="all";activeSex="all";document.getElementById("catSelect").value="all";var segs=document.querySelectorAll(".seg-btn");for(var i=0;i<segs.length;i++)segs[i].classList.toggle("active",segs[i].dataset.sex==="all");renderRaces();renderStats();renderCats();renderList();}
 
 function openAthlete(id){
-  var r=null;
-  var keys=Object.keys(allRunners);
-  for(var k=0;k<keys.length;k++){
-    var found=allRunners[keys[k]].filter(function(x){return x.id===id;});
-    if(found.length){r=found[0];break;}
-  }
+  var r=null;var keys=Object.keys(allRunners);
+  for(var k=0;k<keys.length;k++){var found=allRunners[keys[k]].filter(function(x){return x.id===id;});if(found.length){r=found[0];break;}}
   if(!r)return;
   currentAthlete=r;
-  document.getElementById("athAvatar").textContent=initials(r.name);
+  document.getElementById("athAvatar").textContent=inits(r.name);
   document.getElementById("athName").textContent=r.name;
-  document.getElementById("athMeta").textContent="Dossard #"+r.dossard+" \u00b7 "+catLabel(r.cat)+" \u00b7 "+races.filter(function(x){return x.id===activeRace;})[0].label;
+  document.getElementById("athMeta").textContent="Dossard #"+r.dossard+" \u00b7 "+catLbl(r.cat)+" \u00b7 "+races.filter(function(x){return x.id===activeRace;})[0].label;
   document.getElementById("leaderBadge").style.display=r.pos===1?"inline-flex":"none";
-  document.getElementById("athClassements").innerHTML='<div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+(r.clsScratch||"\u2014")+'</span><span class="cls-label">Scratch</span></div><div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+(r.clsSex||"\u2014")+'</span><span class="cls-label">'+(r.sex==="h"?"Hommes":"Femmes")+'</span></div><div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+(r.clsCat||"\u2014")+'</span><span class="cls-label">'+catLabel(r.cat)+'</span></div>';
+  document.getElementById("athClassements").innerHTML='<div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+r.clsScratch+'</span><span class="cls-label">Scratch</span></div><div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+r.clsSex+'</span><span class="cls-label">'+(r.sex==="h"?"Hommes":"Femmes")+'</span></div><div class="cls-box"><span class="cls-val'+(r.pos===1?" first":"")+'">'+r.clsCat+'</span><span class="cls-label">'+catLbl(r.cat)+'</span></div>';
   document.getElementById("athProgress").textContent=r.km+" km \u00b7 "+r.progress+" %";
   document.getElementById("athBar").style.width=r.progress+"%";
   document.getElementById("athTime").textContent=r.time;
   document.getElementById("athPace").textContent=r.pace;
   document.getElementById("athEta").textContent=r.eta;
   document.getElementById("athEtaSub").textContent=r.etaSub;
-  document.getElementById("notifSub1").textContent="Alerte d\u00e8s que "+r.name.split(" ")[0]+" franchit la ligne";
+  var wmap={"Chamonix":{i:"\u2600\uFE0F",t:"18\u00b0C"},"Les Contamines":{i:"\u26C5",t:"14\u00b0C"},"Courmayeur":{i:"\u2600\uFE0F",t:"16\u00b0C"},"Champex":{i:"\u2601\uFE0F",t:"9\u00b0C"},"Vallorcine":{i:"\uD83C\uDF27\uFE0F",t:"7\u00b0C \u00b7 Pluie"},"Orsi\u00e8res":{i:"\u2600\uFE0F",t:"15\u00b0C"}};
+  function getW(n){var ks=Object.keys(wmap);for(var i=0;i<ks.length;i++){if(n.indexOf(ks[i])!==-1)return wmap[ks[i]];}return null;}
   document.getElementById("athCheckpoints").innerHTML=r.cps.map(function(cp,i){
     var isLast=i===r.cps.length-1;
     var dot="";
-    if(cp.s==="done") dot='<svg width="8" height="8" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    else if(cp.s==="current") dot='<svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5" fill="#fff"/></svg>';
-    else if(cp.fin) dot='<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5h7M5.5 2 8 4.5 5.5 7" stroke="var(--text3)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    if(cp.s==="done")dot='<svg width="8" height="8" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    else if(cp.s==="current")dot='<svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5" fill="#fff"/></svg>';
+    else if(cp.fin)dot='<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5h7M5.5 2 8 4.5 5.5 7" stroke="var(--text3)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     var muted=cp.s==="upcoming";
     var est=cp.sp==="estim\u00e9";
-    var wmap={"Chamonix":{i:"\u2600\uFE0F",t:"18\u00b0C"},"Les Contamines":{i:"\u26C5",t:"14\u00b0C"},"Courmayeur":{i:"\u2600\uFE0F",t:"16\u00b0C"},"Champex":{i:"\u2601\uFE0F",t:"9\u00b0C"},"Vallorcine":{i:"\uD83C\uDF27\uFE0F",t:"7\u00b0C \u00b7 Pluie"},"La Fouly":{i:"\u26C5",t:"11\u00b0C"}};
-    var w=null;var wkeys=Object.keys(wmap);for(var wi=0;wi<wkeys.length;wi++){if(cp.n.indexOf(wkeys[wi])!==-1){w=wmap[wkeys[wi]];break;}}
-    var wHtml=w?'<div class="cp-weather"><span class="cp-weather-icon">'+w.i+'</span><span class="cp-weather-txt">'+w.t+'</span></div>':'';
-    return '<div class="checkpoint" style="'+(isLast?"padding-bottom:0":"")+
-      '"><div class="cp-dot '+cp.s+'">'+dot+
-      '</div><div class="cp-main"><div class="cp-name'+(muted?" muted":"")+
-      '">'+cp.n+'</div><div class="cp-detail">'+cp.d+'</div>'+wHtml+
-      '</div><div class="cp-times"><div class="cp-cumul'+(muted?" muted":"")+
-      '">'+cp.c+'</div><div class="cp-split'+(est?" est":"")+
-      '">'+cp.sp+'</div></div></div>';
+    var w=getW(cp.n);
+    var wH=w?'<div class="cp-weather"><span class="cp-weather-icon">'+w.i+'</span><span class="cp-weather-txt">'+w.t+'</span></div>':'';
+    return '<div class="checkpoint" style="'+(isLast?"padding-bottom:0":"")+'"><div class="cp-dot '+cp.s+'">'+dot+'</div><div class="cp-main"><div class="cp-name'+(muted?" muted":"")+'">'+cp.n+'</div><div class="cp-detail">'+cp.d+'</div>'+wH+'</div><div class="cp-times"><div class="cp-cumul'+(muted?" muted":"")+'">'+cp.c+'</div><div class="cp-split'+(est?" est":"")+'">'+cp.sp+'</div></div></div>';
   }).join("");
-  updateHeart();renderFavsBar();
-  resetMessages();resetBattle();
+  updateHeart();renderFavsBar();resetMessages();resetBattle();
   showScreen("screen-athlete");
 }
-
 function goBack(){showScreen("screen-classement");}
-
-function showScreen(id){
-  var screens=document.querySelectorAll(".screen");
-  for(var i=0;i<screens.length;i++) screens[i].classList.remove("active");
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
-}
+function showScreen(id){document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});document.getElementById(id).classList.add("active");window.scrollTo(0,0);}
 
 function updateHeart(){
   var isFav=currentAthlete&&favs.indexOf(currentAthlete.id)!==-1;
@@ -753,187 +667,112 @@ function updateHeart(){
   icon.setAttribute("fill",isFav?"#e24b4a":"none");
   icon.setAttribute("stroke",isFav?"#e24b4a":"#fff");
 }
-
 function toggleFav(){
   if(!currentAthlete)return;
-  var id=currentAthlete.id;
-  var idx=favs.indexOf(id);
-  if(idx===-1) favs.push(id);
-  else favs.splice(idx,1);
+  var idx=favs.indexOf(currentAthlete.id);
+  if(idx===-1)favs.push(currentAthlete.id);else favs.splice(idx,1);
   updateHeart();renderFavsBar();updateFavTab();
 }
-
 function toggleFavsList(){
   favsOpen=!favsOpen;
   document.getElementById("favsList").classList.toggle("open",favsOpen);
   document.getElementById("favsChevron").classList.toggle("open",favsOpen);
 }
-
 function renderFavsBar(){
   var bar=document.getElementById("favsBar");
-  var myFavs=[];
-  var keys=Object.keys(allRunners);
-  for(var k=0;k<keys.length;k++){
-    var runners=allRunners[keys[k]];
-    for(var i=0;i<runners.length;i++){
-      if(favs.indexOf(runners[i].id)!==-1) myFavs.push(runners[i]);
-    }
-  }
+  var myFavs=[];var keys=Object.keys(allRunners);
+  for(var k=0;k<keys.length;k++)for(var i=0;i<allRunners[keys[k]].length;i++)if(favs.indexOf(allRunners[keys[k]][i].id)!==-1)myFavs.push(allRunners[keys[k]][i]);
   if(!myFavs.length){bar.style.display="none";return;}
   bar.style.display="block";
   document.getElementById("favsCount").textContent=myFavs.length;
   document.getElementById("favsList").innerHTML=myFavs.map(function(f){
     var isActive=currentAthlete&&f.id===currentAthlete.id;
-    return '<div class="fav-row'+(isActive?" active-r":"")+'" onclick="'+(isActive?"":"openAthlete('"+f.id+"')")+'"><div class="fav-avatar">'+initials(f.name)+'</div><div class="fav-info"><div class="fav-name">'+f.name+(isActive?'<span class="active-pill">Actuel</span>':"")+'</div><div class="fav-meta">#'+f.dossard+' \u00b7 '+f.cp+'</div></div><div class="fav-right"><div class="fav-pos">'+f.clsScratch+'</div><div class="fav-cp">scratch</div></div></div>';
+    return '<div class="fav-row'+(isActive?" active-r":"")+'" onclick="'+(isActive?"":"openAthlete('"+f.id+"')") +'"><div class="fav-avatar">'+inits(f.name)+'</div><div class="fav-info"><div class="fav-name">'+f.name+(isActive?'<span class="active-pill">Actuel</span>':'')+'</div><div class="fav-meta">#'+f.dossard+' \u00b7 '+f.cp+'</div></div><div class="fav-right"><div class="fav-pos">'+f.clsScratch+'</div><div class="fav-cp">scratch</div></div></div>';
   }).join("");
   if(favsOpen){document.getElementById("favsList").classList.add("open");document.getElementById("favsChevron").classList.add("open");}
 }
 
-
-// -- MESSAGES --
+// MESSAGES
 var athleteMessages={};
-function getAthMsgs(){return currentAthlete&&athleteMessages[currentAthlete.id]?athleteMessages[currentAthlete.id]:[]}
-function resetMessages(){
-  renderMessages();
-  document.getElementById("msgInput").value="";
-  updateMsgChar();
-}
-function updateMsgChar(){
-  var len=document.getElementById("msgInput").value.length;
-  document.getElementById("msgChar").textContent=140-len;
-}
+function resetMessages(){renderMessages();document.getElementById("msgInput").value="";updateMsgChar();}
+function updateMsgChar(){document.getElementById("msgChar").textContent=140-document.getElementById("msgInput").value.length;}
 function sendMsg(){
   var txt=document.getElementById("msgInput").value.trim();
   var name=document.getElementById("msgName").value.trim()||"Anonyme";
   if(!txt||!currentAthlete)return;
-  if(!athleteMessages[currentAthlete.id]) athleteMessages[currentAthlete.id]=[];
+  if(!athleteMessages[currentAthlete.id])athleteMessages[currentAthlete.id]=[];
   athleteMessages[currentAthlete.id].unshift({name:name,txt:txt,time:new Date()});
-  document.getElementById("msgInput").value="";
-  updateMsgChar();
-  renderMessages();
+  document.getElementById("msgInput").value="";updateMsgChar();renderMessages();
 }
-function timeAgo(d){
-  var diff=Math.floor((new Date()-d)/1000);
-  if(diff<60)return "A l'instant";
-  if(diff<3600)return Math.floor(diff/60)+"min";
-  return Math.floor(diff/3600)+"h";
-}
+function timeAgo(d){var s=Math.floor((new Date()-d)/1000);if(s<60)return "A l'instant";if(s<3600)return Math.floor(s/60)+"min";return Math.floor(s/3600)+"h";}
 function renderMessages(){
-  var msgs=getAthMsgs();
+  var msgs=currentAthlete&&athleteMessages[currentAthlete.id]?athleteMessages[currentAthlete.id]:[];
   var badge=document.getElementById("msgCountBadge");
   var banner=document.getElementById("msgBannerCount");
-  if(msgs.length>0){
-    badge.style.display="inline";badge.textContent=msgs.length;
-    banner.textContent=msgs.length+" message"+(msgs.length>1?"s":"")+" en attente";
-  } else {
-    badge.style.display="none";
-    banner.textContent="Sois le premier !";
-  }
+  if(msgs.length>0){badge.style.display="inline";badge.textContent=msgs.length;banner.textContent=msgs.length+" message"+(msgs.length>1?"s":"")+" en attente";}
+  else{badge.style.display="none";banner.textContent="Sois le premier !";}
   var list=document.getElementById("msgList");
-  if(!msgs.length){list.innerHTML='<div class="msg-empty">Aucun message pour l\u2019instant</div>';return;}
-  list.innerHTML=msgs.map(function(m){
-    return '<div class="msg-bubble"><div class="msg-bubble-header"><span class="msg-author">'+ m.name+'</span><span class="msg-time">'+timeAgo(m.time)+'</span></div><div class="msg-text">'+ m.txt+'</div></div>';
-  }).join("");
+  if(!msgs.length){list.innerHTML='<div class="msg-empty">Aucun message pour l\'instant</div>';return;}
+  list.innerHTML=msgs.map(function(m){return'<div class="msg-bubble"><div class="msg-bubble-header"><span class="msg-author">'+m.name+'</span><span class="msg-time">'+timeAgo(m.time)+'</span></div><div class="msg-text">'+m.txt+'</div></div>';}).join("");
 }
 
-// -- BATTLE --
-var battleRunner=null;
-var battleSearchOpen=false;
-function resetBattle(){
-  battleRunner=null;
-  document.getElementById("battleSection").style.display="none";
-  document.getElementById("battleSearch").style.display="none";
-  document.getElementById("battleSearchInput").value="";
-  document.getElementById("battleResults").innerHTML="";
-  battleSearchOpen=false;
-}
-function toggleBattleSearch(){
-  battleSearchOpen=!battleSearchOpen;
-  document.getElementById("battleSearch").style.display=battleSearchOpen?"block":"none";
-  if(battleSearchOpen) document.getElementById("battleSearchInput").focus();
-}
-function closeBattleSearch(){
-  battleSearchOpen=false;
-  document.getElementById("battleSearch").style.display="none";
-}
-function closeBattle(){
-  battleRunner=null;
-  document.getElementById("battleSection").style.display="none";
-}
-function initials(name){return name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();}
+// BATTLE
+var battleRunner=null,battleSearchOpen=false;
+function resetBattle(){battleRunner=null;document.getElementById("battleSection").style.display="none";document.getElementById("battleSearch").style.display="none";document.getElementById("battleSearchInput").value="";document.getElementById("battleResults").innerHTML="";battleSearchOpen=false;}
+function toggleBattleSearch(){battleSearchOpen=!battleSearchOpen;document.getElementById("battleSearch").style.display=battleSearchOpen?"block":"none";}
+function closeBattleSearch(){battleSearchOpen=false;document.getElementById("battleSearch").style.display="none";}
+function closeBattle(){battleRunner=null;document.getElementById("battleSection").style.display="none";}
 function searchBattle(){
   var q=document.getElementById("battleSearchInput").value.toLowerCase().trim();
   var el=document.getElementById("battleResults");
   if(!q){el.innerHTML="";return;}
-  var allR=[];
-  var keys=Object.keys(allRunners);
-  for(var k=0;k<keys.length;k++){
-    for(var i=0;i<allRunners[keys[k]].length;i++){
-      var r=allRunners[keys[k]][i];
-      if(r.id!==currentAthlete.id&&(r.name.toLowerCase().indexOf(q)!==-1||r.dossard.toLowerCase().indexOf(q)!==-1)){
-        allR.push(r);
-      }
-    }
-  }
+  var allR=[];var keys=Object.keys(allRunners);
+  for(var k=0;k<keys.length;k++)for(var i=0;i<allRunners[keys[k]].length;i++){var r=allRunners[keys[k]][i];if(r.id!==currentAthlete.id&&(r.name.toLowerCase().indexOf(q)!==-1||r.dossard.toLowerCase().indexOf(q)!==-1))allR.push(r);}
   allR=allR.slice(0,5);
   if(!allR.length){el.innerHTML='<div class="msg-empty">Aucun coureur trouv\u00e9</div>';return;}
-  el.innerHTML=allR.map(function(r){
-    return '<div class="battle-result-row" onclick="launchBattle(\''+ r.id+'\')"><div><div class="battle-result-name">'+ r.flag+' '+r.name+'</div><div class="battle-result-meta">#'+r.dossard+' \u00b7 '+r.cp+'</div></div><div class="battle-result-pos">'+(r.pos||"\u2014")+'e</div></div>';
-  }).join("");
+  el.innerHTML=allR.map(function(r){return'<div class="battle-result-row" onclick="launchBattle(\''+r.id+'\')"><div><div class="battle-result-name">'+(r.flag||'')+" "+r.name+'</div><div class="battle-result-meta">#'+r.dossard+' \u00b7 '+r.cp+'</div></div><div class="battle-result-pos">'+(r.pos||"\u2014")+'e</div></div>';}).join("");
 }
 function launchBattle(id){
-  var allR=[];
-  var keys=Object.keys(allRunners);
-  for(var k=0;k<keys.length;k++){
-    for(var i=0;i<allRunners[keys[k]].length;i++){
-      if(allRunners[keys[k]][i].id===id){allR.push(allRunners[keys[k]][i]);break;}
-    }
-  }
+  var allR=[];var keys=Object.keys(allRunners);
+  for(var k=0;k<keys.length;k++)for(var i=0;i<allRunners[keys[k]].length;i++)if(allRunners[keys[k]][i].id===id){allR.push(allRunners[keys[k]][i]);break;}
   if(!allR.length)return;
-  battleRunner=allR[0];
-  closeBattleSearch();
-  renderBattle();
+  battleRunner=allR[0];closeBattleSearch();renderBattle();
 }
 function renderBattle(){
   if(!battleRunner||!currentAthlete)return;
   var a=currentAthlete,b=battleRunner;
   document.getElementById("battleSection").style.display="block";
-  document.getElementById("battleAvA").textContent=initials(a.name);
+  document.getElementById("battleAvA").textContent=inits(a.name);
   document.getElementById("battleNameA").textContent=a.name.split(" ")[0];
   document.getElementById("battleDossA").textContent="#"+a.dossard;
-  document.getElementById("battleAvB").textContent=initials(b.name);
+  document.getElementById("battleAvB").textContent=inits(b.name);
   document.getElementById("battleNameB").textContent=b.name.split(" ")[0];
   document.getElementById("battleDossB").textContent="#"+b.dossard;
   var aHead=a.km>b.km;
   var diff=Math.abs(a.km-b.km);
-  var leader=aHead?a:b;
   document.getElementById("battleGapVal").textContent=(aHead?a.name.split(" ")[0]:b.name.split(" ")[0])+" devance de "+diff+" km";
-  document.getElementById("battleGapSub").textContent="Dernier pointage \u00b7 mis \u00e0 jour il y a 3 min";
-  document.getElementById("battleStatA1").textContent=a.clsScratch;
-  document.getElementById("battleStatB1").textContent=b.clsScratch;
+  document.getElementById("battleGapSub").textContent="Mis \u00e0 jour il y a 3 min";
+  document.getElementById("battleStatA1").textContent=a.clsScratch;document.getElementById("battleStatA1").className="battle-stat-cell val"+(aHead?" winning":" losing");
+  document.getElementById("battleStatB1").textContent=b.clsScratch;document.getElementById("battleStatB1").className="battle-stat-cell val"+(!aHead?" winning":" losing");
   document.getElementById("battleStatA2").textContent=a.cp;
   document.getElementById("battleStatB2").textContent=b.cp;
   document.getElementById("battleStatA3").textContent=a.time;
   document.getElementById("battleStatB3").textContent=b.time;
   document.getElementById("battleStatA4").textContent=a.pace;
   document.getElementById("battleStatB4").textContent=b.pace;
-  var progA=Math.round(a.km/a.kmTotal*100);
-  var progB=Math.round(b.km/b.kmTotal*100);
-  document.getElementById("battleProgA").style.width=Math.round(progA/2)+"%";
-  document.getElementById("battleProgB").style.width=Math.round(progB/2)+"%";
-  document.getElementById("battleProgLabel").textContent=a.name.split(" ")[0]+" "+progA+"% \u00b7 "+ b.name.split(" ")[0]+" "+progB+"%";
-  document.getElementById("battleStatA1").className="battle-stat-cell val"+(aHead?" winning":" losing");
-  document.getElementById("battleStatB1").className="battle-stat-cell val"+(!aHead?" winning":" losing");
+  var pA=Math.round(a.km/a.kmTotal*100),pB=Math.round(b.km/b.kmTotal*100);
+  document.getElementById("battleProgA").style.width=Math.round(pA/2)+"%";
+  document.getElementById("battleProgB").style.width=Math.round(pB/2)+"%";
+  document.getElementById("battleProgLabel").textContent=a.name.split(" ")[0]+" "+pA+"% \u00b7 "+b.name.split(" ")[0]+" "+pB+"%";
 }
 
-
-
+// SEX FILTER
 var sexBtns=document.getElementById("sexSeg").querySelectorAll(".seg-btn");
 for(var i=0;i<sexBtns.length;i++){
   sexBtns[i].addEventListener("click",function(){
     activeSex=this.dataset.sex;
     var all=document.querySelectorAll(".seg-btn");
-    for(var j=0;j<all.length;j++) all[j].classList.remove("active");
+    for(var j=0;j<all.length;j++)all[j].classList.remove("active");
     this.classList.add("active");
     renderList();
   });
@@ -941,26 +780,21 @@ for(var i=0;i<sexBtns.length;i++){
 document.getElementById("searchName").addEventListener("input",renderList);
 document.getElementById("searchDossard").addEventListener("input",renderList);
 
-// -- THEME --
-var isLight = localStorage.getItem("theme")==="light";
+// THEME - mode clair par defaut, sombre en option
+var isDark=localStorage.getItem("theme")==="dark";
 function applyTheme(){
-  var lbl = document.getElementById("themeLabel");
-  var ico = document.getElementById("themeIcon");
-  if(isLight){
-    document.body.classList.add("light");
-    if(lbl) lbl.textContent="Sombre";
-    if(ico) ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  if(isDark){
+    document.body.classList.add("dark");
+    document.getElementById("themeLabel").textContent="Clair";
+    document.getElementById("themeIcon").innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
   } else {
-    document.body.classList.remove("light");
-    if(lbl) lbl.textContent="Clair";
-    if(ico) ico.innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    document.body.classList.remove("dark");
+    document.getElementById("themeLabel").textContent="Sombre";
+    document.getElementById("themeIcon").innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
   }
 }
-function toggleTheme(){
-  isLight=!isLight;
-  localStorage.setItem("theme",isLight?"light":"dark");
-  applyTheme();
-}
+function toggleTheme(){isDark=!isDark;localStorage.setItem("theme",isDark?"dark":"light");applyTheme();}
+
 renderRaces();renderStats();renderCats();renderList();
 applyTheme();
 </script>
