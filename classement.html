@@ -309,6 +309,12 @@ body.light .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
 .battle-result-pos{font-size:12px;font-weight:600;color:var(--blue);}
 .battle-close-btn{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;margin-top:8px;padding:8px;background:transparent;border:none;font-size:12px;color:var(--text3);font-family:inherit;cursor:pointer;}
 </style>
+<script>
+// Appliquer le theme immediatement avant le rendu
+(function(){
+  if(localStorage.getItem("theme")==="light") document.documentElement.classList.add("light-pre");
+})();
+</script>
 </head>
 <body>
 
@@ -652,7 +658,29 @@ function selectRace(id){
   var segs=document.querySelectorAll(".seg-btn");
   for(var i=0;i<segs.length;i++) segs[i].classList.toggle("active",segs[i].dataset.sex==="all");
   document.getElementById("catSelect").value="all";
-  renderRaces();renderStats();renderCats();renderList();
+  // -- THEME --
+var isLight = localStorage.getItem("theme")==="light";
+function applyTheme(){
+  var lbl = document.getElementById("themeLabel");
+  var ico = document.getElementById("themeIcon");
+  if(isLight){
+    document.body.classList.add("light");
+    if(lbl) lbl.textContent="Sombre";
+    if(ico) ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  } else {
+    document.body.classList.remove("light");
+    if(lbl) lbl.textContent="Clair";
+    if(ico) ico.innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  }
+}
+function toggleTheme(){
+  isLight=!isLight;
+  localStorage.setItem("theme",isLight?"light":"dark");
+  applyTheme();
+}
+applyTheme();
+
+renderRaces();renderStats();renderCats();renderList();
 }
 
 function openAthlete(id){
@@ -684,7 +712,16 @@ function openAthlete(id){
     else if(cp.fin) dot='<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5h7M5.5 2 8 4.5 5.5 7" stroke="var(--text3)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     var muted=cp.s==="upcoming";
     var est=cp.sp==="estim\u00e9";
-    return '<div class="checkpoint" style="'+(isLast?"padding-bottom:0":"")+'"><div class="cp-dot '+cp.s+'">'+dot+'</div><div class="cp-main"><div class="cp-name'+(muted?" muted":"")+'">'+cp.n+'</div><div class="cp-detail">'+cp.d+'</div></div><div class="cp-times"><div class="cp-cumul'+(muted?" muted":"")+'">'+cp.c+'</div><div class="cp-split'+(est?" est":"")+'">'+cp.sp+'</div></div></div>';
+    var wmap={"Chamonix":{i:"\u2600\uFE0F",t:"18\u00b0C"},"Les Contamines":{i:"\u26C5",t:"14\u00b0C"},"Courmayeur":{i:"\u2600\uFE0F",t:"16\u00b0C"},"Champex":{i:"\u2601\uFE0F",t:"9\u00b0C"},"Vallorcine":{i:"\uD83C\uDF27\uFE0F",t:"7\u00b0C \u00b7 Pluie"},"La Fouly":{i:"\u26C5",t:"11\u00b0C"}};
+    var w=null;var wkeys=Object.keys(wmap);for(var wi=0;wi<wkeys.length;wi++){if(cp.n.indexOf(wkeys[wi])!==-1){w=wmap[wkeys[wi]];break;}}
+    var wHtml=w?'<div class="cp-weather"><span class="cp-weather-icon">'+w.i+'</span><span class="cp-weather-txt">'+w.t+'</span></div>':'';
+    return '<div class="checkpoint" style="'+(isLast?"padding-bottom:0":"")+
+      '"><div class="cp-dot '+cp.s+'">'+dot+
+      '</div><div class="cp-main"><div class="cp-name'+(muted?" muted":"")+
+      '">'+cp.n+'</div><div class="cp-detail">'+cp.d+'</div>'+wHtml+
+      '</div><div class="cp-times"><div class="cp-cumul'+(muted?" muted":"")+
+      '">'+cp.c+'</div><div class="cp-split'+(est?" est":"")+
+      '">'+cp.sp+'</div></div></div>';
   }).join("");
   updateHeart();renderFavsBar();
   resetMessages();resetBattle();
@@ -879,24 +916,7 @@ function renderBattle(){
   document.getElementById("battleStatB1").className="battle-stat-cell val"+(!aHead?" winning":" losing");
 }
 
-var isLight=localStorage.getItem("theme")==="light";
-function applyTheme(){
-  if(isLight){
-    document.body.classList.add("light");
-    document.getElementById("themeLabel").textContent="Sombre";
-    document.getElementById("themeIcon").innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  } else {
-    document.body.classList.remove("light");
-    document.getElementById("themeLabel").textContent="Clair";
-    document.getElementById("themeIcon").innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-  }
-}
-function toggleTheme(){
-  isLight=!isLight;
-  localStorage.setItem("theme",isLight?"light":"dark");
-  applyTheme();
-}
-applyTheme();
+
 
 var sexBtns=document.getElementById("sexSeg").querySelectorAll(".seg-btn");
 for(var i=0;i<sexBtns.length;i++){
@@ -910,6 +930,28 @@ for(var i=0;i<sexBtns.length;i++){
 }
 document.getElementById("searchName").addEventListener("input",renderList);
 document.getElementById("searchDossard").addEventListener("input",renderList);
+
+// -- THEME --
+var isLight = localStorage.getItem("theme")==="light";
+function applyTheme(){
+  var lbl = document.getElementById("themeLabel");
+  var ico = document.getElementById("themeIcon");
+  if(isLight){
+    document.body.classList.add("light");
+    if(lbl) lbl.textContent="Sombre";
+    if(ico) ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  } else {
+    document.body.classList.remove("light");
+    if(lbl) lbl.textContent="Clair";
+    if(ico) ico.innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  }
+}
+function toggleTheme(){
+  isLight=!isLight;
+  localStorage.setItem("theme",isLight?"light":"dark");
+  applyTheme();
+}
+applyTheme();
 
 renderRaces();renderStats();renderCats();renderList();
 </script>
