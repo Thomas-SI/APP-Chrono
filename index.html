@@ -3,412 +3,431 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>[NOM] — Suivi Live</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>[NOM] · Suivi Live</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --blue:#034065;--green:#50af31;
-  --blue-dark:#022d47;--green-dark:#3d8a25;
-  --text:#ffffff;--text2:rgba(255,255,255,0.7);--text3:rgba(255,255,255,0.45);
-}
-body.light{
-  --blue-dark:#f0f4f7;
-  --text:#034065;--text2:rgba(3,64,101,0.7);--text3:rgba(3,64,101,0.45);
-}
-body.light .bg-terrain svg{opacity:0.06;}
-body.light .bg-glow{background:radial-gradient(ellipse,rgba(80,175,49,0.08) 0%,transparent 70%);}
-body.light .brand{color:var(--blue);}
-body.light .brand span{color:var(--green);}
-body.light .hero-title{color:var(--blue);}
-body.light .hero-title .outline{-webkit-text-stroke:1.5px rgba(3,64,101,0.3);}
-body.light .cd-val{color:var(--blue);}
-body.light .countdown-card,body.light .course-card,body.light .parcours-card,body.light .stat-card{background:#fff;border-color:rgba(3,64,101,0.12);}
-body.light .course-header{background:rgba(80,175,49,0.08);border-color:rgba(3,64,101,0.08);}
-body.light .race-row{border-color:rgba(3,64,101,0.06);}
-body.light .race-row:active{background:rgba(3,64,101,0.04);}
-body.light .race-name-t{color:var(--blue);}
-body.light .race-dist{color:var(--text3);}
-body.light .stat-num{color:var(--blue);}
-body.light .stat-num.green{color:var(--green);}
-body.light .cp-name-s{color:var(--text3);}
-body.light .ambiance-bg{background:linear-gradient(135deg,#c8dce8 0%,#b8d4c0 50%,#c8dce8 100%);}
-body.light .ambiance-quote{color:var(--blue);}
-body.light .page-footer .footer-brand{color:var(--text3);}
-body.light .bg-terrain{background:#f0f4f7;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{--blue:#034065;--green:#50af31;--blue-dark:#022d47;--green-dark:#3d8a25;}
+body{background:var(--blue-dark);font-family:'Barlow',sans-serif;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden;}
 
-.theme-toggle{background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);font-family:inherit;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
-body.light .theme-toggle{background:rgba(3,64,101,0.08);border-color:rgba(3,64,101,0.15);color:var(--blue);}
-body{
-  background:var(--blue-dark);
-  font-family:'Barlow',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
-  color:var(--text);
-}
-
-/* BG terrain SVG */
-.bg-terrain{
-  position:fixed;inset:0;z-index:0;
-  background:var(--blue-dark);
-  overflow:hidden;
-}
+.bg-terrain{position:fixed;inset:0;z-index:0;background:var(--blue-dark);overflow:hidden;}
 .bg-terrain svg{width:100%;height:100%;opacity:0.18;}
-.bg-grain{
-  position:fixed;inset:0;z-index:1;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity:0.04;pointer-events:none;
-}
-.bg-glow{
-  position:fixed;top:-20%;left:-10%;width:70%;height:70%;
-  background:radial-gradient(ellipse,rgba(80,175,49,0.12) 0%,transparent 70%);
-  z-index:1;pointer-events:none;
-}
+.bg-glow{position:fixed;top:-20%;left:-10%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(80,175,49,0.12) 0%,transparent 70%);z-index:1;pointer-events:none;}
 
-.page{position:relative;z-index:2;max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+.page{position:relative;z-index:2;width:100%;max-width:430px;min-height:100vh;display:flex;flex-direction:column;}
 
-/* HEADER */
+/* TOP BAR */
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0;}
 .brand{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:0.05em;color:#fff;}
 .brand span{color:var(--green);}
-.live-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(80,175,49,0.15);border:0.5px solid rgba(80,175,49,0.4);border-radius:20px;padding:5px 11px;font-size:11px;color:#7fce5e;font-weight:600;letter-spacing:0.04em;}
+.live-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(80,175,49,0.15);border:0.5px solid rgba(80,175,49,0.4);border-radius:20px;padding:5px 11px;font-size:11px;color:#7fce5e;font-weight:600;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#50af31;animation:pulse 1.4s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.65);}}
 
+/* EVENT SELECTOR */
+.event-selector{margin:18px 20px 0;}
+.event-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:8px;}
+.event-dropdown{position:relative;}
+.event-btn{width:100%;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 14px;cursor:pointer;font-family:inherit;}
+.event-btn-left{display:flex;align-items:center;gap:10px;}
+.event-emoji{font-size:20px;}
+.event-btn-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1.1;}
+.event-btn-date{font-size:11px;color:rgba(255,255,255,0.5);margin-top:1px;}
+.event-chevron{color:rgba(255,255,255,0.5);transition:transform 0.2s;flex-shrink:0;}
+.event-chevron.open{transform:rotate(180deg);}
+.event-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#022d47;border:0.5px solid rgba(255,255,255,0.15);border-radius:12px;overflow:hidden;z-index:50;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.event-menu.open{display:block;}
+.event-option{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;border-bottom:0.5px solid rgba(255,255,255,0.08);}
+.event-option:last-child{border-bottom:none;}
+.event-option:active{background:rgba(255,255,255,0.05);}
+.event-option.active{background:rgba(80,175,49,0.1);}
+.event-option-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.event-option-date{font-size:11px;color:rgba(255,255,255,0.45);}
+.event-option-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;}
+.event-option-badge.live{background:rgba(80,175,49,0.2);color:#7fce5e;}
+.event-option-badge.soon{background:rgba(255,200,0,0.15);color:rgba(255,200,0,0.9);}
+
 /* HERO */
-.hero{padding:28px 20px 0;animation:fadeUp 0.6s ease both;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
-.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:800;line-height:0.95;letter-spacing:-0.01em;color:#fff;margin-bottom:6px;}
-.hero-title .outline{-webkit-text-stroke:1.5px rgba(255,255,255,0.4);color:transparent;}
-.hero-sub{font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5;}
+.hero{padding:22px 20px 0;animation:fadeUp 0.5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:8px;}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:800;line-height:0.95;letter-spacing:-0.01em;color:#fff;margin-bottom:8px;}
+.hero-title .outline{-webkit-text-stroke:1.5px rgba(255,255,255,0.35);color:transparent;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;}
 
 /* COUNTDOWN */
-.countdown-card{margin:24px 20px 0;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:18px 20px;animation:fadeUp 0.6s 0.1s ease both;}
-.countdown-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;}
-.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.countdown-card{margin:18px 20px 0;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px 18px;animation:fadeUp 0.5s 0.05s ease both;}
+.cd-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:10px;}
+.cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
 .cd-block{text-align:center;}
-.cd-val{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;color:#fff;line-height:1;display:block;}
-.cd-unit{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;display:block;}
-.cd-sep{display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;color:var(--green);padding-top:2px;}
+.cd-val{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;color:#fff;line-height:1;display:block;}
+.cd-unit{font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;display:block;}
 
-/* COURSE INFO */
-.course-card{margin:12px 20px 0;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;animation:fadeUp 0.6s 0.2s ease both;}
-.course-header{background:rgba(80,175,49,0.12);border-bottom:0.5px solid rgba(255,255,255,0.08);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
-.course-org{font-size:11px;color:var(--text3);margin-bottom:2px;}
-.course-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.1;}
-.org-logo{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;}
-
-.races-list{padding:8px 0;}
-.race-row{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:0.5px solid rgba(255,255,255,0.06);cursor:pointer;transition:background 0.15s;-webkit-tap-highlight-color:transparent;}
+/* COURSES */
+.courses-card{margin:12px 20px 0;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden;animation:fadeUp 0.5s 0.1s ease both;}
+.courses-header{background:rgba(80,175,49,0.1);border-bottom:0.5px solid rgba(255,255,255,0.08);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.courses-header-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.courses-header-sub{font-size:11px;color:rgba(255,255,255,0.4);}
+.race-row{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:0.5px solid rgba(255,255,255,0.06);cursor:pointer;}
 .race-row:last-child{border-bottom:none;}
-.race-row:active{background:rgba(255,255,255,0.05);}
-.race-left{display:flex;align-items:center;gap:10px;}
-.race-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.race-row:active{background:rgba(255,255,255,0.04);}
+.race-left{display:flex;align-items:center;gap:9px;}
+.race-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .race-dot.live{background:var(--green);animation:pulse 1.4s ease-in-out infinite;}
 .race-dot.finished{background:rgba(255,255,255,0.3);}
 .race-dot.soon{background:rgba(255,200,0,0.7);}
-.race-name-t{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1;}
-.race-dist{font-size:11px;color:var(--text3);margin-top:1px;}
-.race-right{display:flex;align-items:center;gap:8px;}
-.race-status{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.race-name-t{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.race-dist{font-size:11px;color:rgba(255,255,255,0.4);margin-top:1px;}
+.race-status{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;}
 .race-status.live{background:rgba(80,175,49,0.2);color:#7fce5e;}
-.race-status.finished{background:rgba(255,255,255,0.08);color:var(--text3);}
-.race-status.soon{background:rgba(255,200,0,0.1);color:rgba(255,200,0,0.9);}
-.race-arrow{color:var(--text3);}
+.race-status.finished{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);}
+.race-status.soon{background:rgba(255,200,0,0.1);color:rgba(255,200,0,0.85);}
 
 /* STATS */
-.stats-section{margin:12px 20px 0;animation:fadeUp 0.6s 0.3s ease both;}
-.stats-title{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px;}
+.stats-section{margin:12px 20px 0;animation:fadeUp 0.5s 0.15s ease both;}
+.stats-title{font-size:10px;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:8px;}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.stat-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 10px;text-align:center;}
-.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:#fff;display:block;line-height:1;}
+.stat-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 8px;text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff;display:block;line-height:1;}
 .stat-num.green{color:var(--green);}
-.stat-unit{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;display:block;}
+.stat-unit{font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;display:block;}
 
-/* PARCOURS SVG */
-.parcours-section{margin:12px 20px 0;animation:fadeUp 0.6s 0.35s ease both;}
-.parcours-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px 18px;}
-.parcours-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;}
-.profile-svg{width:100%;height:80px;}
-
-/* CHECKPOINTS */
-.cp-strip{display:flex;gap:0;margin-top:10px;overflow-x:auto;scrollbar-width:none;}
+/* PROFIL */
+.parcours-section{margin:12px 20px 0;animation:fadeUp 0.5s 0.18s ease both;}
+.parcours-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 16px;}
+.parcours-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:10px;}
+.profile-svg{width:100%;height:72px;}
+.cp-strip{display:flex;gap:0;margin-top:8px;overflow-x:auto;scrollbar-width:none;}
 .cp-strip::-webkit-scrollbar{display:none;}
-.cp-item{flex-shrink:0;text-align:center;padding:0 10px;}
+.cp-item{flex-shrink:0;text-align:center;padding:0 8px;}
 .cp-item:first-child{padding-left:0;}
-.cp-dot-s{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);margin:0 auto 4px;}
+.cp-dot-s{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);margin:0 auto 3px;}
 .cp-dot-s.passed{background:var(--green);}
 .cp-dot-s.current{background:#fff;animation:pulse 1.4s ease-in-out infinite;}
-.cp-name-s{font-size:9px;color:var(--text3);white-space:nowrap;}
-.cp-km-s{font-size:9px;color:var(--text3);opacity:0.6;}
+.cp-name-s{font-size:9px;color:rgba(255,255,255,0.45);white-space:nowrap;}
+.cp-km-s{font-size:8px;color:rgba(255,255,255,0.3);}
 
-/* CTA */
-.cta-section{margin:20px 20px 0;animation:fadeUp 0.6s 0.4s ease both;}
-.cta-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:var(--green);border:none;border-radius:14px;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:0.04em;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.15s;}
-.cta-btn:active{background:var(--green-dark);}
-.cta-btn svg{flex-shrink:0;}
-.cta-sub{text-align:center;font-size:12px;color:var(--text3);margin-top:10px;}
+/* AMBIANCE */
+.ambiance{margin:12px 20px 0;border-radius:14px;overflow:hidden;height:100px;position:relative;animation:fadeUp 0.5s 0.2s ease both;cursor:pointer;}
+.ambiance:active{opacity:0.9;}
+.ambiance-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;}
+.ambiance-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(2,45,71,0.7) 100%);}
+.ambiance-content{position:relative;z-index:1;text-align:center;}
+.ambiance-main{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.ambiance-sub{font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;}
+.ambiance-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.6);}
+
+/* CTA BUTTONS */
+.cta-section{margin:16px 20px 0;display:flex;flex-direction:column;gap:10px;animation:fadeUp 0.5s 0.25s ease both;}
+.cta-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;border:none;border-radius:14px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.04em;cursor:pointer;transition:opacity 0.15s;}
+.cta-btn:active{opacity:0.85;}
+.cta-btn.primary{background:var(--green);}
+.cta-btn.secondary{background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.2);}
+.cta-sub{text-align:center;font-size:11px;color:rgba(255,255,255,0.35);margin-top:-4px;}
 
 /* FOOTER */
 .page-footer{padding:24px 20px;text-align:center;margin-top:auto;}
-.footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;color:var(--text3);}
-.footer-brand span{color:var(--green);}
-
-/* AMBIANCE STRIP */
-.ambiance{margin:12px 20px 0;border-radius:14px;overflow:hidden;height:110px;position:relative;animation:fadeUp 0.6s 0.25s ease both;}
-.ambiance-bg{width:100%;height:100%;background:linear-gradient(135deg,#034065 0%,#0a5c3a 50%,#034065 100%);display:flex;align-items:center;justify-content:center;position:relative;}
-.ambiance-mountains{position:absolute;bottom:0;left:0;right:0;}
-.ambiance-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(2,45,71,0.8) 100%);}
-.ambiance-text{position:relative;z-index:1;text-align:center;}
-.ambiance-quote{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;letter-spacing:0.04em;line-height:1.2;}
-.ambiance-quote-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px;}
+.footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.25);}
+.footer-brand span{color:rgba(80,175,49,0.6);}
 </style>
 </head>
 <body>
-
 <div class="bg-terrain">
   <svg viewBox="0 0 430 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 600 L60 480 L120 520 L180 400 L240 440 L300 320 L360 380 L430 280 L430 800 L0 800Z" fill="#50af31" opacity="0.3"/>
     <path d="M0 650 L80 550 L160 590 L220 470 L280 510 L340 420 L400 460 L430 380 L430 800 L0 800Z" fill="#034065" opacity="0.5"/>
     <path d="M0 700 L100 620 L180 660 L260 560 L330 600 L390 520 L430 550 L430 800 L0 800Z" fill="#022d47" opacity="0.8"/>
-    <circle cx="340" cy="120" r="60" fill="#50af31" opacity="0.06"/>
-    <circle cx="80" cy="200" r="40" fill="#50af31" opacity="0.04"/>
   </svg>
 </div>
-<div class="bg-grain"></div>
 <div class="bg-glow"></div>
 
 <div class="page">
-
   <div class="top-bar">
     <div class="brand">[<span>NOM</span>]</div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-        <svg id="themeIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <span id="themeLabel">Clair</span>
-      </button>
-      <div class="live-pill"><div class="live-dot"></div>En direct</div>
-    </div>
+    <div class="live-pill"><div class="live-dot"></div>En direct</div>
   </div>
 
-  <div class="hero">
-    <div class="hero-eyebrow">Mont Blanc Events · 2024</div>
-    <div class="hero-title">
-      ULTRA<br>
-      TRAIL<br>
-      <span class="outline">DU MONT</span><br>
-      BLANC
-    </div>
-    <div class="hero-sub">Suivez vos coureurs en temps réel, checkpoint par checkpoint.</div>
-  </div>
-
-  <!-- COMPTE À REBOURS -->
-  <div class="countdown-card">
-    <div class="countdown-label">Départ dans</div>
-    <div class="countdown-grid">
-      <div class="cd-block"><span class="cd-val" id="cdJ">02</span><span class="cd-unit">Jours</span></div>
-      <div class="cd-block"><span class="cd-val" id="cdH">14</span><span class="cd-unit">Heures</span></div>
-      <div class="cd-block"><span class="cd-val" id="cdM">32</span><span class="cd-unit">Min</span></div>
-      <div class="cd-block"><span class="cd-val" id="cdS">08</span><span class="cd-unit">Sec</span></div>
-    </div>
-  </div>
-
-  <!-- PHOTO AMBIANCE -->
-  <div class="ambiance">
-    <div class="ambiance-bg">
-      <svg class="ambiance-mountains" viewBox="0 0 430 110" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <path d="M0 110 L40 60 L80 80 L130 30 L175 55 L215 10 L255 45 L300 20 L345 50 L390 35 L430 55 L430 110Z" fill="#0a5c3a" opacity="0.6"/>
-        <path d="M0 110 L50 75 L100 90 L150 55 L200 70 L250 40 L295 65 L340 45 L385 70 L430 60 L430 110Z" fill="#034065" opacity="0.7"/>
-        <path d="M0 110 L60 88 L120 95 L180 75 L230 85 L280 68 L330 80 L380 72 L430 82 L430 110Z" fill="#022d47" opacity="0.9"/>
-        <circle cx="215" cy="12" r="3" fill="#fff" opacity="0.8"/>
-        <path d="M200 55 L215 10 L230 55" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
-      </svg>
-      <div class="ambiance-overlay"></div>
-      <div class="ambiance-text">
-        <div class="ambiance-quote">171 km · D+ 10 000 m</div>
-        <div class="ambiance-quote-sub">Chamonix · Mont Blanc · Vallée d'Aoste</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- COURSES -->
-  <div class="course-card">
-    <div class="course-header">
-      <div>
-        <div class="course-org">Mont Blanc Events</div>
-        <div class="course-name">Toutes les courses</div>
-      </div>
-      <div class="org-logo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"><path d="M3 17l4-8 4 4 4-6 4 10"/></svg>
-      </div>
-    </div>
-    <div class="races-list">
-      <div class="race-row" onclick="goToClassement()">
-        <div class="race-left">
-          <div class="race-dot live"></div>
+  <!-- SELECTEUR EVENEMENT -->
+  <div class="event-selector">
+    <div class="event-label">Événement</div>
+    <div class="event-dropdown">
+      <div class="event-btn" onclick="toggleMenu()">
+        <div class="event-btn-left">
+          <span class="event-emoji" id="btnEmoji">🏔️</span>
           <div>
-            <div class="race-name-t">UTMB · 171 km</div>
-            <div class="race-dist">D+ 10 000 m · 2 300 coureurs</div>
+            <div class="event-btn-name" id="btnName">Ultra Trail du Mont Blanc</div>
+            <div class="event-btn-date" id="btnDate">Chamonix · 28–31 août 2025</div>
           </div>
         </div>
-        <div class="race-right">
-          <span class="race-status live">En cours</span>
-          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
+        <svg class="event-chevron" id="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="race-row" onclick="goToClassement()">
-        <div class="race-left">
-          <div class="race-dot live"></div>
+      <div class="event-menu" id="eventMenu">
+        <div class="event-option active" onclick="selectEvent('utmb')">
+          <span style="font-size:20px">🏔️</span>
           <div>
-            <div class="race-name-t">CCC · 101 km</div>
-            <div class="race-dist">D+ 6 100 m · 1 850 coureurs</div>
+            <div class="event-option-name">Ultra Trail du Mont Blanc</div>
+            <div class="event-option-date">Chamonix · 28–31 août 2025</div>
           </div>
+          <span class="event-option-badge live">En cours</span>
         </div>
-        <div class="race-right">
-          <span class="race-status live">En cours</span>
-          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-      </div>
-      <div class="race-row" onclick="goToClassement()">
-        <div class="race-left">
-          <div class="race-dot finished"></div>
+        <div class="event-option" onclick="selectEvent('annecy')">
+          <span style="font-size:20px">🏃</span>
           <div>
-            <div class="race-name-t">OCC · 55 km</div>
-            <div class="race-dist">D+ 3 500 m · 2 100 coureurs</div>
+            <div class="event-option-name">Marathon Brooks Annecy</div>
+            <div class="event-option-date">Annecy · 22 juin 2025</div>
           </div>
-        </div>
-        <div class="race-right">
-          <span class="race-status finished">Terminée</span>
-          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-      </div>
-      <div class="race-row">
-        <div class="race-left">
-          <div class="race-dot soon"></div>
-          <div>
-            <div class="race-name-t">TDS · 145 km</div>
-            <div class="race-dist">D+ 9 100 m · 1 600 coureurs</div>
-          </div>
-        </div>
-        <div class="race-right">
-          <span class="race-status soon">Demain</span>
-          <svg class="race-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          <span class="event-option-badge soon">Bientôt</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- STATS GLOBALES -->
-  <div class="stats-section">
-    <div class="stats-title">En ce moment</div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <span class="stat-num green">2 355</span>
-        <span class="stat-unit">En course</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">499</span>
-        <span class="stat-unit">Arrivés</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">127</span>
-        <span class="stat-unit">Abandons</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROFIL PARCOURS -->
-  <div class="parcours-section">
-    <div class="parcours-card">
-      <div class="parcours-label">Profil UTMB · 171 km</div>
-      <svg class="profile-svg" viewBox="0 0 360 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="profileGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#50af31" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#50af31" stop-opacity="0.02"/>
-          </linearGradient>
-        </defs>
-        <path d="M0 75 L15 70 L30 65 L50 45 L65 50 L80 30 L95 35 L110 20 L125 28 L140 60 L155 55 L170 35 L185 40 L200 15 L215 22 L230 50 L245 45 L260 25 L275 30 L290 55 L305 50 L320 40 L340 45 L360 75" fill="none" stroke="#50af31" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M0 75 L15 70 L30 65 L50 45 L65 50 L80 30 L95 35 L110 20 L125 28 L140 60 L155 55 L170 35 L185 40 L200 15 L215 22 L230 50 L245 45 L260 25 L275 30 L290 55 L305 50 L320 40 L340 45 L360 75 L360 80 L0 80Z" fill="url(#profileGrad)"/>
-        <circle cx="110" cy="20" r="3" fill="#fff" opacity="0.8"/>
-        <circle cx="200" cy="15" r="3" fill="#fff" opacity="0.8"/>
-        <line x1="170" y1="0" x2="170" y2="80" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
-      </svg>
-      <div class="cp-strip">
-        <div class="cp-item"><div class="cp-dot-s passed"></div><div class="cp-name-s">Chamonix</div><div class="cp-km-s">km 0</div></div>
-        <div class="cp-item"><div class="cp-dot-s passed"></div><div class="cp-name-s">Contamines</div><div class="cp-km-s">km 31</div></div>
-        <div class="cp-item"><div class="cp-dot-s passed"></div><div class="cp-name-s">Courmayeur</div><div class="cp-km-s">km 74</div></div>
-        <div class="cp-item"><div class="cp-dot-s current"></div><div class="cp-name-s">Champex</div><div class="cp-km-s">km 125</div></div>
-        <div class="cp-item"><div class="cp-dot-s"></div><div class="cp-name-s">Vallorcine</div><div class="cp-km-s">km 149</div></div>
-        <div class="cp-item"><div class="cp-dot-s"></div><div class="cp-name-s">Chamonix</div><div class="cp-km-s">km 171</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div class="cta-section">
-    <button class="cta-btn" onclick="goToClassement()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-      Suivre les coureurs en live
-    </button>
-    <div class="cta-sub">Classement en temps réel · Notifications · Favoris</div>
-  </div>
+  <!-- CONTENU DYNAMIQUE -->
+  <div id="eventContent"></div>
 
   <div class="page-footer">
     <div class="footer-brand">[<span>NOM</span>] · Suivi live de course</div>
   </div>
-
 </div>
 
 <script>
-var target = new Date();
-target.setDate(target.getDate() + 2);
-target.setHours(target.getHours() + 14);
-target.setMinutes(target.getMinutes() + 32);
-target.setSeconds(target.getSeconds() + 8);
+var events = {
+  utmb: {
+    emoji: "🏔️",
+    name: "Ultra Trail du Mont Blanc",
+    date: "Chamonix · 28–31 août 2025",
+    eyebrow: "Mont Blanc Events · 2025",
+    titleLines: ["ULTRA", "TRAIL", '<span class="outline">DU MONT</span>', "BLANC"],
+    sub: "Suivez vos coureurs en temps réel, checkpoint par checkpoint.",
+    status: "live",
+    countdown: new Date(Date.now() + 2*86400000 + 14*3600000 + 32*60000),
+    stats: {running: 2355, finished: 499, abandons: 127},
+    races: [
+      {name:"UTMB · 171 km",dist:"D+ 10 000 m · 2 300 coureurs",status:"live"},
+      {name:"CCC · 101 km",dist:"D+ 6 100 m · 1 850 coureurs",status:"live"},
+      {name:"OCC · 55 km",dist:"D+ 3 500 m · 2 100 coureurs",status:"finished"},
+      {name:"TDS · 145 km",dist:"D+ 9 100 m · 1 600 coureurs",status:"soon"}
+    ],
+    profil: {
+      label: "Profil UTMB · 171 km",
+      path: "M0 65 L15 60 L30 55 L50 35 L65 42 L80 22 L95 28 L110 12 L125 20 L140 52 L155 47 L170 28 L185 33 L200 8 L215 15 L230 42 L245 38 L260 18 L275 24 L290 48 L305 43 L320 33 L340 38 L360 65",
+      checkpoints: [
+        {name:"Chamonix",km:"0",state:"passed"},
+        {name:"Contamines",km:"31",state:"passed"},
+        {name:"Courmayeur",km:"74",state:"passed"},
+        {name:"Champex",km:"125",state:"current"},
+        {name:"Vallorcine",km:"149",state:""},
+        {name:"Arrivée",km:"171",state:""}
+      ]
+    },
+    ambiance: {
+      bg: "linear-gradient(135deg,#034065 0%,#0a5c3a 50%,#034065 100%)",
+      main: "171 km · D+ 10 000 m",
+      sub: "Chamonix · Mont Blanc · Vallée d'Aoste",
+      mountains: true
+    },
+    classementUrl: "classement.html",
+    villageUrl: "village.html"
+  },
+  annecy: {
+    emoji: "🏃",
+    name: "Marathon Brooks Annecy",
+    date: "Annecy · 22 juin 2025",
+    eyebrow: "Annecy Running Events · 2025",
+    titleLines: ["MARATHON", '<span class="outline">BROOKS</span>', "ANNECY"],
+    sub: "Le marathon le plus beau du monde, au bord du lac d'Annecy.",
+    status: "soon",
+    countdown: new Date(Date.now() + 18*86400000 + 8*3600000),
+    stats: {running: 8500, finished: 0, abandons: 0},
+    races: [
+      {name:"Marathon · 42,195 km",dist:"Dénivelé faible · 8 500 coureurs",status:"soon"},
+      {name:"Semi-marathon · 21 km",dist:"7 200 coureurs",status:"soon"},
+      {name:"10 km Brooks",dist:"5 000 coureurs",status:"soon"},
+      {name:"Kids Run · 1 km",dist:"Pour les 6–12 ans",status:"soon"}
+    ],
+    profil: {
+      label: "Profil Marathon · 42 km",
+      path: "M0 60 L30 55 L60 52 L90 56 L120 50 L150 53 L180 48 L210 52 L240 46 L270 50 L300 44 L330 48 L360 60",
+      checkpoints: [
+        {name:"Départ",km:"0",state:""},
+        {name:"Km 10",km:"10",state:""},
+        {name:"Semi",km:"21",state:""},
+        {name:"Km 30",km:"30",state:""},
+        {name:"Km 38",km:"38",state:""},
+        {name:"Arrivée",km:"42",state:""}
+      ]
+    },
+    ambiance: {
+      bg: "linear-gradient(135deg,#1a6b8a 0%,#2d9ecc 50%,#1a6b8a 100%)",
+      main: "42,195 km · Le Paquier",
+      sub: "Annecy · Bord du lac · Vue sur les Alpes",
+      mountains: false
+    },
+    classementUrl: "classement.html",
+    villageUrl: "village.html"
+  }
+};
+
+var currentEvent = "utmb";
+var menuOpen = false;
+
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById("eventMenu").classList.toggle("open", menuOpen);
+  document.getElementById("chevron").classList.toggle("open", menuOpen);
+}
+
+function selectEvent(id) {
+  currentEvent = id;
+  menuOpen = false;
+  document.getElementById("eventMenu").classList.remove("open");
+  document.getElementById("chevron").classList.remove("open");
+  var opts = document.querySelectorAll(".event-option");
+  opts.forEach(function(o, i) { o.classList.toggle("active", i === (id==="utmb"?0:1)); });
+  var ev = events[id];
+  document.getElementById("btnEmoji").textContent = ev.emoji;
+  document.getElementById("btnName").textContent = ev.name;
+  document.getElementById("btnDate").textContent = ev.date;
+  renderEvent(id);
+}
 
 function pad(n){return n<10?"0"+n:String(n);}
+var cdInterval = null;
 
-function updateCountdown(){
-  var now = new Date();
-  var diff = Math.max(0, target - now);
-  var days = Math.floor(diff/86400000);
-  var hours = Math.floor((diff%86400000)/3600000);
-  var mins = Math.floor((diff%3600000)/60000);
-  var secs = Math.floor((diff%60000)/1000);
-  document.getElementById("cdJ").textContent=pad(days);
-  document.getElementById("cdH").textContent=pad(hours);
-  document.getElementById("cdM").textContent=pad(mins);
-  document.getElementById("cdS").textContent=pad(secs);
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-function goToClassement(){
-  window.location.href="classement.html";
-}
-
-var isLight = localStorage.getItem("theme")==="light";
-function applyTheme(){
-  if(isLight){
-    document.body.classList.add("light");
-    document.getElementById("themeLabel").textContent="Sombre";
-    document.getElementById("themeIcon").innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  } else {
-    document.body.classList.remove("light");
-    document.getElementById("themeLabel").textContent="Clair";
-    document.getElementById("themeIcon").innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+function startCountdown(target) {
+  if(cdInterval) clearInterval(cdInterval);
+  function update() {
+    var diff = Math.max(0, target - new Date());
+    var d=Math.floor(diff/86400000);
+    var h=Math.floor((diff%86400000)/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    var el = document.getElementById("cdVals");
+    if(el) el.innerHTML =
+      '<div class="cd-block"><span class="cd-val">'+pad(d)+'</span><span class="cd-unit">Jours</span></div>'+
+      '<div class="cd-block"><span class="cd-val">'+pad(h)+'</span><span class="cd-unit">Heures</span></div>'+
+      '<div class="cd-block"><span class="cd-val">'+pad(m)+'</span><span class="cd-unit">Min</span></div>'+
+      '<div class="cd-block"><span class="cd-val">'+pad(s)+'</span><span class="cd-unit">Sec</span></div>';
   }
+  update();
+  cdInterval = setInterval(update, 1000);
 }
-function toggleTheme(){
-  isLight=!isLight;
-  localStorage.setItem("theme",isLight?"light":"dark");
-  applyTheme();
+
+function renderEvent(id) {
+  var ev = events[id];
+  var racesHtml = ev.races.map(function(r){
+    var dotClass = r.status==="live"?"live":r.status==="finished"?"finished":"soon";
+    var lblClass = dotClass;
+    var lbl = r.status==="live"?"En cours":r.status==="finished"?"Terminée":"Bientôt";
+    return '<div class="race-row" onclick="window.location.href=\''+ev.classementUrl+'\'">'+
+      '<div class="race-left"><div class="race-dot '+dotClass+'"></div>'+
+      '<div><div class="race-name-t">'+r.name+'</div><div class="race-dist">'+r.dist+'</div></div></div>'+
+      '<div style="display:flex;align-items:center;gap:6px;">'+
+      '<span class="race-status '+lblClass+'">'+lbl+'</span>'+
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'+
+      '</div></div>';
+  }).join("");
+
+  var cpHtml = ev.profil.checkpoints.map(function(cp){
+    return '<div class="cp-item">'+
+      '<div class="cp-dot-s '+cp.state+'"></div>'+
+      '<div class="cp-name-s">'+cp.name+'</div>'+
+      '<div class="cp-km-s">km '+cp.km+'</div>'+
+      '</div>';
+  }).join("");
+
+  var mountainsSvg = ev.ambiance.mountains ?
+    '<svg style="position:absolute;bottom:0;left:0;right:0;width:100%" viewBox="0 0 430 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M0 100 L50 55 L100 70 L160 25 L200 45 L230 10 L260 38 L310 18 L360 42 L430 30 L430 100Z" fill="rgba(0,0,0,0.2)"/>'+
+    '<path d="M0 100 L60 65 L120 75 L180 50 L220 60 L255 38 L290 55 L340 42 L390 58 L430 50 L430 100Z" fill="rgba(0,0,0,0.3)"/>'+
+    '</svg>' : '';
+
+  var lakeScene = !ev.ambiance.mountains ?
+    '<svg style="position:absolute;bottom:0;left:0;right:0;width:100%" viewBox="0 0 430 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M0 80 Q215 60 430 80 L430 100 L0 100Z" fill="rgba(0,60,100,0.4)"/>'+
+    '<path d="M0 90 Q215 75 430 90 L430 100 L0 100Z" fill="rgba(0,80,130,0.3)"/>'+
+    '<path d="M40 68 L50 55 L60 68Z" fill="rgba(255,255,255,0.1)"/>'+
+    '<path d="M340 60 L355 45 L370 60Z" fill="rgba(255,255,255,0.1)"/>'+
+    '</svg>' : '';
+
+  var cdLabel = ev.status === "live" ? "Prochain départ dans" : "Départ dans";
+
+  var html =
+    '<div class="hero">'+
+    '<div class="hero-eyebrow">'+ev.eyebrow+'</div>'+
+    '<div class="hero-title">'+ev.titleLines.join('<br>')+'</div>'+
+    '<div class="hero-sub">'+ev.sub+'</div>'+
+    '</div>'+
+
+    '<div class="countdown-card">'+
+    '<div class="cd-label">'+cdLabel+'</div>'+
+    '<div class="cd-grid" id="cdVals"></div>'+
+    '</div>'+
+
+    '<div class="courses-card">'+
+    '<div class="courses-header">'+
+    '<div><div class="courses-header-title">Les courses</div><div class="courses-header-sub">'+ev.name+'</div></div>'+
+    '</div>'+
+    racesHtml+
+    '</div>'+
+
+    '<div class="stats-section">'+
+    '<div class="stats-title">En ce moment</div>'+
+    '<div class="stats-grid">'+
+    '<div class="stat-card"><span class="stat-num green">'+ev.stats.running.toLocaleString('fr')+'</span><span class="stat-unit">En course</span></div>'+
+    '<div class="stat-card"><span class="stat-num">'+ev.stats.finished.toLocaleString('fr')+'</span><span class="stat-unit">Arrivés</span></div>'+
+    '<div class="stat-card"><span class="stat-num">'+ev.stats.abandons+'</span><span class="stat-unit">Abandons</span></div>'+
+    '</div></div>'+
+
+    '<div class="parcours-section">'+
+    '<div class="parcours-card">'+
+    '<div class="parcours-label">'+ev.profil.label+'</div>'+
+    '<svg class="profile-svg" viewBox="0 0 360 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#50af31" stop-opacity="0.4"/><stop offset="100%" stop-color="#50af31" stop-opacity="0.02"/></linearGradient></defs>'+
+    '<path d="'+ev.profil.path+'" fill="none" stroke="#50af31" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'+
+    '<path d="'+ev.profil.path+' L360 72 L0 72Z" fill="url(#pg)"/>'+
+    '</svg>'+
+    '<div class="cp-strip">'+cpHtml+'</div>'+
+    '</div></div>'+
+
+    '<div class="ambiance" onclick="window.location.href=\''+ev.villageUrl+'\'" style="animation:fadeUp 0.5s 0.22s ease both;">'+
+    '<div class="ambiance-bg" style="background:'+ev.ambiance.bg+'">'+
+    mountainsSvg + lakeScene +
+    '<div class="ambiance-overlay"></div>'+
+    '<div class="ambiance-content">'+
+    '<div class="ambiance-main">'+ev.ambiance.main+'</div>'+
+    '<div class="ambiance-sub">'+ev.ambiance.sub+'</div>'+
+    '</div>'+
+    '<svg class="ambiance-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'+
+    '</div></div>'+
+
+    '<div class="cta-section">'+
+    '<button class="cta-btn primary" onclick="window.location.href=\''+ev.classementUrl+'\'">'+
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>'+
+    'Suivre les coureurs en live'+
+    '</button>'+
+    '<div class="cta-sub">Classement · Favoris · Notifications</div>'+
+    '<button class="cta-btn secondary" onclick="window.location.href=\''+ev.villageUrl+'\'">'+
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'+
+    'Plan du Village'+
+    '</button>'+
+    '<div class="cta-sub">Stands · Restauration · Marques · Animations</div>'+
+    '</div>';
+
+  document.getElementById("eventContent").innerHTML = html;
+  startCountdown(ev.countdown);
 }
-applyTheme();
+
+// Fermer menu si clic ailleurs
+document.addEventListener("click", function(e){
+  if(menuOpen && !e.target.closest(".event-dropdown")){
+    menuOpen=false;
+    document.getElementById("eventMenu").classList.remove("open");
+    document.getElementById("chevron").classList.remove("open");
+  }
+});
+
+renderEvent("utmb");
 </script>
 </body>
 </html>
