@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Plan du Village · Marathon Brooks Annecy</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{--blue:#034065;--green:#50af31;--bg:#f0f4f7;--white:#fff;--text:#034065;--text2:#4a7a9b;--text3:#8aabbc;--border:rgba(3,64,101,0.12);}
+body{background:#000;font-family:'Barlow',sans-serif;height:100vh;overflow:hidden;display:flex;justify-content:center;}
+.page{width:100%;max-width:430px;height:100vh;display:flex;flex-direction:column;position:relative;}
+
+/* HEADER */
+.header{background:var(--blue);padding:14px 16px 12px;flex-shrink:0;position:relative;z-index:10;}
+.back-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.back-btn{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,0.6);font-size:12px;cursor:pointer;background:none;border:none;font-family:inherit;padding:0;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#fff;}
+.page-sub{font-size:11px;color:rgba(255,255,255,0.55);}
+
+/* FILTRES */
+.filters{display:flex;gap:6px;padding:8px 14px;overflow-x:auto;scrollbar-width:none;background:var(--white);flex-shrink:0;position:relative;z-index:10;box-shadow:0 2px 8px rgba(3,64,101,0.08);}
+.filters::-webkit-scrollbar{display:none;}
+.filter-btn{flex-shrink:0;height:28px;padding:0 11px;border-radius:20px;border:0.5px solid var(--border);background:var(--white);color:var(--text2);font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px;}
+.filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* MAP CONTAINER */
+.map-container{flex:1;position:relative;overflow:hidden;background:#a8c8a0;cursor:grab;}
+.map-container.grabbing{cursor:grabbing;}
+.map-inner{position:absolute;transform-origin:0 0;will-change:transform;}
+.map-inner svg{display:block;}
+
+/* ZOOM CONTROLS */
+.zoom-controls{position:absolute;right:12px;bottom:16px;display:flex;flex-direction:column;gap:6px;z-index:20;}
+.zoom-btn{width:36px;height:36px;background:var(--white);border:0.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text);box-shadow:0 2px 8px rgba(3,64,101,0.15);font-family:inherit;}
+.zoom-hint{position:absolute;left:12px;bottom:16px;background:rgba(3,64,101,0.7);color:#fff;font-size:10px;padding:5px 10px;border-radius:20px;z-index:20;}
+
+/* FICHE */
+.overlay{position:absolute;inset:0;background:rgba(3,64,101,0.25);z-index:30;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.overlay.show{opacity:1;pointer-events:all;}
+.stand-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--white);border-radius:20px 20px 0 0;box-shadow:0 -4px 30px rgba(3,64,101,0.2);transform:translateY(100%);transition:transform 0.3s ease;z-index:40;max-height:80vh;display:flex;flex-direction:column;}
+.stand-sheet.open{transform:translateY(0);}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0;flex-shrink:0;}
+.sheet-close{position:absolute;top:12px;right:14px;background:var(--bg);border:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text2);line-height:1;}
+.sheet-scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px;}
+.sheet-header{display:flex;align-items:flex-start;gap:12px;padding:14px 16px 12px;}
+.sheet-icon-big{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.sheet-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text);line-height:1.1;}
+.sheet-cat-lbl{font-size:11px;font-weight:600;color:var(--text2);margin-top:3px;text-transform:uppercase;letter-spacing:0.05em;}
+.sheet-body{padding:0 16px;}
+.info-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.info-label{font-size:10px;color:var(--text3);margin-bottom:1px;}
+.info-val{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;}
+
+/* CARTE RESTAU */
+.menu-section{padding:0 16px;}
+.menu-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;padding:12px 0 8px;border-top:0.5px solid var(--border);}
+.menu-cat{font-size:12px;font-weight:600;color:var(--blue);margin:10px 0 6px;}
+.menu-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--border);}
+.menu-item:last-child{border-bottom:none;}
+.menu-item-name{font-size:13px;color:var(--text);font-weight:500;}
+.menu-item-desc{font-size:11px;color:var(--text3);margin-top:1px;}
+.menu-item-price{font-size:13px;font-weight:700;color:var(--blue);flex-shrink:0;margin-left:10px;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="back-row">
+      <button class="back-btn" onclick="window.location.href='index.html'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Accueil
+      </button>
+    </div>
+    <div class="page-title">Plan du Village</div>
+    <div class="page-sub">Marathon Brooks Annecy · Le Paquier</div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('all',this)"><span class="fdot" style="background:#034065"></span>Tout</button>
+    <button class="filter-btn" onclick="setFilter('podium',this)"><span class="fdot" style="background:#f0c040"></span>Podium</button>
+    <button class="filter-btn" onclick="setFilter('dossard',this)"><span class="fdot" style="background:#50af31"></span>Dossards</button>
+    <button class="filter-btn" onclick="setFilter('restauration',this)"><span class="fdot" style="background:#e24b4a"></span>Restauration</button>
+    <button class="filter-btn" onclick="setFilter('marque',this)"><span class="fdot" style="background:#8b5cf6"></span>Marques</button>
+    <button class="filter-btn" onclick="setFilter('eau',this)"><span class="fdot" style="background:#0ea5e9"></span>Eau</button>
+    <button class="filter-btn" onclick="setFilter('animation',this)"><span class="fdot" style="background:#f97316"></span>Animations</button>
+  </div>
+
+  <div class="map-container" id="mapContainer">
+    <div class="map-inner" id="mapInner">
+      <svg id="mapSvg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" width="900" height="700">
+
+        <!-- FOND LAC -->
+        <rect width="900" height="700" fill="#7ab8d4"/>
+
+        <!-- LE PAQUIER - grande pelouse verte -->
+        <path d="M60,80 L840,80 L840,560 L60,560 Z" fill="#5a9e3a" rx="0"/>
+        <path d="M80,100 L820,100 L820,540 L80,540 Z" fill="#6ab840" rx="0"/>
+
+        <!-- TEXTURE HERBE -->
+        <path d="M80,100 L820,100 L820,540 L80,540 Z" fill="url(#grass)" opacity="0.3"/>
+        <defs>
+          <pattern id="grass" width="20" height="20" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="10" x2="20" y2="10" stroke="#4a8e30" stroke-width="0.5" opacity="0.5"/>
+            <line x1="10" y1="0" x2="10" y2="20" stroke="#4a8e30" stroke-width="0.5" opacity="0.5"/>
+          </pattern>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.3)"/>
+          </filter>
+        </defs>
+
+        <!-- LAC D'ANNECY (bordure basse) -->
+        <path d="M60,560 Q450,620 840,560 L840,700 L60,700 Z" fill="#5a9fc8"/>
+        <text x="450" y="640" font-size="16" fill="rgba(255,255,255,0.5)" text-anchor="middle" font-family="Barlow,sans-serif" font-style="italic">Lac d'Annecy</text>
+
+        <!-- ALLEES PRINCIPALES -->
+        <rect x="80" y="300" width="740" height="18" fill="#c8b870" opacity="0.8"/>
+        <rect x="380" y="100" width="18" height="440" fill="#c8b870" opacity="0.8"/>
+        <rect x="560" y="100" width="18" height="440" fill="#c8b870" opacity="0.8"/>
+
+        <!-- LABELS ZONES -->
+        <text x="230" y="125" font-size="11" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">ZONE MARQUES</text>
+        <text x="470" y="125" font-size="11" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">ZONE ARRIVÉE</text>
+        <text x="700" y="125" font-size="11" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">VILLAGE FOOD</text>
+        <text x="230" y="330" font-size="11" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">ANIMATIONS</text>
+        <text x="700" y="330" font-size="11" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">EXPO TECHNIQUE</text>
+
+        <!-- STRUCTURES FIXES -->
+        <!-- Scène principale -->
+        <rect x="120" y="350" width="180" height="140" rx="6" fill="#2d4a1e" filter="url(#shadow)"/>
+        <rect x="130" y="360" width="160" height="120" rx="4" fill="#3a6028"/>
+        <text x="210" y="425" font-size="10" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif">SCÈNE</text>
+        <text x="210" y="440" font-size="10" fill="rgba(255,255,255,0.7)" text-anchor="middle" font-family="Barlow,sans-serif">PRINCIPALE</text>
+
+        <!-- Couloir d'arrivée -->
+        <rect x="398" y="100" width="162" height="190" rx="0" fill="rgba(255,220,0,0.15)" stroke="#f0c040" stroke-width="2" stroke-dasharray="8,4"/>
+        <text x="479" y="200" font-size="9" fill="#f0c040" text-anchor="middle" font-family="Barlow,sans-serif">COULOIR</text>
+        <text x="479" y="214" font-size="9" fill="#f0c040" text-anchor="middle" font-family="Barlow,sans-serif">D'ARRIVÉE</text>
+
+        <!-- Ligne arrivée -->
+        <rect x="398" y="285" width="162" height="12" rx="0" fill="#f0c040" opacity="0.9"/>
+        <text x="479" y="278" font-size="9" fill="#f0c040" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">LIGNE D'ARRIVÉE</text>
+
+        <!-- Stands déco food -->
+        <rect x="590" y="120" width="80" height="55" rx="4" fill="#c8a850" opacity="0.6"/>
+        <rect x="680" y="120" width="80" height="55" rx="4" fill="#c8a850" opacity="0.6"/>
+        <rect x="770" y="120" width="50" height="55" rx="4" fill="#c8a850" opacity="0.6"/>
+        <rect x="590" y="185" width="80" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+        <rect x="680" y="185" width="80" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+        <rect x="590" y="350" width="80" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+        <rect x="680" y="350" width="80" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+        <rect x="770" y="350" width="50" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+        <rect x="590" y="415" width="80" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+        <rect x="680" y="415" width="80" height="55" rx="4" fill="#c8a850" opacity="0.5"/>
+
+        <!-- Stands marques -->
+        <rect x="90" y="140" width="100" height="60" rx="4" fill="#9080c0" opacity="0.5"/>
+        <rect x="200" y="140" width="100" height="60" rx="4" fill="#9080c0" opacity="0.5"/>
+        <rect x="90" y="210" width="100" height="60" rx="4" fill="#9080c0" opacity="0.5"/>
+        <rect x="200" y="210" width="100" height="60" rx="4" fill="#9080c0" opacity="0.5"/>
+
+        <!-- Expo stands -->
+        <rect x="590" y="350" width="230" height="170" rx="6" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+
+        <!-- Boussole -->
+        <circle cx="840" cy="120" r="22" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <text x="840" y="112" font-size="10" fill="#fff" text-anchor="middle" font-family="Barlow,sans-serif" font-weight="600">N</text>
+        <line x1="840" y1="100" x2="840" y2="108" stroke="#fff" stroke-width="1.5"/>
+        <text x="840" y="136" font-size="8" fill="rgba(255,255,255,0.6)" text-anchor="middle" font-family="Barlow,sans-serif">S</text>
+        <text x="828" y="124" font-size="8" fill="rgba(255,255,255,0.6)" text-anchor="middle" font-family="Barlow,sans-serif">O</text>
+        <text x="854" y="124" font-size="8" fill="rgba(255,255,255,0.6)" text-anchor="middle" font-family="Barlow,sans-serif">E</text>
+
+        <!-- PINS INTERACTIFS -->
+        <g id="pinsGroup"></g>
+      </svg>
+    </div>
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" onclick="zoom(1.3)">+</button>
+      <button class="zoom-btn" onclick="zoom(0.77)">−</button>
+    </div>
+    <div class="zoom-hint">Pincer pour zoomer · Glisser pour déplacer</div>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeSheet()"></div>
+  <div class="stand-sheet" id="standSheet">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="closeSheet()">×</button>
+    <div class="sheet-scroll">
+      <div class="sheet-header">
+        <div class="sheet-icon-big" id="sheetIcon"></div>
+        <div>
+          <div class="sheet-name" id="sheetName"></div>
+          <div class="sheet-cat-lbl" id="sheetCat"></div>
+        </div>
+      </div>
+      <div class="sheet-body" id="sheetBody"></div>
+      <div class="menu-section" id="menuSection" style="display:none">
+        <div class="menu-title">🍽️ Notre carte</div>
+        <div id="menuContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var stands = [
+  // PODIUM
+  {id:"p1",cat:"podium",x:479,y:260,icon:"🏆",color:"#f0c040",name:"Podium Arrivée",cat_label:"Podium",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Arrivée · Ligne d'arrivée"},{icon:"🕐",label:"Horaires",val:"Dès l'ouverture des arrivées · Toute la journée"},{icon:"ℹ️",label:"Info",val:"Cérémonie officielle pour le top 10. Présence des officiels Brooks et de la Ville d'Annecy."}]},
+
+  // DOSSARDS
+  {id:"d1",cat:"dossard",x:155,y:155,icon:"🎽",color:"#50af31",name:"Retrait Dossards A–L",cat_label:"Dossards",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Marques · Stand Ouest"},{icon:"🕐",label:"Horaires",val:"Sam 10h–20h · Dim 7h–9h30"},{icon:"📋",label:"À apporter",val:"Pièce d'identité + email de confirmation"},{icon:"ℹ️",label:"Info",val:"File d'attente : environ 5 min"}]},
+  {id:"d2",cat:"dossard",x:255,y:155,icon:"🎽",color:"#50af31",name:"Retrait Dossards M–Z",cat_label:"Dossards",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Marques · Stand Est"},{icon:"🕐",label:"Horaires",val:"Sam 10h–20h · Dim 7h–9h30"},{icon:"📋",label:"À apporter",val:"Pièce d'identité + email de confirmation"},{icon:"ℹ️",label:"Info",val:"File d'attente : environ 10 min"}]},
+
+  // RESTAURATION
+  {id:"r1",cat:"restauration",x:630,y:147,icon:"🍔",color:"#e24b4a",name:"Food Truck O'Burger",cat_label:"Restauration",
+   infos:[{icon:"📍",label:"Emplacement",val:"Village Food · Allée Principale"},{icon:"🕐",label:"Horaires",val:"11h–23h"},{icon:"💳",label:"Paiement",val:"CB et espèces"}],
+   menu:[
+     {cat:"Burgers",items:[{n:"Classic Burger",desc:"Steak haché, cheddar, salade, tomate",p:"9€"},{n:"Mountain Burger",desc:"Double steak, bacon, oignons caramélisés, sauce BBQ",p:"13€"},{n:"Veggie Burger",desc:"Galette de légumes, avocat, chèvre",p:"10€"}]},
+     {cat:"Accompagnements",items:[{n:"Frites maison",desc:"",p:"4€"},{n:"Salade verte",desc:"",p:"3€"},{n:"Onion rings",desc:"",p:"4€"}]},
+     {cat:"Boissons",items:[{n:"Bière pression",desc:"50cl",p:"5€"},{n:"Soft",desc:"33cl",p:"3€"},{n:"Eau",desc:"50cl",p:"2€"}]}
+   ]},
+  {id:"r2",cat:"restauration",x:720,y:147,icon:"🥗",color:"#e24b4a",name:"La Savoyard",cat_label:"Restauration",
+   infos:[{icon:"📍",label:"Emplacement",val:"Village Food · Stand Central"},{icon:"🕐",label:"Horaires",val:"11h30–22h30"},{icon:"💳",label:"Paiement",val:"CB uniquement"}],
+   menu:[
+     {cat:"Plats",items:[{n:"Tartiflette",desc:"Reblochon AOP, lardons, pommes de terre",p:"14€"},{n:"Fondue Savoyarde",desc:"Pour 2 personnes, pain inclus",p:"26€"},{n:"Raclette individuelle",desc:"Charcuterie, cornichons",p:"16€"}]},
+     {cat:"Desserts",items:[{n:"Tarte myrtilles",desc:"Maison, crème fraîche",p:"6€"},{n:"Génépi maison",desc:"Digestif artisanal",p:"4€"}]},
+     {cat:"Boissons",items:[{n:"Vin de Savoie",desc:"Verre 15cl",p:"5€"},{n:"Bière artisanale",desc:"Brasserie du Mont-Blanc 33cl",p:"5€"},{n:"Eau / Soft",desc:"",p:"2€"}]}
+   ]},
+  {id:"r3",cat:"restauration",x:810,y:147,icon:"☕",color:"#e24b4a",name:"Café du Lac",cat_label:"Restauration",
+   infos:[{icon:"📍",label:"Emplacement",val:"Village Food · Entrée Est"},{icon:"🕐",label:"Horaires",val:"7h–22h"},{icon:"💳",label:"Paiement",val:"CB et espèces"}],
+   menu:[
+     {cat:"Petit-déjeuner",items:[{n:"Croissant + café",desc:"Viennoiserie maison",p:"4€"},{n:"Formule runner",desc:"Café + jus + tartine beurre confiture",p:"7€"}]},
+     {cat:"Snacking",items:[{n:"Sandwich jambon-beurre",desc:"Pain baguette",p:"5€"},{n:"Wrap poulet-avocat",desc:"",p:"7€"},{n:"Soupe du jour",desc:"Selon arrivage",p:"4€"}]},
+     {cat:"Boissons chaudes",items:[{n:"Espresso",desc:"",p:"2€"},{n:"Cappuccino",desc:"",p:"3€"},{n:"Chocolat chaud",desc:"",p:"3€"}]}
+   ]},
+  {id:"r4",cat:"restauration",x:630,y:387,icon:"🌮",color:"#e24b4a",name:"Street Food World",cat_label:"Restauration",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Expo · Côté Lac"},{icon:"🕐",label:"Horaires",val:"12h–23h"},{icon:"💳",label:"Paiement",val:"CB et espèces"}],
+   menu:[
+     {cat:"World Street",items:[{n:"Tacos porc effiloché",desc:"Avocat, coriandre, sauce piquante",p:"9€"},{n:"Gyoza frits",desc:"6 pièces, sauce ponzu",p:"8€"},{n:"Curry végétarien",desc:"Riz basmati, naan",p:"11€"}]},
+     {cat:"Snacks",items:[{n:"Nachos cheese",desc:"Jalapeños, crème fraîche",p:"6€"},{n:"Spring rolls",desc:"4 pièces, sauce douce",p:"6€"}]},
+     {cat:"Boissons",items:[{n:"Cocktail sans alcool",desc:"Fruits frais mixés",p:"5€"},{n:"Bière",desc:"",p:"4€"},{n:"Eau / Soft",desc:"",p:"2€"}]}
+   ]},
+
+  // MARQUES
+  {id:"m1",cat:"marque",x:145,y:222,icon:"👟",color:"#8b5cf6",name:"Brooks Running",cat_label:"Marque",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Marques · Stand Principal"},{icon:"🕐",label:"Horaires",val:"9h–20h"},{icon:"🛍️",label:"Offre",val:"Essais chaussures · Analyse foulée gratuite · Collection Running 2024"},{icon:"ℹ️",label:"Info",val:"Rencontre avec les athlètes Brooks samedi à 16h"}]},
+  {id:"m2",cat:"marque",x:255,y:222,icon:"🧢",color:"#8b5cf6",name:"Salomon",cat_label:"Marque",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Marques · Stand Est"},{icon:"🕐",label:"Horaires",val:"9h–20h"},{icon:"🛍️",label:"Offre",val:"Chaussures trail · Vestes · Sacs hydratation"},{icon:"ℹ️",label:"Info",val:"Démonstrations matériel toutes les heures"}]},
+  {id:"m3",cat:"marque",x:145,y:280,icon:"⌚",color:"#8b5cf6",name:"Garmin",cat_label:"Marque",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Marques · Stand Sud-Ouest"},{icon:"🕐",label:"Horaires",val:"9h–19h"},{icon:"🛍️",label:"Offre",val:"Montres GPS · Analyse course · Chargement gratuit"},{icon:"💡",label:"Démo",val:"Analyse de votre VO2max avec les experts Garmin"}]},
+  {id:"m4",cat:"marque",x:255,y:280,icon:"🎒",color:"#8b5cf6",name:"Compressport",cat_label:"Marque",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Marques · Stand Sud-Est"},{icon:"🕐",label:"Horaires",val:"9h–20h"},{icon:"🛍️",label:"Offre",val:"Manchons de compression · Chaussettes · Vêtements tech"},{icon:"💡",label:"Conseil",val:"Conseil personnalisé sur la récupération"}]},
+
+  // EAU
+  {id:"e1",cat:"eau",x:400,y:340,icon:"💧",color:"#0ea5e9",name:"Ravito Nord",cat_label:"Point d'eau",
+   infos:[{icon:"📍",label:"Emplacement",val:"Allée Centrale · Croisement Nord"},{icon:"🕐",label:"Disponibilité",val:"24h/24"},{icon:"ℹ️",label:"Info",val:"Eau potable gratuite · Fontaine filtrée · Amenez votre gourde"}]},
+  {id:"e2",cat:"eau",x:560,y:340,icon:"💧",color:"#0ea5e9",name:"Ravito Sud",cat_label:"Point d'eau",
+   infos:[{icon:"📍",label:"Emplacement",val:"Allée Centrale · Croisement Sud"},{icon:"🕐",label:"Disponibilité",val:"24h/24"},{icon:"ℹ️",label:"Info",val:"Eau potable + isotonique gratuit pour les coureurs munis de leur dossard"}]},
+  {id:"e3",cat:"eau",x:720,y:387,icon:"💧",color:"#0ea5e9",name:"Ravito Zone Expo",cat_label:"Point d'eau",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Expo · Angle Sud-Est"},{icon:"🕐",label:"Disponibilité",val:"8h–22h"},{icon:"ℹ️",label:"Info",val:"Eau potable gratuite · Point de remplissage flasques"}]},
+
+  // ANIMATIONS
+  {id:"a1",cat:"animation",x:210,y:420,icon:"🎵",color:"#f97316",name:"Scène Live",cat_label:"Animation",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Animations · Scène Principale"},{icon:"🕐",label:"Programme",val:"Sam 14h–01h · Dim 10h–16h"},{icon:"🎤",label:"Artistes",val:"Groupes locaux · DJ set · Concerts live"},{icon:"ℹ️",label:"Info",val:"Accès gratuit · Pas de réservation"}]},
+  {id:"a2",cat:"animation",x:810,y:387,icon:"📸",color:"#f97316",name:"Photo Finish",cat_label:"Animation",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Expo · Face à l'arrivée"},{icon:"🕐",label:"Horaires",val:"Pendant toutes les arrivées"},{icon:"📷",label:"Service",val:"Photos pro gratuites · Récupérez votre photo via QR code"},{icon:"ℹ️",label:"Info",val:"Résultats disponibles 1h après votre arrivée"}]},
+  {id:"a3",cat:"animation",x:810,y:450,icon:"🏅",color:"#f97316",name:"Zone Médailles",cat_label:"Animation",
+   infos:[{icon:"📍",label:"Emplacement",val:"Zone Expo · Sortie Arrivée"},{icon:"🕐",label:"Horaires",val:"Ouvert dès les premières arrivées"},{icon:"🏅",label:"Service",val:"Remise de médaille finisher · Photo souvenir · Ravitaillement post-course"},{icon:"ℹ️",label:"Info",val:"Serviette et boisson offertes aux finishers"}]}
+];
+
+var activeFilter="all";
+var scale=0.45,tx=0,ty=0;
+var dragging=false,lastX=0,lastY=0;
+var pinching=false,lastDist=0;
+
+function setFilter(cat,btn){
+  activeFilter=cat;
+  document.querySelectorAll(".filter-btn").forEach(function(b){b.classList.remove("active");});
+  btn.classList.add("active");
+  renderPins();
+}
+
+function renderPins(){
+  var g=document.getElementById("pinsGroup");
+  g.innerHTML="";
+  stands.forEach(function(s){
+    if(activeFilter!=="all"&&s.cat!==activeFilter)return;
+    var pin=document.createElementNS("http://www.w3.org/2000/svg","g");
+    pin.setAttribute("cursor","pointer");
+    pin.setAttribute("onclick","openStand('"+s.id+"')");
+    pin.setAttribute("style","filter:drop-shadow(0px 3px 4px rgba(0,0,0,0.4))");
+
+    var c=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    c.setAttribute("cx",s.x);c.setAttribute("cy",s.y);c.setAttribute("r","18");
+    c.setAttribute("fill",s.color);c.setAttribute("stroke","#fff");c.setAttribute("stroke-width","2.5");
+    pin.appendChild(c);
+
+    var tip=document.createElementNS("http://www.w3.org/2000/svg","polygon");
+    tip.setAttribute("points",(s.x-7)+","+(s.y+14)+" "+s.x+","+(s.y+26)+" "+(s.x+7)+","+(s.y+14));
+    tip.setAttribute("fill",s.color);
+    pin.appendChild(tip);
+
+    var t=document.createElementNS("http://www.w3.org/2000/svg","text");
+    t.setAttribute("x",s.x);t.setAttribute("y",s.y+6);
+    t.setAttribute("text-anchor","middle");t.setAttribute("font-size","16");
+    t.textContent=s.icon;
+    pin.appendChild(t);
+    g.appendChild(pin);
+  });
+}
+
+function applyTransform(){
+  var el=document.getElementById("mapInner");
+  el.style.transform="translate("+tx+"px,"+ty+"px) scale("+scale+")";
+}
+
+function zoom(factor){
+  var container=document.getElementById("mapContainer");
+  var cx=container.clientWidth/2;
+  var cy=container.clientHeight/2;
+  tx=cx-(cx-tx)*factor;
+  ty=cy-(cy-ty)*factor;
+  scale*=factor;
+  scale=Math.max(0.3,Math.min(4,scale));
+  applyTransform();
+}
+
+function clampPan(){
+  var container=document.getElementById("mapContainer");
+  var mapW=900*scale,mapH=700*scale;
+  var cw=container.clientWidth,ch=container.clientHeight;
+  var minX=Math.min(0,cw-mapW),minY=Math.min(0,ch-mapH);
+  tx=Math.max(minX,Math.min(0,tx));
+  ty=Math.max(minY,Math.min(0,ty));
+}
+
+var container=document.getElementById("mapContainer");
+
+// TOUCH EVENTS
+container.addEventListener("touchstart",function(e){
+  if(e.touches.length===2){
+    pinching=true;
+    lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  } else if(e.touches.length===1){
+    dragging=true;
+    lastX=e.touches[0].clientX;
+    lastY=e.touches[0].clientY;
+  }
+},{passive:true});
+
+container.addEventListener("touchmove",function(e){
+  if(pinching&&e.touches.length===2){
+    var dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    var factor=dist/lastDist;
+    var mx=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    var my=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    var rect=container.getBoundingClientRect();
+    var lx=mx-rect.left,ly=my-rect.top;
+    tx=lx-(lx-tx)*factor;
+    ty=ly-(ly-ty)*factor;
+    scale*=factor;scale=Math.max(0.25,Math.min(5,scale));
+    lastDist=dist;
+    clampPan();applyTransform();
+  } else if(dragging&&e.touches.length===1){
+    var dx=e.touches[0].clientX-lastX;
+    var dy=e.touches[0].clientY-lastY;
+    tx+=dx;ty+=dy;
+    lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;
+    clampPan();applyTransform();
+  }
+  e.preventDefault();
+},{passive:false});
+
+container.addEventListener("touchend",function(){dragging=false;pinching=false;},{passive:true});
+
+// MOUSE EVENTS
+container.addEventListener("mousedown",function(e){dragging=true;lastX=e.clientX;lastY=e.clientY;container.classList.add("grabbing");});
+container.addEventListener("mousemove",function(e){if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampPan();applyTransform();});
+container.addEventListener("mouseup",function(){dragging=false;container.classList.remove("grabbing");});
+container.addEventListener("mouseleave",function(){dragging=false;container.classList.remove("grabbing");});
+container.addEventListener("wheel",function(e){e.preventDefault();var factor=e.deltaY<0?1.15:0.87;var rect=container.getBoundingClientRect();var lx=e.clientX-rect.left,ly=e.clientY-rect.top;tx=lx-(lx-tx)*factor;ty=ly-(ly-ty)*factor;scale*=factor;scale=Math.max(0.25,Math.min(5,scale));clampPan();applyTransform();},{passive:false});
+
+function openStand(id){
+  var s=stands.filter(function(x){return x.id===id;})[0];
+  if(!s)return;
+  document.getElementById("sheetIcon").textContent=s.icon;
+  document.getElementById("sheetIcon").style.background=s.color+"22";
+  document.getElementById("sheetName").textContent=s.name;
+  document.getElementById("sheetCat").textContent=s.cat_label;
+  document.getElementById("sheetBody").innerHTML=s.infos.map(function(info){
+    return'<div class="info-row"><div class="info-icon">'+info.icon+'</div><div><div class="info-label">'+info.label+'</div><div class="info-val">'+info.val+'</div></div></div>';
+  }).join("");
+  var menuSec=document.getElementById("menuSection");
+  var menuContent=document.getElementById("menuContent");
+  if(s.menu&&s.menu.length){
+    menuSec.style.display="block";
+    menuContent.innerHTML=s.menu.map(function(cat){
+      return'<div class="menu-cat">'+cat.cat+'</div>'+cat.items.map(function(item){
+        return'<div class="menu-item"><div><div class="menu-item-name">'+item.n+'</div>'+(item.desc?'<div class="menu-item-desc">'+item.desc+'</div>':'')+'</div><div class="menu-item-price">'+item.p+'</div></div>';
+      }).join("");
+    }).join("");
+  } else {
+    menuSec.style.display="none";
+  }
+  document.getElementById("standSheet").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+}
+
+function closeSheet(){
+  document.getElementById("standSheet").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
+
+// Init position centrée
+window.addEventListener("load",function(){
+  var container=document.getElementById("mapContainer");
+  tx=(container.clientWidth-900*scale)/2;
+  ty=(container.clientHeight-700*scale)/2;
+  tx=Math.max(tx,0);ty=Math.max(ty,0);
+  applyTransform();
+  renderPins();
+});
+</script>
+</body>
+</html>
